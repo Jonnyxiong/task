@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 短信通道质量历史监控 -->
+<mapper namespace="channelQaHistory">
+	
+	
+	<select id="getChannelIndexes" resultType="map">
+		SELECT
+			t.channelid AS channel_id,
+			COUNT(1) AS send_total_num,
+			SUM(IF(t.state = 3,1,0)) AS send_sccuss_num,
+			SUM(IF(t.state REGEXP '^1$|2',1,0)) AS send_unknown_num,
+			COUNT(1) - SUM(IF(t.state = 3 ,1,0)) - SUM(IF(t.state REGEXP '^1$|2',1,0)) AS send_failure_num,
+			SUM(IF(t.state = 4,1,0)) AS submit_failure_num,
+			SUM(IF(t.respTime BETWEEN 0 AND 2,1,0)) AS resp_num_1,
+			SUM(IF(t.respTime BETWEEN 3 AND 5,1,0)) AS resp_num_2,
+			SUM(IF(t.respTime BETWEEN 6 AND 30,1,0)) AS resp_num_3,
+			SUM(IF(t.respTime BETWEEN 31 AND 60,1,0)) AS resp_num_4,
+			SUM(IF(t.respTime BETWEEN 61 AND 300,1,0)) AS resp_num_5,
+			SUM(IF(t.respTime > 300,1,0)) AS resp_num_6,
+			SUM(IF(t.respTime > 300 AND state = 1,1,0)) AS resp_num_7,
+			SUM(IF(t.reportTime BETWEEN 0 AND 5,1,0)) AS report_num_1,
+			SUM(IF(t.reportTime BETWEEN 6 AND 10,1,0)) AS report_num_2,
+			SUM(IF(t.reportTime BETWEEN 11 AND 15,1,0)) AS report_num_3,
+			SUM(IF(t.reportTime BETWEEN 16 AND 30,1,0)) AS report_num_4,
+			SUM(IF(t.reportTime BETWEEN 31 AND 60,1,0)) AS report_num_5,
+			SUM(IF(t.reportTime BETWEEN 61 AND 120,1,0)) AS report_num_6,
+			SUM(IF(t.reportTime BETWEEN 121 AND 300,1,0)) AS report_num_7,
+			SUM(IF(t.reportTime > 300,1,0)) AS report_num_8,
+			SUM(IF(t.state REGEXP '^1$|2',1,0)) AS report_num_9,
+			SUM(IF(t.queueTime BETWEEN 0 AND 10,1,0)) AS queue_num_1,
+			SUM(IF(t.queueTime BETWEEN 11 AND 30,1,0)) AS queue_num_2,
+			SUM(IF(t.queueTime BETWEEN 31 AND 60,1,0)) AS queue_num_3,
+			SUM(IF(t.queueTime > 60,1,0)) AS queue_num_4,
+			DATE_FORMAT(#{date},'%Y-%m-%d') AS data_time,
+			NOW() AS create_time
+		FROM
+		(
+			SELECT
+				channelid,
+				state,
+				TIMESTAMPDIFF(SECOND, submitdate, subretdate) AS respTime,
+				TIMESTAMPDIFF(SECOND, submitdate, reportdate) AS reportTime,
+				TIMESTAMPDIFF(SECOND, date, submitdate) AS queueTime,
+				date
+			FROM t_sms_record_${identify}_${date}
+		) t
+		GROUP BY t.channelid
+	</select>
+	
+	<delete id="deleteChannelIndexesDataByTime">
+		DELETE
+		FROM
+			t_sms_channel_indexes_stat_history
+		WHERE
+			data_time = DATE_FORMAT(#{data_time},'%Y-%m-%d')
+	</delete>
+	
+	<insert id="saveChannelIndexesData">
+		INSERT INTO `t_sms_channel_indexes_stat_history` (
+			`channel_id`,
+			`channel_name`,
+			`operator_type`,
+			`industry_type`,
+			`owner_type`,
+			`send_total_num`,
+			`send_sccuss_num`,
+			`send_failure_num`,
+			`send_unknown_num`,
+			`submit_failure_num`,
+			`resp_num_1`,
+			`resp_num_2`,
+			`resp_num_3`,
+			`resp_num_4`,
+			`resp_num_5`,
+			`resp_num_6`,
+			`resp_num_7`,
+			`report_num_1`,
+			`report_num_2`,
+			`report_num_3`,
+			`report_num_4`,
+			`report_num_5`,
+			`report_num_6`,
+			`report_num_7`,
+			`report_num_8`,
+			`report_num_9`,
+			`queue_num_1`,
+			`queue_num_2`,
+			`queue_num_3`,
+			`queue_num_4`,
+			`data_time`,
+			`create_time`
+		)
+		VALUES
+		<foreach collection="dataList"  item="i" separator=",">
+			(
+				#{i.channel_id},
+				#{i.channel_name},
+				#{i.operator_type},
+				#{i.industry_type},
+				#{i.owner_type},
+				#{i.send_total_num},
+				#{i.send_sccuss_num},
+				#{i.send_failure_num},
+				#{i.send_unknown_num},
+				#{i.submit_failure_num},
+				#{i.resp_num_1},
+				#{i.resp_num_2},
+				#{i.resp_num_3},
+				#{i.resp_num_4},
+				#{i.resp_num_5},
+				#{i.resp_num_6},
+				#{i.resp_num_7},
+				#{i.report_num_1},
+				#{i.report_num_2},
+				#{i.report_num_3},
+				#{i.report_num_4},
+				#{i.report_num_5},
+				#{i.report_num_6},
+				#{i.report_num_7},
+				#{i.report_num_8},
+				#{i.report_num_9},
+				#{i.queue_num_1},
+				#{i.queue_num_2},
+				#{i.queue_num_3},
+				#{i.queue_num_4},
+				#{i.data_time},
+				#{i.create_time}
+			)
+		</foreach>
+		
+	</insert>
+	
+	<select id="getChannelInfoById" resultType="map">
+		SELECT
+			IFNULL(channelname, "已删除通道") AS channel_name,
+			IFNULL(operatorstype, 1) AS operator_type,
+			IFNULL(industrytype, 1) AS industry_type,
+			IFNULL(owner_type, 1) AS owner_type
+		FROM
+			t_sms_channel
+		WHERE
+			cid = #{channel_id}
+	</select>
+	
+	
+	
+	
+	<!-- 用户质量监控 begin-->
+		
+	<select id="getClientIndexes" resultType="map">
+		SELECT
+			client_id,
+			client_name,
+			COUNT(1) AS send_total_num,
+			SUM(IF(t.orderDelayTime BETWEEN 0 AND 1,1,0)) AS order_delay_num_1,
+			SUM(IF(t.orderDelayTime BETWEEN 2 AND 3,1,0)) AS order_delay_num_2,
+			SUM(IF(t.orderDelayTime BETWEEN 4 AND 5,1,0)) AS order_delay_num_3,
+			SUM(IF(t.orderDelayTime > 5,1,0)) AS order_delay_num_4,
+			SUM(IF(t.orderDelayTime IS NULL,1,0)) AS order_delay_num_5,
+			SUM(IF(t.reportTime BETWEEN 0 AND 5,1,0)) AS report_num_1,
+			SUM(IF(t.reportTime BETWEEN 6 AND 10,1,0)) AS report_num_2,
+			SUM(IF(t.reportTime BETWEEN 11 AND 15,1,0)) AS report_num_3,
+			SUM(IF(t.reportTime BETWEEN 16 AND 30,1,0)) AS report_num_4,
+			SUM(IF(t.reportTime BETWEEN 31 AND 60,1,0)) AS report_num_5,
+			SUM(IF(t.reportTime BETWEEN 61 AND 120,1,0)) AS report_num_6,
+			SUM(IF(t.reportTime BETWEEN 121 AND 300,1,0)) AS report_num_7,
+			SUM(IF(t.reportTime > 300,1,0)) AS report_num_8,
+			SUM(IF(t.reportTime IS NULL,1,0)) AS report_num_9,
+			DATE_FORMAT(#{date},'%Y-%m-%d') AS data_time,
+			NOW() AS create_time
+		FROM
+		(
+			SELECT
+				clientid AS client_id,
+				username AS client_name,
+				state AS state,
+				TIMESTAMPDIFF(SECOND, date, reportdate) AS reportTime,
+				TIMESTAMPDIFF(SECOND, date, submitdate) AS orderDelayTime,
+				date
+			FROM t_sms_access_${identify}_${date}
+		) t
+		GROUP BY t.client_id
+	</select>
+	
+	<delete id="deleteClientIndexesDataByTime">
+		DELETE
+		FROM
+			t_sms_client_indexes_stat_history
+		WHERE
+			data_time = DATE_FORMAT(#{data_time},'%Y-%m-%d')
+	</delete>
+	
+	<insert id="saveClientIndexesData">
+		INSERT INTO `t_sms_client_indexes_stat_history` (
+			`client_id`,
+			`client_name`, 
+			`send_total_num`, 
+			`order_delay_num_1`,
+			`order_delay_num_2`,
+			`order_delay_num_3`,
+			`order_delay_num_4`,
+			`order_delay_num_5`, 
+			`report_num_1`,
+			`report_num_2`,
+			`report_num_3`,
+			`report_num_4`,
+			`report_num_5`,
+			`report_num_6`,
+			`report_num_7`,
+			`report_num_8`,
+			`report_num_9`, 
+			`data_time`,
+			`create_time`
+		)
+		VALUES
+		<foreach collection="dataList"  item="i" separator=",">
+			(
+				#{i.client_id},
+				#{i.client_name}, 
+				#{i.send_total_num}, 
+				#{i.order_delay_num_1},
+				#{i.order_delay_num_2},
+				#{i.order_delay_num_3},
+				#{i.order_delay_num_4},
+				#{i.order_delay_num_5}, 
+				#{i.report_num_1},
+				#{i.report_num_2},
+				#{i.report_num_3},
+				#{i.report_num_4},
+				#{i.report_num_5},
+				#{i.report_num_6},
+				#{i.report_num_7},
+				#{i.report_num_8},
+				#{i.report_num_9}, 
+				#{i.data_time},
+				#{i.create_time}
+			)
+		</foreach>
+		
+	</insert>
+	<!-- 用户质量监控end -->
+	
+</mapper> 

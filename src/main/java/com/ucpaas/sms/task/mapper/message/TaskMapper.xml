@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.TaskMapper">
+
+
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.message.Task">
+        <result property="taskId" jdbcType="INTEGER" column="task_id"/>
+        <result property="taskName" jdbcType="VARCHAR" column="task_name"/>
+        <result property="taskType" jdbcType="CHAR" column="task_type"/>
+        <result property="dbType" jdbcType="CHAR" column="db_type"/>
+        <result property="procedureName" jdbcType="VARCHAR" column="procedure_name"/>
+        <result property="executeType" jdbcType="CHAR" column="execute_type"/>
+        <result property="executeNext" jdbcType="BIGINT" column="execute_next"/>
+        <result property="executePeriod" jdbcType="INTEGER" column="execute_period"/>
+        <result property="scanType" jdbcType="CHAR" column="scan_type"/>
+        <result property="scanNext" jdbcType="TIMESTAMP" column="scan_next"/>
+        <result property="scanPeriod" jdbcType="INTEGER" column="scan_period"/>
+        <result property="scanExecute" jdbcType="CHAR" column="scan_execute"/>
+        <result property="dependency" jdbcType="VARCHAR" column="dependency"/>
+        <result property="group" jdbcType="INTEGER" column="group"/>
+        <result property="order" jdbcType="INTEGER" column="order"/>
+        <result property="status" jdbcType="CHAR" column="status"/>
+        <result property="createDate" jdbcType="TIMESTAMP" column="create_date"/>
+        <result property="updateDate" jdbcType="TIMESTAMP" column="update_date"/>
+    </resultMap>
+
+    <sql id="BASE_COLUMN_LIST">
+        task_id,
+        task_name,
+        task_type,
+        db_type,
+        procedure_name,
+        execute_type,
+        execute_next,
+        execute_period,
+        scan_type,
+        scan_next,
+        scan_period,
+        scan_execute,
+        dependency,
+        `group`,
+        `order`,
+        `status`,
+        create_date,
+        update_date
+    </sql>
+
+    <select id="getByTaskId" resultMap="rowMapper">
+        SELECT
+        <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_task
+        WHERE
+        task_id = #{taskId}
+    </select>
+
+    <select id="getByTaskType" resultMap="rowMapper">
+        SELECT
+        <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_task
+        WHERE
+        task_type = #{taskType}
+    </select>
+
+
+</mapper>
+

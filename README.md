@@ -1,0 +1,5 @@
+审核分表业务：
+1. （审核表备份）t_sms_audit_每周一，维度是createtime
+2. （审核关键字表备份）t_sms_auditkeyword_record_每周一，维度是audit_create_time
+  
+t_sms_auditkeyword_record表的audit_create_time就是t_sms_audit表的createtime

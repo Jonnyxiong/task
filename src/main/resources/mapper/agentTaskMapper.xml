@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 代理商业务 -->
+<mapper namespace="agentTask">
+	
+	<!-- 查询ucpaas_message_statistics从库的客户运维统计表 -->
+	<select id="getAccessStat" resultType="map">
+		SELECT
+			NULL AS id,
+			IFNULL(agent_id, 0) AS agent_id,
+			IFNULL(clientid,"") AS clientid,
+			IFNULL(name,"") AS name,
+			IFNULL(sid,"") AS sid,
+			IFNULL(paytype, 0) AS paytype,
+			IFNULL(operatorstype, 0) AS operatorstype,
+			IFNULL(channelid, 0) AS channelid,
+			IFNULL(remark,"") AS remark,
+			IFNULL(chargetotal,0) AS chargetotal,
+			IFNULL(overrate_charge_total,0) AS overrate_charge_total,
+			IFNULL(sub_id, 0) AS sub_id,
+			IFNULL(costfee,0) AS costfee,
+			IFNULL(salefee,0) AS salefee,
+			IFNULL(productfee,0) AS productfee,
+			IFNULL(product_type,0) AS product_type,
+			IFNULL(sendtotal,0) AS sendtotal,
+			IFNULL(usersmstotal,0) AS usersmstotal,
+			IFNULL(notsend,0) AS notsend,
+			IFNULL(submitsuccess,0) AS submitsuccess,
+			IFNULL(reportsuccess,0) AS reportsuccess,
+			IFNULL(submitfail,0) AS submitfail,
+			IFNULL(subretfail,0) AS subretfail,
+			IFNULL(reportfail,0) AS reportfail,
+			IFNULL(auditfail,0) AS auditfail,
+			IFNULL(recvintercept,0) AS recvintercept,
+			IFNULL(sendintercept,0) AS sendintercept,
+			IFNULL(overrateintercept,0) AS overrateintercept,
+			IFNULL(stattype,1) AS stattype,
+			IFNULL(date,"") AS date,
+			IFNULL(createtime,"") AS createtime
+		FROM
+			t_sms_access_channel_statistics
+		WHERE date = #{date} and stattype = 1
+	</select>
+	
+	<!-- 删除ucpaas_message库的客户运维统计表-->
+	<delete id="deleteAccessStat">
+		DELETE FROM t_sms_access_channel_statistics
+	</delete>
+	
+	<!-- 插入ucpaas_message库的客户运维统计表 -->
+	<insert id="insertAccessStat">
+		INSERT INTO t_sms_access_channel_statistics (
+			`id`,
+			`agent_id`,
+			`clientid`,
+			`name`,
+			`sid`,
+			`paytype`,
+			`operatorstype`,
+			`channelid`,
+			`remark`,
+			`chargetotal`,
+			`overrate_charge_total`,
+			`sub_id`,
+			`costfee`,
+			`salefee`,
+			`productfee`,
+			`product_type`,
+			`sendtotal`,
+			`usersmstotal`,
+			`notsend`,
+			`submitsuccess`,
+			`reportsuccess`,
+			`submitfail`,
+			`subretfail`,
+			`reportfail`,
+			`auditfail`,
+			`recvintercept`,
+			`sendintercept`,
+			`overrateintercept`,
+			`stattype`,
+			`date`,
+			`createtime`
+		)
+		VALUES
+		
+		<foreach collection="accessStatList" item="i" separator=",">
+			(
+				#{i.id},
+				#{i.agent_id},
+				#{i.clientid},
+				#{i.name},
+				#{i.sid},
+				#{i.paytype},
+				#{i.operatorstype},
+				#{i.channelid},
+				#{i.remark},
+				#{i.chargetotal},
+				#{i.overrate_charge_total},
+				#{i.sub_id},
+				#{i.costfee},
+				#{i.salefee},
+				#{i.productfee},
+				#{i.product_type},
+				#{i.sendtotal},
+				#{i.usersmstotal},
+				#{i.notsend},
+				#{i.submitsuccess},
+				#{i.reportsuccess},
+				#{i.submitfail},
+				#{i.subretfail},
+				#{i.reportfail},
+				#{i.auditfail},
+				#{i.recvintercept},
+				#{i.sendintercept},
+				#{i.overrateintercept},
+				#{i.stattype},
+				#{i.date},
+				#{i.createtime}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 查询所有“正常”和“冻结”的代理商 -->
+	<select id="getAgentIdList" resultType="list">
+		SELECT agent_id FROM t_sms_agent_info WHERE `status` IN (1,5)
+	</select>
+	<!-- 查询所有“正常”和“冻结”的代理商 ,代理商类型，1：销售代理商，2：品牌代理商，3：资源合作商，4：代理商和资源合作，5：OEM代理商-->
+	<select id="getAgentList" resultType="map">
+		SELECT agent_id,agent_type FROM t_sms_agent_info WHERE `status` IN (1,5)
+		AND agent_type IN (2,5)
+	</select>
+	
+	<!-- 查询代理商上一个季度的消耗 -->
+	<select id="getAgentLastSeasonConsume" resultType="map">
+		SELECT 
+			agent_id, 
+			ROUND(SUM(IFNULL(salefee,0)) / 1000,2) AS seasonConsume ,
+			SUM(IFNULL(chargetotal,0)) AS chargetotalSum 
+		FROM t_sms_access_channel_statistics 
+		WHERE stattype = 3 
+		AND date &gt;= #{beginMonth}
+		AND date &lt;= #{endMonth} 
+		AND agent_id IN (
+			<foreach collection="agentIdList" item="id" separator=",">
+				#{id}
+			</foreach>
+		)
+		GROUP BY agent_id
+	</select>
+	
+	
+	<!-- 查看是否存在上个季度的返利-->
+	<select id="isExistRebate" resultType="map">
+		SELECT 
+			id,
+			agent_id,
+			amount	
+		FROM t_sms_agent_rebate_bill 
+		WHERE remark like concat('%',#{remark},'%') 
+	</select>
+	
+	<!-- 找品牌代理返点比例-->
+	<select id="getAgentRebate" resultType="map">
+		SELECT 
+			rebate_proportion
+		FROM t_sms_agent_rebate  
+		WHERE IFNULL(start_line,0)*10000 &lt;= #{seasonConsume} AND IFNULL(end_line,99999999)*10000 &gt; #{seasonConsume}; 
+	</select>
+	
+	<!-- 找OEM代理返点比例-->
+	<select id="getOemAgentRebate" resultType="map">
+		SELECT 
+			rebate_proportion
+		FROM t_sms_oem_agent_rebate  
+		WHERE IFNULL(start_line,0) &lt;= #{chargetotalSum} AND IFNULL(end_line,99999999) &gt; #{chargetotalSum}; 
+	</select>
+	
+	
+	<!-- 获取OEM每条短信多少钱-->
+	<select id="getOneSmsPrice" resultType="map">
+		SELECT 
+			param_value
+		FROM t_sms_agent_client_param   
+		WHERE param_key = 'OEM_AGENT_REBATE_PRICE';
+	</select>
+	<!-- update代理商返点比例-->
+	<update id="updateUseRebate" parameterType="map">  
+		UPDATE `t_sms_agent_info` SET rebate_use_radio=#{rebate_proportion} where agent_id=#{agentId}
+	</update>
+	<update id="updateAgentAcount" parameterType="map">  
+		UPDATE `t_sms_agent_account` 
+		SET rebate_income=IFNULL(rebate_income,0)+#{rebateAmount},
+		    accumulated_rebate_income =IFNULL(accumulated_rebate_income,0) +#{rebateAmount}  
+		where agent_id=#{agentId}
+	</update>
+	<update id="minusAgentAcount" parameterType="map">  
+		UPDATE `t_sms_agent_account` 
+		SET rebate_income=IFNULL(rebate_income,0)-#{amount},
+		    accumulated_rebate_income =IFNULL(accumulated_rebate_income,0)-#{amount}  
+		where agent_id=#{agentId}
+	</update>
+	<!-- 新增代理商返利流水 -->
+	<insert id="insertAgentRebateBill" >
+		INSERT INTO 
+			t_sms_agent_rebate_bill
+		(
+			 agent_id,
+			 payment_type,
+			 financial_type,
+			 order_id,
+			 amount,
+			 balance,
+			 create_time,
+			 remark
+		) VALUES (
+			#{agentId},
+			0,
+			0,
+			null,
+			#{rebateAmount},
+			(select IFNULL(rebate_income,0) from t_sms_agent_account where agent_id=#{agentId}),
+			now(),
+			#{remark}
+		)
+	</insert>
+	
+	<delete id="deleteAgentRebateBill">
+		DELETE s FROM t_sms_agent_rebate_bill s WHERE s.agent_id = #{agentId} and  remark like concat('%',#{remark},'%') 
+	</delete>
+</mapper> 

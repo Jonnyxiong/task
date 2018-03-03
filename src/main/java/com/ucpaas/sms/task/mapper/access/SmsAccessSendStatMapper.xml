@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.access.SmsAccessSendStatMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.access.SmsAccessSendStat">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="departmentId" jdbcType="INTEGER" column="department_id"/>
+        <result property="agentId" jdbcType="INTEGER" column="agent_id"/>
+        <result property="accountGid" jdbcType="INTEGER" column="account_gid"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="belongSale" jdbcType="BIGINT" column="belong_sale"/>
+        <result property="smstype" jdbcType="INTEGER" column="smstype"/>
+        <result property="paytype" jdbcType="INTEGER" column="paytype"/>
+        <result property="notsend" jdbcType="INTEGER" column="notsend"/>
+        <result property="submitsuccess" jdbcType="INTEGER" column="submitsuccess"/>
+        <result property="reportsuccess" jdbcType="INTEGER" column="reportsuccess"/>
+        <result property="submitfail" jdbcType="INTEGER" column="submitfail"/>
+        <result property="subretfail" jdbcType="INTEGER" column="subretfail"/>
+        <result property="reportfail" jdbcType="INTEGER" column="reportfail"/>
+        <result property="auditfail" jdbcType="INTEGER" column="auditfail"/>
+        <result property="recvintercept" jdbcType="INTEGER" column="recvintercept"/>
+        <result property="sendintercept" jdbcType="INTEGER" column="sendintercept"/>
+        <result property="overrateintercept" jdbcType="INTEGER" column="overrateintercept"/>
+        <result property="costfee" jdbcType="DECIMAL" column="costfee"/>
+        <result property="salefee" jdbcType="DECIMAL" column="salefee"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="stattype" jdbcType="INTEGER" column="stattype"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        department_id,
+        agent_id,
+        account_gid,
+        clientid,
+        belong_sale,
+        smstype,
+        paytype,
+        notsend,
+        submitsuccess,
+        reportsuccess,
+        submitfail,
+        subretfail,
+        reportfail,
+        auditfail,
+        recvintercept,
+        sendintercept,
+        overrateintercept,
+        costfee,
+        salefee,
+        stattype,
+        date,
+        createtime,
+        operatorstype
+    </sql>
+
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.access.SmsAccessSendStat" >
+        INSERT INTO t_sms_access_send_stat 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="departmentId != null" >
+                department_id,
+            </if>
+            <if test="agentId != null" >
+                agent_id,
+            </if>
+            <if test="accountGid != null" >
+                account_gid,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="belongSale != null" >
+                belong_sale,
+            </if>
+            <if test="smstype != null" >
+                smstype,
+            </if>
+            <if test="paytype != null" >
+                paytype,
+            </if>
+            <if test="notsend != null" >
+                notsend,
+            </if>
+            <if test="submitsuccess != null" >
+                submitsuccess,
+            </if>
+            <if test="reportsuccess != null" >
+                reportsuccess,
+            </if>
+            <if test="submitfail != null" >
+                submitfail,
+            </if>
+            <if test="subretfail != null" >
+                subretfail,
+            </if>
+            <if test="reportfail != null" >
+                reportfail,
+            </if>
+            <if test="auditfail != null" >
+                auditfail,
+            </if>
+            <if test="recvintercept != null" >
+                recvintercept,
+            </if>
+            <if test="sendintercept != null" >
+                sendintercept,
+            </if>
+            <if test="overrateintercept != null" >
+                overrateintercept,
+            </if>
+            <if test="costfee != null" >
+                costfee,
+            </if>
+            <if test="salefee != null" >
+                salefee,
+            </if>
+            <if test="stattype != null" >
+                stattype,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="createtime != null" >
+                createtime
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="departmentId != null" >
+                #{departmentId},
+            </if>
+            <if test="agentId != null" >
+                #{agentId},
+            </if>
+            <if test="accountGid != null" >
+                #{accountGid},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="belongSale != null" >
+                #{belongSale},
+            </if>
+            <if test="smstype != null" >
+                #{smstype},
+            </if>
+            <if test="paytype != null" >
+                #{paytype},
+            </if>
+            <if test="notsend != null" >
+                #{notsend},
+            </if>
+            <if test="submitsuccess != null" >
+                #{submitsuccess},
+            </if>
+            <if test="reportsuccess != null" >
+                #{reportsuccess},
+            </if>
+            <if test="submitfail != null" >
+                #{submitfail},
+            </if>
+            <if test="subretfail != null" >
+                #{subretfail},
+            </if>
+            <if test="reportfail != null" >
+                #{reportfail},
+            </if>
+            <if test="auditfail != null" >
+                #{auditfail},
+            </if>
+            <if test="recvintercept != null" >
+                #{recvintercept},
+            </if>
+            <if test="sendintercept != null" >
+                #{sendintercept},
+            </if>
+            <if test="overrateintercept != null" >
+                #{overrateintercept},
+            </if>
+            <if test="costfee != null" >
+                #{costfee},
+            </if>
+            <if test="salefee != null" >
+                #{salefee},
+            </if>
+            <if test="stattype != null" >
+                #{stattype},
+            </if>
+            <if test="date != null" >
+                #{date},
+            </if>
+            <if test="createtime != null" >
+                #{createtime}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_access_send_stat (
+            id,
+            department_id,
+            agent_id,
+            account_gid,
+            clientid,
+            belong_sale,
+            smstype,
+            paytype,
+            notsend,
+            submitsuccess,
+            reportsuccess,
+            submitfail,
+            subretfail,
+            reportfail,
+            auditfail,
+            recvintercept,
+            sendintercept,
+            overrateintercept,
+            costfee,
+            salefee,
+            stattype,
+            date,
+            createtime
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.departmentId},
+                #{item.agentId},
+                #{item.accountGid},
+                #{item.clientid},
+                #{item.belongSale},
+                #{item.smstype},
+                #{item.paytype},
+                #{item.notsend},
+                #{item.submitsuccess},
+                #{item.reportsuccess},
+                #{item.submitfail},
+                #{item.subretfail},
+                #{item.reportfail},
+                #{item.auditfail},
+                #{item.recvintercept},
+                #{item.sendintercept},
+                #{item.overrateintercept},
+                #{item.costfee},
+                #{item.salefee},
+                #{item.stattype},
+                #{item.date},
+                #{item.createtime}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete">
+        DELETE FROM t_sms_access_send_stat WHERE id = #{id} 
+    </delete>
+    
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.access.SmsAccessSendStat">
+        UPDATE t_sms_access_send_stat SET 
+            department_id=#{departmentId},
+            agent_id=#{agentId},
+            account_gid=#{accountGid},
+            clientid=#{clientid},
+            belong_sale=#{belongSale},
+            smstype=#{smstype},
+            paytype=#{paytype},
+            notsend=#{notsend},
+            submitsuccess=#{submitsuccess},
+            reportsuccess=#{reportsuccess},
+            submitfail=#{submitfail},
+            subretfail=#{subretfail},
+            reportfail=#{reportfail},
+            auditfail=#{auditfail},
+            recvintercept=#{recvintercept},
+            sendintercept=#{sendintercept},
+            overrateintercept=#{overrateintercept},
+            costfee=#{costfee},
+            salefee=#{salefee},
+            stattype=#{stattype},
+            date=#{date},
+            createtime=#{createtime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.access.SmsAccessSendStat">
+        UPDATE t_sms_access_send_stat 
+            <set>
+                <if test="departmentId != null">
+                    department_id = #{departmentId},
+                </if>
+                <if test="agentId != null">
+                    agent_id = #{agentId},
+                </if>
+                <if test="accountGid != null">
+                    account_gid = #{accountGid},
+                </if>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="belongSale != null">
+                    belong_sale = #{belongSale},
+                </if>
+                <if test="smstype != null">
+                    smstype = #{smstype},
+                </if>
+                <if test="paytype != null">
+                    paytype = #{paytype},
+                </if>
+                <if test="notsend != null">
+                    notsend = #{notsend},
+                </if>
+                <if test="submitsuccess != null">
+                    submitsuccess = #{submitsuccess},
+                </if>
+                <if test="reportsuccess != null">
+                    reportsuccess = #{reportsuccess},
+                </if>
+                <if test="submitfail != null">
+                    submitfail = #{submitfail},
+                </if>
+                <if test="subretfail != null">
+                    subretfail = #{subretfail},
+                </if>
+                <if test="reportfail != null">
+                    reportfail = #{reportfail},
+                </if>
+                <if test="auditfail != null">
+                    auditfail = #{auditfail},
+                </if>
+                <if test="recvintercept != null">
+                    recvintercept = #{recvintercept},
+                </if>
+                <if test="sendintercept != null">
+                    sendintercept = #{sendintercept},
+                </if>
+                <if test="overrateintercept != null">
+                    overrateintercept = #{overrateintercept},
+                </if>
+                <if test="costfee != null">
+                    costfee = #{costfee},
+                </if>
+                <if test="salefee != null">
+                    salefee = #{salefee},
+                </if>
+                <if test="stattype != null">
+                    stattype = #{stattype},
+                </if>
+                <if test="date != null">
+                    date = #{date},
+                </if>
+                <if test="createtime != null and createtime != ''">
+                    createtime = #{createtime},
+                </if>
+                <if test="operatorstype != null">
+                    operatorstype = #{operatorstype}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_access_send_stat
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryAll"   resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_access_send_stat 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and department_id = #{departmentId}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="accountGid != null and accountGid != ''">
+                and account_gid = #{accountGid}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="belongSale != null and belongSale != ''">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="smstype != null and smstype != ''">
+                and smstype = #{smstype}
+            </if>
+            <if test="paytype != null and paytype != ''">
+                and paytype = #{paytype}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="auditfail != null and auditfail != ''">
+                and auditfail = #{auditfail}
+            </if>
+            <if test="recvintercept != null and recvintercept != ''">
+                and recvintercept = #{recvintercept}
+            </if>
+            <if test="sendintercept != null and sendintercept != ''">
+                and sendintercept = #{sendintercept}
+            </if>
+            <if test="overrateintercept != null and overrateintercept != ''">
+                and overrateintercept = #{overrateintercept}
+            </if>
+            <if test="costfee != null and costfee != ''">
+                and costfee = #{costfee}
+            </if>
+            <if test="salefee != null and salefee != ''">
+                and salefee = #{salefee}
+            </if>
+            <if test="stattype != null">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null">
+                and `date` = #{date}
+            </if>
+            <if test="likeDate != null">
+                and `date` like CONCAT(#{likeDate},'%')
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="com.ucpaas.sms.task.entity.access.SmsAccessSendStat" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_access_send_stat 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and department_id = #{departmentId}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="accountGid != null and accountGid != ''">
+                and account_gid = #{accountGid}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="belongSale != null and belongSale != ''">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="smstype != null and smstype != ''">
+                and smstype = #{smstype}
+            </if>
+            <if test="paytype != null and paytype != ''">
+                and paytype = #{paytype}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="auditfail != null and auditfail != ''">
+                and auditfail = #{auditfail}
+            </if>
+            <if test="recvintercept != null and recvintercept != ''">
+                and recvintercept = #{recvintercept}
+            </if>
+            <if test="sendintercept != null and sendintercept != ''">
+                and sendintercept = #{sendintercept}
+            </if>
+            <if test="overrateintercept != null and overrateintercept != ''">
+                and overrateintercept = #{overrateintercept}
+            </if>
+            <if test="costfee != null and costfee != ''">
+                and costfee = #{costfee}
+            </if>
+            <if test="salefee != null and salefee != ''">
+                and salefee = #{salefee}
+            </if>
+            <if test="stattype != null and stattype != ''">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+    </select>
+
+    <delete id="deleteByDate" >
+        DELETE FROM t_sms_access_send_stat WHERE `date` = #{date}
+    </delete>
+
+    <delete id="deleteByDateLike" >
+        DELETE FROM t_sms_access_send_stat WHERE `date` like CONCAT(#{yyyyMM},'%')
+    </delete>
+
+
+
+    <select id="queryByDateLike"   resultMap="rowMapper">
+      SELECT
+      <include refid="BASE_COLUMN_LIST" />
+      FROM t_sms_access_send_stat
+        WHERE `date` like CONCAT(#{yyyyMM},'%')
+    </select>
+</mapper>
+

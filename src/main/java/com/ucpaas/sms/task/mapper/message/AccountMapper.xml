@@ -1,0 +1,1109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.AccountMapper">
+     
+        
+    <resultMap id="rowMapper" type="Account">
+        <result property="id" jdbcType="VARCHAR" column="id"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="password" jdbcType="VARCHAR" column="password"/>
+        <result property="name" jdbcType="VARCHAR" column="name"/>
+        <result property="sid" jdbcType="VARCHAR" column="sid"/>
+        <result property="status" jdbcType="INTEGER" column="status"/>
+        <result property="agentId" jdbcType="INTEGER" column="agent_id"/>
+        <result property="oauthStatus" jdbcType="INTEGER" column="oauth_status"/>
+        <result property="oauthDate" jdbcType="TIMESTAMP" column="oauth_date"/>
+        <result property="mobile" jdbcType="VARCHAR" column="mobile"/>
+        <result property="email" jdbcType="VARCHAR" column="email"/>
+        <result property="province" jdbcType="VARCHAR" column="province"/>
+        <result property="city" jdbcType="VARCHAR" column="city"/>
+        <result property="area" jdbcType="VARCHAR" column="area"/>
+        <result property="address" jdbcType="VARCHAR" column="address"/>
+        <result property="realname" jdbcType="VARCHAR" column="realname"/>
+        <result property="clientLevel" jdbcType="INTEGER" column="client_level"/>
+        <result property="clientType" jdbcType="INTEGER" column="client_type"/>
+        <result property="needreport" jdbcType="INTEGER" column="needreport"/>
+        <result property="needmo" jdbcType="INTEGER" column="needmo"/>
+        <result property="needaudit" jdbcType="INTEGER" column="needaudit"/>
+        <result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+        <result property="ip" jdbcType="VARCHAR" column="ip"/>
+        <result property="deliveryurl" jdbcType="VARCHAR" column="deliveryurl"/>
+        <result property="mourl" jdbcType="VARCHAR" column="mourl"/>
+        <result property="nodenum" jdbcType="INTEGER" column="nodenum"/>
+        <result property="paytype" jdbcType="INTEGER" column="paytype"/>
+        <result property="needextend" jdbcType="INTEGER" column="needextend"/>
+        <result property="signextend" jdbcType="INTEGER" column="signextend"/>
+        <result property="belongSale" jdbcType="BIGINT" column="belong_sale"/>
+        <result property="agentOwned" jdbcType="INTEGER" column="agent_owned"/>
+        <result property="remarks" jdbcType="VARCHAR" column="remarks"/>
+        <result property="smstype" jdbcType="INTEGER" column="smstype"/>
+        <result property="smsfrom" jdbcType="INTEGER" column="smsfrom"/>
+        <result property="isoverratecharge" jdbcType="INTEGER" column="isoverratecharge"/>
+        <result property="updatetime" jdbcType="TIMESTAMP" column="updatetime"/>
+        <result property="spnum" jdbcType="VARCHAR" column="spnum"/>
+        <result property="getreportInterval" jdbcType="INTEGER" column="getreport_interval"/>
+        <result property="getreportMaxsize" jdbcType="INTEGER" column="getreport_maxsize"/>
+        <result property="moip" jdbcType="VARCHAR" column="moip"/>
+        <result property="moport" jdbcType="VARCHAR" column="moport"/>
+        <result property="nodeid" jdbcType="BIGINT" column="nodeid"/>
+        <result property="identify" jdbcType="INTEGER" column="identify"/>
+        <result property="accessSpeed" jdbcType="INTEGER" column="access_speed"/>
+        <result property="noticeurl" jdbcType="VARCHAR" column="noticeurl"/>
+        <result property="extendSize" jdbcType="INTEGER" column="extend_size"/>
+        <result property="clientAscription" jdbcType="INTEGER" column="client_ascription"/>
+        <result property="extendtype" jdbcType="INTEGER" column="extendtype"/>
+        <result property="extendport" jdbcType="VARCHAR" column="extendport"/>
+        <result property="signportlen" jdbcType="INTEGER" column="signportlen"/>
+        <result property="agentType" jdbcType="INTEGER" column="agent_type"/>
+    </resultMap>
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        clientid,
+        password,
+        name,
+        sid,
+        status,
+        agent_id,
+        oauth_status,
+        oauth_date,
+        mobile,
+        email,
+        province,
+        city,
+        area,
+        address,
+        realname,
+        client_level,
+        client_type,
+        needreport,
+        needmo,
+        needaudit,
+        createtime,
+        ip,
+        deliveryurl,
+        mourl,
+        nodenum,
+        paytype,
+        needextend,
+        signextend,
+--         belong_sale,
+--         agent_owned,
+        remarks,
+        smstype,
+        smsfrom,
+        isoverratecharge,
+        updatetime,
+        spnum,
+        getreport_interval,
+        getreport_maxsize,
+        moip,
+        moport,
+        nodeid,
+        identify,
+        access_speed,
+        noticeurl,
+        extend_size,
+        client_ascription,
+        extendtype,
+        extendport,
+        signportlen
+    </sql>
+
+    <insert id="insert" parameterType="Account" >
+        INSERT INTO t_sms_account 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="sid != null" >
+                sid,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="agentId != null" >
+                agent_id,
+            </if>
+            <if test="oauthStatus != null" >
+                oauth_status,
+            </if>
+            <if test="oauthDate != null" >
+                oauth_date,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="province != null" >
+                province,
+            </if>
+            <if test="city != null" >
+                city,
+            </if>
+            <if test="area != null" >
+                area,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="realname != null" >
+                realname,
+            </if>
+            <if test="clientLevel != null" >
+                client_level,
+            </if>
+            <if test="clientType != null" >
+                client_type,
+            </if>
+            <if test="needreport != null" >
+                needreport,
+            </if>
+            <if test="needmo != null" >
+                needmo,
+            </if>
+            <if test="needaudit != null" >
+                needaudit,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="ip != null" >
+                ip,
+            </if>
+            <if test="deliveryurl != null" >
+                deliveryurl,
+            </if>
+            <if test="mourl != null" >
+                mourl,
+            </if>
+            <if test="nodenum != null" >
+                nodenum,
+            </if>
+            <if test="paytype != null" >
+                paytype,
+            </if>
+            <if test="needextend != null" >
+                needextend,
+            </if>
+            <if test="signextend != null" >
+                signextend,
+            </if>
+            <if test="belongSale != null" >
+                belong_sale,
+            </if>
+            <if test="agentOwned != null" >
+                agent_owned,
+            </if>
+            <if test="remarks != null" >
+                remarks,
+            </if>
+            <if test="smstype != null" >
+                smstype,
+            </if>
+            <if test="smsfrom != null" >
+                smsfrom,
+            </if>
+            <if test="isoverratecharge != null" >
+                isoverratecharge,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+            <if test="spnum != null" >
+                spnum,
+            </if>
+            <if test="getreportInterval != null" >
+                getreport_interval,
+            </if>
+            <if test="getreportMaxsize != null" >
+                getreport_maxsize,
+            </if>
+            <if test="moip != null" >
+                moip,
+            </if>
+            <if test="moport != null" >
+                moport,
+            </if>
+            <if test="nodeid != null" >
+                nodeid,
+            </if>
+            <if test="identify != null" >
+                identify,
+            </if>
+            <if test="accessSpeed != null" >
+                access_speed,
+            </if>
+            <if test="noticeurl != null" >
+                noticeurl,
+            </if>
+            <if test="extendSize != null" >
+                extend_size,
+            </if>
+            <if test="clientAscription != null" >
+                client_ascription,
+            </if>
+            <if test="extendtype != null" >
+                extendtype,
+            </if>
+            <if test="extendport != null" >
+                extendport,
+            </if>
+            <if test="signportlen != null" >
+                signportlen
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="password != null" >
+                #{password},
+            </if>
+            <if test="name != null" >
+                #{name},
+            </if>
+            <if test="sid != null" >
+                #{sid},
+            </if>
+            <if test="status != null" >
+                #{status},
+            </if>
+            <if test="agentId != null" >
+                #{agentId},
+            </if>
+            <if test="oauthStatus != null" >
+                #{oauthStatus},
+            </if>
+            <if test="oauthDate != null" >
+                #{oauthDate},
+            </if>
+            <if test="mobile != null" >
+                #{mobile},
+            </if>
+            <if test="email != null" >
+                #{email},
+            </if>
+            <if test="province != null" >
+                #{province},
+            </if>
+            <if test="city != null" >
+                #{city},
+            </if>
+            <if test="area != null" >
+                #{area},
+            </if>
+            <if test="address != null" >
+                #{address},
+            </if>
+            <if test="realname != null" >
+                #{realname},
+            </if>
+            <if test="clientLevel != null" >
+                #{clientLevel},
+            </if>
+            <if test="clientType != null" >
+                #{clientType},
+            </if>
+            <if test="needreport != null" >
+                #{needreport},
+            </if>
+            <if test="needmo != null" >
+                #{needmo},
+            </if>
+            <if test="needaudit != null" >
+                #{needaudit},
+            </if>
+            <if test="createtime != null" >
+                #{createtime},
+            </if>
+            <if test="ip != null" >
+                #{ip},
+            </if>
+            <if test="deliveryurl != null" >
+                #{deliveryurl},
+            </if>
+            <if test="mourl != null" >
+                #{mourl},
+            </if>
+            <if test="nodenum != null" >
+                #{nodenum},
+            </if>
+            <if test="paytype != null" >
+                #{paytype},
+            </if>
+            <if test="needextend != null" >
+                #{needextend},
+            </if>
+            <if test="signextend != null" >
+                #{signextend},
+            </if>
+            <if test="belongSale != null" >
+                #{belongSale},
+            </if>
+            <if test="agentOwned != null" >
+                #{agentOwned},
+            </if>
+            <if test="remarks != null" >
+                #{remarks},
+            </if>
+            <if test="smstype != null" >
+                #{smstype},
+            </if>
+            <if test="smsfrom != null" >
+                #{smsfrom},
+            </if>
+            <if test="isoverratecharge != null" >
+                #{isoverratecharge},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime},
+            </if>
+            <if test="spnum != null" >
+                #{spnum},
+            </if>
+            <if test="getreportInterval != null" >
+                #{getreportInterval},
+            </if>
+            <if test="getreportMaxsize != null" >
+                #{getreportMaxsize},
+            </if>
+            <if test="moip != null" >
+                #{moip},
+            </if>
+            <if test="moport != null" >
+                #{moport},
+            </if>
+            <if test="nodeid != null" >
+                #{nodeid},
+            </if>
+            <if test="identify != null" >
+                #{identify},
+            </if>
+            <if test="accessSpeed != null" >
+                #{accessSpeed},
+            </if>
+            <if test="noticeurl != null" >
+                #{noticeurl},
+            </if>
+            <if test="extendSize != null" >
+                #{extendSize},
+            </if>
+            <if test="clientAscription != null" >
+                #{clientAscription},
+            </if>
+            <if test="extendtype != null" >
+                #{extendtype},
+            </if>
+            <if test="extendport != null" >
+                #{extendport},
+            </if>
+            <if test="signportlen != null" >
+                #{signportlen}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_account (
+            id,
+            clientid,
+            password,
+            name,
+            sid,
+            status,
+            agent_id,
+            oauth_status,
+            oauth_date,
+            mobile,
+            email,
+            province,
+            city,
+            area,
+            address,
+            realname,
+            client_level,
+            client_type,
+            needreport,
+            needmo,
+            needaudit,
+            createtime,
+            ip,
+            deliveryurl,
+            mourl,
+            nodenum,
+            paytype,
+            needextend,
+            signextend,
+            belong_sale,
+            agent_owned,
+            remarks,
+            smstype,
+            smsfrom,
+            isoverratecharge,
+            updatetime,
+            spnum,
+            getreport_interval,
+            getreport_maxsize,
+            moip,
+            moport,
+            nodeid,
+            identify,
+            access_speed,
+            noticeurl,
+            extend_size,
+            client_ascription,
+            extendtype,
+            extendport,
+            signportlen
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.clientid},
+                #{item.password},
+                #{item.name},
+                #{item.sid},
+                #{item.status},
+                #{item.agentId},
+                #{item.oauthStatus},
+                #{item.oauthDate},
+                #{item.mobile},
+                #{item.email},
+                #{item.province},
+                #{item.city},
+                #{item.area},
+                #{item.address},
+                #{item.realname},
+                #{item.clientLevel},
+                #{item.clientType},
+                #{item.needreport},
+                #{item.needmo},
+                #{item.needaudit},
+                #{item.createtime},
+                #{item.ip},
+                #{item.deliveryurl},
+                #{item.mourl},
+                #{item.nodenum},
+                #{item.paytype},
+                #{item.needextend},
+                #{item.signextend},
+                #{item.belongSale},
+                #{item.agentOwned},
+                #{item.remarks},
+                #{item.smstype},
+                #{item.smsfrom},
+                #{item.isoverratecharge},
+                #{item.updatetime},
+                #{item.spnum},
+                #{item.getreportInterval},
+                #{item.getreportMaxsize},
+                #{item.moip},
+                #{item.moport},
+                #{item.nodeid},
+                #{item.identify},
+                #{item.accessSpeed},
+                #{item.noticeurl},
+                #{item.extendSize},
+                #{item.clientAscription},
+                #{item.extendtype},
+                #{item.extendport},
+                #{item.signportlen}
+            )
+        </foreach>
+    </insert>
+
+    
+    <update id="update" parameterType="Account">
+        UPDATE t_sms_account SET 
+            clientid=#{clientid},
+            password=#{password},
+            name=#{name},
+            sid=#{sid},
+            status=#{status},
+            agent_id=#{agentId},
+            oauth_status=#{oauthStatus},
+            oauth_date=#{oauthDate},
+            mobile=#{mobile},
+            email=#{email},
+            province=#{province},
+            city=#{city},
+            area=#{area},
+            address=#{address},
+            realname=#{realname},
+            client_level=#{clientLevel},
+            client_type=#{clientType},
+            needreport=#{needreport},
+            needmo=#{needmo},
+            needaudit=#{needaudit},
+            createtime=#{createtime},
+            ip=#{ip},
+            deliveryurl=#{deliveryurl},
+            mourl=#{mourl},
+            nodenum=#{nodenum},
+            paytype=#{paytype},
+            needextend=#{needextend},
+            signextend=#{signextend},
+            belong_sale=#{belongSale},
+            agent_owned=#{agentOwned},
+            remarks=#{remarks},
+            smstype=#{smstype},
+            smsfrom=#{smsfrom},
+            isoverratecharge=#{isoverratecharge},
+            updatetime=#{updatetime},
+            spnum=#{spnum},
+            getreport_interval=#{getreportInterval},
+            getreport_maxsize=#{getreportMaxsize},
+            moip=#{moip},
+            moport=#{moport},
+            nodeid=#{nodeid},
+            identify=#{identify},
+            access_speed=#{accessSpeed},
+            noticeurl=#{noticeurl},
+            extend_size=#{extendSize},
+            client_ascription=#{clientAscription},
+            extendtype=#{extendtype},
+            extendport=#{extendport},
+            signportlen=#{signportlen}
+        WHERE 
+            id = #{id} 
+    </update>
+
+    
+    
+    <update id="updateSelective" parameterType="Account">
+        UPDATE t_sms_account 
+            <set>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="password != null and password != ''">
+                    password = #{password},
+                </if>
+                <if test="name != null and name != ''">
+                    name = #{name},
+                </if>
+                <if test="sid != null and sid != ''">
+                    sid = #{sid},
+                </if>
+                <if test="status != null and status != ''">
+                    status = #{status},
+                </if>
+                <if test="agentId != null and agentId != ''">
+                    agent_id = #{agentId},
+                </if>
+                <if test="oauthStatus != null and oauthStatus != ''">
+                    oauth_status = #{oauthStatus},
+                </if>
+                <if test="oauthDate != null and oauthDate != ''">
+                    oauth_date = #{oauthDate},
+                </if>
+                <if test="mobile != null and mobile != ''">
+                    mobile = #{mobile},
+                </if>
+                <if test="email != null and email != ''">
+                    email = #{email},
+                </if>
+                <if test="province != null and province != ''">
+                    province = #{province},
+                </if>
+                <if test="city != null and city != ''">
+                    city = #{city},
+                </if>
+                <if test="area != null and area != ''">
+                    area = #{area},
+                </if>
+                <if test="address != null and address != ''">
+                    address = #{address},
+                </if>
+                <if test="realname != null and realname != ''">
+                    realname = #{realname},
+                </if>
+                <if test="clientLevel != null and clientLevel != ''">
+                    client_level = #{clientLevel},
+                </if>
+                <if test="clientType != null and clientType != ''">
+                    client_type = #{clientType},
+                </if>
+                <if test="needreport != null and needreport != ''">
+                    needreport = #{needreport},
+                </if>
+                <if test="needmo != null and needmo != ''">
+                    needmo = #{needmo},
+                </if>
+                <if test="needaudit != null and needaudit != ''">
+                    needaudit = #{needaudit},
+                </if>
+                <if test="createtime != null and createtime != ''">
+                    createtime = #{createtime},
+                </if>
+                <if test="ip != null and ip != ''">
+                    ip = #{ip},
+                </if>
+                <if test="deliveryurl != null and deliveryurl != ''">
+                    deliveryurl = #{deliveryurl},
+                </if>
+                <if test="mourl != null and mourl != ''">
+                    mourl = #{mourl},
+                </if>
+                <if test="nodenum != null and nodenum != ''">
+                    nodenum = #{nodenum},
+                </if>
+                <if test="paytype != null and paytype != ''">
+                    paytype = #{paytype},
+                </if>
+                <if test="needextend != null and needextend != ''">
+                    needextend = #{needextend},
+                </if>
+                <if test="signextend != null and signextend != ''">
+                    signextend = #{signextend},
+                </if>
+                <if test="belongSale != null and belongSale != ''">
+                    belong_sale = #{belongSale},
+                </if>
+                <if test="agentOwned != null and agentOwned != ''">
+                    agent_owned = #{agentOwned},
+                </if>
+                <if test="remarks != null and remarks != ''">
+                    remarks = #{remarks},
+                </if>
+                <if test="smstype != null and smstype != ''">
+                    smstype = #{smstype},
+                </if>
+                <if test="smsfrom != null and smsfrom != ''">
+                    smsfrom = #{smsfrom},
+                </if>
+                <if test="isoverratecharge != null and isoverratecharge != ''">
+                    isoverratecharge = #{isoverratecharge},
+                </if>
+                <if test="updatetime != null and updatetime != ''">
+                    updatetime = #{updatetime},
+                </if>
+                <if test="spnum != null and spnum != ''">
+                    spnum = #{spnum},
+                </if>
+                <if test="getreportInterval != null and getreportInterval != ''">
+                    getreport_interval = #{getreportInterval},
+                </if>
+                <if test="getreportMaxsize != null and getreportMaxsize != ''">
+                    getreport_maxsize = #{getreportMaxsize},
+                </if>
+                <if test="moip != null and moip != ''">
+                    moip = #{moip},
+                </if>
+                <if test="moport != null and moport != ''">
+                    moport = #{moport},
+                </if>
+                <if test="nodeid != null and nodeid != ''">
+                    nodeid = #{nodeid},
+                </if>
+                <if test="identify != null and identify != ''">
+                    identify = #{identify},
+                </if>
+                <if test="accessSpeed != null and accessSpeed != ''">
+                    access_speed = #{accessSpeed},
+                </if>
+                <if test="noticeurl != null and noticeurl != ''">
+                    noticeurl = #{noticeurl},
+                </if>
+                <if test="extendSize != null and extendSize != ''">
+                    extend_size = #{extendSize},
+                </if>
+                <if test="clientAscription != null and clientAscription != ''">
+                    client_ascription = #{clientAscription},
+                </if>
+                <if test="extendtype != null and extendtype != ''">
+                    extendtype = #{extendtype},
+                </if>
+                <if test="extendport != null and extendport != ''">
+                    extendport = #{extendport},
+                </if>
+                <if test="signportlen != null and signportlen != ''">
+                    signportlen = #{signportlen}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+
+    <select id="getByClientid" parameterType="java.lang.String" resultMap="rowMapper">
+        SELECT
+            acc.clientid,
+            acc.name,
+            acc.status,
+            acc.agent_id,
+            acc.realname,
+            acc.client_type,
+            acc.paytype,
+--             acc.belong_sale,
+--             acc.agent_owned,
+            acc.remarks,
+            acc.smstype,
+            acc.smsfrom,
+            acc.isoverratecharge,
+            acc.identify,
+            acc.client_ascription,
+            acc.extendtype,
+            acc.extendport,
+            ai.agent_type 'agent_type'
+        FROM t_sms_account acc
+        LEFT JOIN t_sms_agent_info ai ON  acc.agent_id = ai.agent_id
+        WHERE
+          clientid = #{clientid}
+
+    </select>
+
+    <select id="getSMSTypeByClientid" parameterType="java.lang.String" resultType="String">
+        SELECT
+            smstype
+        FROM t_sms_account
+        WHERE
+          clientid = #{clientid}
+    </select>
+
+    <select id="queryList" parameterType="Account" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_account 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null and params.id != ''">
+                and id = #{params.id}
+            </if>
+            <if test="params.clientid != null and params.clientid != ''">
+                and clientid = #{params.clientid}
+            </if>
+            <if test="params.password != null and params.password != ''">
+                and password = #{params.password}
+            </if>
+            <if test="params.name != null and params.name != ''">
+                and name = #{params.name}
+            </if>
+            <if test="params.sid != null and params.sid != ''">
+                and sid = #{params.sid}
+            </if>
+            <if test="params.status != null and params.status != ''">
+                and status = #{params.status}
+            </if>
+            <if test="params.agentId != null and params.agentId != ''">
+                and agent_id = #{params.agentId}
+            </if>
+            <if test="params.oauthStatus != null and params.oauthStatus != ''">
+                and oauth_status = #{params.oauthStatus}
+            </if>
+            <if test="params.oauthDate != null and params.oauthDate != ''">
+                and oauth_date = #{params.oauthDate}
+            </if>
+            <if test="params.mobile != null and params.mobile != ''">
+                and mobile = #{params.mobile}
+            </if>
+            <if test="params.email != null and params.email != ''">
+                and email = #{params.email}
+            </if>
+            <if test="params.province != null and params.province != ''">
+                and province = #{params.province}
+            </if>
+            <if test="params.city != null and params.city != ''">
+                and city = #{params.city}
+            </if>
+            <if test="params.area != null and params.area != ''">
+                and area = #{params.area}
+            </if>
+            <if test="params.address != null and params.address != ''">
+                and address = #{params.address}
+            </if>
+            <if test="params.realname != null and params.realname != ''">
+                and realname = #{params.realname}
+            </if>
+            <if test="params.clientLevel != null and params.clientLevel != ''">
+                and client_level = #{params.clientLevel}
+            </if>
+            <if test="params.clientType != null and params.clientType != ''">
+                and client_type = #{params.clientType}
+            </if>
+            <if test="params.needreport != null and params.needreport != ''">
+                and needreport = #{params.needreport}
+            </if>
+            <if test="params.needmo != null and params.needmo != ''">
+                and needmo = #{params.needmo}
+            </if>
+            <if test="params.needaudit != null and params.needaudit != ''">
+                and needaudit = #{params.needaudit}
+            </if>
+            <if test="params.createtime != null and params.createtime != ''">
+                and createtime = #{params.createtime}
+            </if>
+            <if test="params.ip != null and params.ip != ''">
+                and ip = #{params.ip}
+            </if>
+            <if test="params.deliveryurl != null and params.deliveryurl != ''">
+                and deliveryurl = #{params.deliveryurl}
+            </if>
+            <if test="params.mourl != null and params.mourl != ''">
+                and mourl = #{params.mourl}
+            </if>
+            <if test="params.nodenum != null and params.nodenum != ''">
+                and nodenum = #{params.nodenum}
+            </if>
+            <if test="params.paytype != null and params.paytype != ''">
+                and paytype = #{params.paytype}
+            </if>
+            <if test="params.needextend != null and params.needextend != ''">
+                and needextend = #{params.needextend}
+            </if>
+            <if test="params.signextend != null and params.signextend != ''">
+                and signextend = #{params.signextend}
+            </if>
+            <if test="params.belongSale != null and params.belongSale != ''">
+                and belong_sale = #{params.belongSale}
+            </if>
+            <if test="params.agentOwned != null and params.agentOwned != ''">
+                and agent_owned = #{params.agentOwned}
+            </if>
+            <if test="params.remarks != null and params.remarks != ''">
+                and remarks = #{params.remarks}
+            </if>
+            <if test="params.smstype != null and params.smstype != ''">
+                and smstype = #{params.smstype}
+            </if>
+            <if test="params.smsfrom != null and params.smsfrom != ''">
+                and smsfrom = #{params.smsfrom}
+            </if>
+            <if test="params.isoverratecharge != null and params.isoverratecharge != ''">
+                and isoverratecharge = #{params.isoverratecharge}
+            </if>
+            <if test="params.updatetime != null and params.updatetime != ''">
+                and updatetime = #{params.updatetime}
+            </if>
+            <if test="params.spnum != null and params.spnum != ''">
+                and spnum = #{params.spnum}
+            </if>
+            <if test="params.getreportInterval != null and params.getreportInterval != ''">
+                and getreport_interval = #{params.getreportInterval}
+            </if>
+            <if test="params.getreportMaxsize != null and params.getreportMaxsize != ''">
+                and getreport_maxsize = #{params.getreportMaxsize}
+            </if>
+            <if test="params.moip != null and params.moip != ''">
+                and moip = #{params.moip}
+            </if>
+            <if test="params.moport != null and params.moport != ''">
+                and moport = #{params.moport}
+            </if>
+            <if test="params.nodeid != null and params.nodeid != ''">
+                and nodeid = #{params.nodeid}
+            </if>
+            <if test="params.identify != null and params.identify != ''">
+                and identify = #{params.identify}
+            </if>
+            <if test="params.accessSpeed != null and params.accessSpeed != ''">
+                and access_speed = #{params.accessSpeed}
+            </if>
+            <if test="params.noticeurl != null and params.noticeurl != ''">
+                and noticeurl = #{params.noticeurl}
+            </if>
+            <if test="params.extendSize != null and params.extendSize != ''">
+                and extend_size = #{params.extendSize}
+            </if>
+            <if test="params.clientAscription != null and params.clientAscription != ''">
+                and client_ascription = #{params.clientAscription}
+            </if>
+            <if test="params.extendtype != null and params.extendtype != ''">
+                and extendtype = #{params.extendtype}
+            </if>
+            <if test="params.extendport != null and params.extendport != ''">
+                and extendport = #{params.extendport}
+            </if>
+            <if test="params.signportlen != null and params.signportlen != ''">
+                and signportlen = #{params.signportlen}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="Account" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_account 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="sid != null and sid != ''">
+                and sid = #{sid}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="oauthStatus != null and oauthStatus != ''">
+                and oauth_status = #{oauthStatus}
+            </if>
+            <if test="oauthDate != null and oauthDate != ''">
+                and oauth_date = #{oauthDate}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and mobile = #{mobile}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
+            <if test="realname != null and realname != ''">
+                and realname = #{realname}
+            </if>
+            <if test="clientLevel != null and clientLevel != ''">
+                and client_level = #{clientLevel}
+            </if>
+            <if test="clientType != null and clientType != ''">
+                and client_type = #{clientType}
+            </if>
+            <if test="needreport != null and needreport != ''">
+                and needreport = #{needreport}
+            </if>
+            <if test="needmo != null and needmo != ''">
+                and needmo = #{needmo}
+            </if>
+            <if test="needaudit != null and needaudit != ''">
+                and needaudit = #{needaudit}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip = #{ip}
+            </if>
+            <if test="deliveryurl != null and deliveryurl != ''">
+                and deliveryurl = #{deliveryurl}
+            </if>
+            <if test="mourl != null and mourl != ''">
+                and mourl = #{mourl}
+            </if>
+            <if test="nodenum != null and nodenum != ''">
+                and nodenum = #{nodenum}
+            </if>
+            <if test="paytype != null and paytype != ''">
+                and paytype = #{paytype}
+            </if>
+            <if test="needextend != null and needextend != ''">
+                and needextend = #{needextend}
+            </if>
+            <if test="signextend != null and signextend != ''">
+                and signextend = #{signextend}
+            </if>
+            <if test="belongSale != null and belongSale != ''">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="agentOwned != null and agentOwned != ''">
+                and agent_owned = #{agentOwned}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="smstype != null and smstype != ''">
+                and smstype = #{smstype}
+            </if>
+            <if test="smsfrom != null and smsfrom != ''">
+                and smsfrom = #{smsfrom}
+            </if>
+            <if test="isoverratecharge != null and isoverratecharge != ''">
+                and isoverratecharge = #{isoverratecharge}
+            </if>
+            <if test="updatetime != null and updatetime != ''">
+                and updatetime = #{updatetime}
+            </if>
+            <if test="spnum != null and spnum != ''">
+                and spnum = #{spnum}
+            </if>
+            <if test="getreportInterval != null and getreportInterval != ''">
+                and getreport_interval = #{getreportInterval}
+            </if>
+            <if test="getreportMaxsize != null and getreportMaxsize != ''">
+                and getreport_maxsize = #{getreportMaxsize}
+            </if>
+            <if test="moip != null and moip != ''">
+                and moip = #{moip}
+            </if>
+            <if test="moport != null and moport != ''">
+                and moport = #{moport}
+            </if>
+            <if test="nodeid != null and nodeid != ''">
+                and nodeid = #{nodeid}
+            </if>
+            <if test="identify != null and identify != ''">
+                and identify = #{identify}
+            </if>
+            <if test="accessSpeed != null and accessSpeed != ''">
+                and access_speed = #{accessSpeed}
+            </if>
+            <if test="noticeurl != null and noticeurl != ''">
+                and noticeurl = #{noticeurl}
+            </if>
+            <if test="extendSize != null and extendSize != ''">
+                and extend_size = #{extendSize}
+            </if>
+            <if test="clientAscription != null and clientAscription != ''">
+                and client_ascription = #{clientAscription}
+            </if>
+            <if test="extendtype != null and extendtype != ''">
+                and extendtype = #{extendtype}
+            </if>
+            <if test="extendport != null and extendport != ''">
+                and extendport = #{extendport}
+            </if>
+            <if test="signportlen != null and signportlen != ''">
+                and signportlen = #{signportlen}
+            </if>
+    </select>
+	 
+    <select id="findClientCompanyAndBelongSale" resultType="Account">
+        select
+            a.clientid,
+            a.`name`,
+            a.remarks,
+            b.realname,
+            c.account_gid as groupId
+        from t_sms_account a
+            left join t_sms_user b on b.id = a.belong_sale
+            left join t_sms_accountgr_ref_account c on c.clientid = a.clientid
+        order by b.id,a.name
+    </select>
+</mapper>
+

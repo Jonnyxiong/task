@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 订单状态服务 -->
+<mapper namespace="clientOrderStatus">
+	
+	<!-- 查询过期时间小于当前时间的订单 -->
+	<select id="getExpiredOrderIdsByEndTime" resultType="map">
+		SELECT
+			sub_id
+		FROM
+			t_sms_client_order
+		WHERE
+			<![CDATA[
+			end_time < NOW()
+			]]>
+		AND `status` = 1 <!-- 生效的订单 -->
+	</select>
+	
+	<!-- 查询产品类型为行业和营销的订单中剩余数量小于等于0的订单 -->
+	<select id="getExpiredOrderIds" resultType="map">
+		SELECT
+			sub_id
+		FROM
+			t_sms_client_order
+		WHERE
+		<![CDATA[ remain_quantity <= 0 ]]>
+		AND `status` = 1 <!-- 生效的订单 -->
+	</select>
+	
+	<!-- 更新短信订单状态为“订单完成” -->
+	<update id="updateOrderStatusBySubId">
+		UPDATE t_sms_client_order
+		SET `status` = 2
+		WHERE
+			sub_id IN 
+		(
+		<foreach collection="expiredOrderList" item="i" separator=",">
+				#{i.sub_id}
+		</foreach>
+		)
+	</update>
+	
+</mapper> 

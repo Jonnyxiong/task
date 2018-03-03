@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.AgentInfoMapper">
+
+    <sql id="agentInfoColumns">
+        a.`agent_id` as "agentId",
+        a.`admin_id` as "adminId",
+        a.`agent_name` as "agentName",
+        a.`shorter_name` as "shorterName",
+        a.`agent_type` as "agentType",
+        a.`status`,
+        a.`oauth_status` as "oauthStatus",
+        a.`oauth_date` as "oauthDate",
+        a.`address`,
+        a.`company`,
+        a.`company_nbr` as "companyNbr",
+        a.`mobile`,
+        a.`belong_sale` as "belongSale",
+        a.`create_time` as "createTime",
+        a.`update_time` as "updateTime",
+        a.`remark`,
+        a.`rebate_use_radio` as "rebateUseRadio"
+    </sql>
+
+    <sql id="agentInfoJoins">
+    </sql>
+
+    <sql id="agentInfoCondition">
+    </sql>
+
+    <select id="findOemAgentInfoByAgentIds" resultType="string" parameterType="java.util.Set">
+		SELECT
+            a.`agent_id` as "agentId"
+		FROM t_sms_agent_info a
+		WHERE a.agent_type = 5 AND a.agent_id IN
+		<foreach collection="set" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+    <!-- -->
+     <select id="getClientNameByClientId" resultType="String">
+        select name from t_sms_account where clientid = #{clientId}
+    </select>
+
+    <update id="subAgentAccountBalance">
+        update t_sms_agent_account set
+          balance = ifnull(balance,0) - #{money}
+        where agent_id=#{agentId}
+    </update>
+
+    <select id="getAgentBalanceByAgentId" resultType="String">
+        select balance from t_sms_agent_account where agent_id=#{agentId}
+    </select>
+
+    <select id="getUserPriceByClientId" resultType="String">
+        select e.user_price as "userPrice"
+        from (
+            select
+                user_price,
+                (STR_TO_DATE(#{date}, "%Y%m%d") - effect_date) as "time"
+            from t_sms_user_price_log
+            where
+                STR_TO_DATE(#{date}, "%Y%m%d") >= effect_date
+                and clientid= #{clientId}
+                and smstype = #{smsType}
+            ) e
+        ORDER BY e.time limit 1
+    </select>
+
+    <select id="checkAccessChannelStatDone" resultType="int">
+        select count(0) as count from t_sms_task where task_type = 10 and execute_next > STR_TO_DATE(#{date},"%Y%m%d");
+    </select>
+
+    <insert id="addAgentBalanceBill">
+        INSERT INTO `t_sms_agent_balance_bill` (
+            `agent_id`,
+            `payment_type`,
+            `financial_type`,
+            `amount`,
+            `balance`,
+            `create_time`,
+            `order_id`,
+            `admin_id`,
+            `client_id`,
+            `remark`
+        )
+        VALUES
+        (
+            #{agentId},
+            #{paymentType},
+            #{financialType},
+            #{amount},
+            #{balance},
+            #{createTime},
+            #{orderId},
+            #{adminId},
+            #{clientId},
+            #{remark}
+        )
+    </insert>
+</mapper>
+

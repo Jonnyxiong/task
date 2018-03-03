@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.onlinepay.JsmsOnlinePayMapper">
+
+
+    <resultMap id="rowMapper" type="com.jsmsframework.finance.entity.JsmsOnlinePayment">
+        <result property="paymentId" jdbcType="VARCHAR" column="payment_id"/>
+        <result property="agentId" jdbcType="INTEGER" column="agent_id"/>
+        <result property="flowId" jdbcType="VARCHAR" column="flow_id"/>
+        <result property="paymentAmount" jdbcType="DECIMAL" column="payment_amount"/>
+        <result property="paymentMode" jdbcType="INTEGER" column="payment_mode"/>
+        <result property="paymentState" jdbcType="INTEGER" column="payment_state"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="submitTime" jdbcType="TIMESTAMP" column="submit_time"/>
+        <result property="submitDeadline" jdbcType="TIMESTAMP" column="submit_deadline"/>
+        <result property="remark" jdbcType="VARCHAR" column="remark"/>
+        <result property="description" jdbcType="VARCHAR" column="description"/>
+        <result property="adminId" jdbcType="BIGINT" column="admin_id"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+    </resultMap>
+
+    <sql id="BASE_COLUMN_LIST">
+        payment_id,
+        agent_id,
+        flow_id,
+        payment_amount,
+        payment_mode,
+        payment_state,
+        create_time,
+        submit_time,
+        submit_deadline,
+        remark,
+        description,
+        admin_id,
+        update_time
+    </sql>
+
+
+
+    <select id="queryCancelList" resultMap="rowMapper">
+        SELECT
+        <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_online_payment
+        where
+        <![CDATA[submit_deadline<#{params.submitTimeStart}]]>
+        and payment_state=0
+    </select>
+    <select id="queryPayFailList" resultMap="rowMapper">
+        SELECT
+        <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_online_payment
+        where
+        <![CDATA[submit_deadline<#{params.submitTimeStart}]]>
+        and payment_state=1
+    </select>
+
+
+
+</mapper>
+

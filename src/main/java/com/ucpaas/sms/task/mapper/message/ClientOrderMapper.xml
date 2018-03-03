@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.ClientOrderMapper">
+     
+        
+    <resultMap id="rowMapper" type="ClientOrder">
+        <result property="subId" jdbcType="BIGINT" column="sub_id"/>
+        <result property="orderId" jdbcType="BIGINT" column="order_id"/>
+        <result property="clientId" jdbcType="VARCHAR" column="client_id"/>
+        <result property="agentId" jdbcType="INTEGER" column="agent_id"/>
+        <result property="productId" jdbcType="INTEGER" column="product_id"/>
+        <result property="productType" jdbcType="INTEGER" column="product_type"/>
+        <result property="productName" jdbcType="VARCHAR" column="product_name"/>
+        <result property="productNumber" jdbcType="INTEGER" column="product_number"/>
+        <result property="orderType" jdbcType="INTEGER" column="order_type"/>
+        <result property="status" jdbcType="INTEGER" column="status"/>
+        <result property="activePeriod" jdbcType="INTEGER" column="active_period"/>
+        <result property="quantity" jdbcType="DECIMAL" column="quantity"/>
+        <result property="remainQuantity" jdbcType="DECIMAL" column="remain_quantity"/>
+        <result property="salePrice" jdbcType="DECIMAL" column="sale_price"/>
+        <result property="productCost" jdbcType="DECIMAL" column="product_cost"/>
+        <result property="endTime" jdbcType="TIMESTAMP" column="end_time"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="effectiveTime" jdbcType="TIMESTAMP" column="effective_time"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+        <result property="auditType" jdbcType="INTEGER" column="audit_type"/>
+        <result property="auditor" jdbcType="INTEGER" column="auditor"/>
+        <result property="adminId" jdbcType="BIGINT" column="admin_id"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        sub_id,
+        order_id,
+        client_id,
+        agent_id,
+        product_id,
+        product_type,
+        product_name,
+        product_number,
+        order_type,
+        status,
+        active_period,
+        quantity,
+        remain_quantity,
+        sale_price,
+        product_cost,
+        end_time,
+        create_time,
+        effective_time,
+        update_time,
+        audit_type,
+        auditor,
+        admin_id
+    </sql>
+
+    <insert id="insert" parameterType="ClientOrder" >
+        INSERT INTO t_sms_client_order 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="subId != null" >
+                sub_id,
+            </if>
+            <if test="orderId != null" >
+                order_id,
+            </if>
+            <if test="clientId != null" >
+                client_id,
+            </if>
+            <if test="agentId != null" >
+                agent_id,
+            </if>
+            <if test="productId != null" >
+                product_id,
+            </if>
+            <if test="productType != null" >
+                product_type,
+            </if>
+            <if test="productName != null" >
+                product_name,
+            </if>
+            <if test="productNumber != null" >
+                product_number,
+            </if>
+            <if test="orderType != null" >
+                order_type,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="activePeriod != null" >
+                active_period,
+            </if>
+            <if test="quantity != null" >
+                quantity,
+            </if>
+            <if test="remainQuantity != null" >
+                remain_quantity,
+            </if>
+            <if test="salePrice != null" >
+                sale_price,
+            </if>
+            <if test="productCost != null" >
+                product_cost,
+            </if>
+            <if test="endTime != null" >
+                end_time,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="effectiveTime != null" >
+                effective_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+            <if test="auditType != null" >
+                audit_type,
+            </if>
+            <if test="auditor != null" >
+                auditor,
+            </if>
+            <if test="adminId != null" >
+                admin_id
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="subId != null" >
+                #{subId},
+            </if>
+            <if test="orderId != null" >
+                #{orderId},
+            </if>
+            <if test="clientId != null" >
+                #{clientId},
+            </if>
+            <if test="agentId != null" >
+                #{agentId},
+            </if>
+            <if test="productId != null" >
+                #{productId},
+            </if>
+            <if test="productType != null" >
+                #{productType},
+            </if>
+            <if test="productName != null" >
+                #{productName},
+            </if>
+            <if test="productNumber != null" >
+                #{productNumber},
+            </if>
+            <if test="orderType != null" >
+                #{orderType},
+            </if>
+            <if test="status != null" >
+                #{status},
+            </if>
+            <if test="activePeriod != null" >
+                #{activePeriod},
+            </if>
+            <if test="quantity != null" >
+                #{quantity},
+            </if>
+            <if test="remainQuantity != null" >
+                #{remainQuantity},
+            </if>
+            <if test="salePrice != null" >
+                #{salePrice},
+            </if>
+            <if test="productCost != null" >
+                #{productCost},
+            </if>
+            <if test="endTime != null" >
+                #{endTime},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="effectiveTime != null" >
+                #{effectiveTime},
+            </if>
+            <if test="updateTime != null" >
+                now(),
+            </if>
+            <if test="auditType != null" >
+                #{auditType},
+            </if>
+            <if test="auditor != null" >
+                #{auditor},
+            </if>
+            <if test="adminId != null" >
+                #{adminId}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_client_order (
+            sub_id,
+            order_id,
+            client_id,
+            agent_id,
+            product_id,
+            product_type,
+            product_name,
+            product_number,
+            order_type,
+            status,
+            active_period,
+            quantity,
+            remain_quantity,
+            sale_price,
+            product_cost,
+            end_time,
+            create_time,
+            effective_time,
+            update_time,
+            audit_type,
+            auditor,
+            admin_id
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.subId},
+                #{item.orderId},
+                #{item.clientId},
+                #{item.agentId},
+                #{item.productId},
+                #{item.productType},
+                #{item.productName},
+                #{item.productNumber},
+                #{item.orderType},
+                #{item.status},
+                #{item.activePeriod},
+                #{item.quantity},
+                #{item.remainQuantity},
+                #{item.salePrice},
+                #{item.productCost},
+                #{item.endTime},
+                now(),
+                #{item.effectiveTime},
+                now(),
+                #{item.auditType},
+                #{item.auditor},
+                #{item.adminId}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_client_order WHERE sub_id = #{logId} 
+    </delete>
+    
+
+    <!-- <update id="update" parameterType="ClientOrder">
+        UPDATE t_sms_client_order SET 
+            sub_id=#{subId},
+            order_id=#{orderId},
+            client_id=#{clientId},
+            agent_id=#{agentId},
+            product_id=#{productId},
+            product_type=#{productType},
+            product_name=#{productName},
+            product_number=#{productNumber},
+            order_type=#{orderType},
+            status=#{status},
+            active_period=#{activePeriod},
+            quantity=#{quantity},
+            remain_quantity=#{remainQuantity},
+            sale_price=#{salePrice},
+            product_cost=#{productCost},
+            end_time=#{endTime},
+            create_time=#{createTime},
+            effective_time=#{effectiveTime},
+            audit_type=#{auditType},
+            auditor=#{auditor},
+            admin_id=#{adminId}
+            UPDATE_TIME = now(),
+            OPERATOR_ID = #{operatorId}
+        WHERE 
+            sub_id = #{sub_id} 
+    </update> -->
+    
+    <update id="update" parameterType="ClientOrder">
+        UPDATE t_sms_client_order SET 
+            order_id=#{orderId},
+            client_id=#{clientId},
+            agent_id=#{agentId},
+            product_id=#{productId},
+            product_type=#{productType},
+            product_name=#{productName},
+            product_number=#{productNumber},
+            order_type=#{orderType},
+            status=#{status},
+            active_period=#{activePeriod},
+            quantity=#{quantity},
+            remain_quantity=#{remainQuantity},
+            sale_price=#{salePrice},
+            product_cost=#{productCost},
+            end_time=#{endTime},
+            create_time=#{createTime},
+            effective_time=#{effectiveTime},
+            update_time=#{updateTime},
+            audit_type=#{auditType},
+            auditor=#{auditor},
+            admin_id=#{adminId}
+        WHERE 
+            sub_id = #{subId} 
+    </update>
+    
+    
+    
+    
+<!-- 
+    <update id="updateStatus" parameterType="ClientOrder">
+        UPDATE t_sms_client_order 
+            <set>
+                STATUS = #{status}
+                ,UPDATE_TIME = now(),
+                OPERATOR_ID = #{operatorId}
+            </set>
+        WHERE 
+            LOG_ID = #{logId} 
+    </update>
+ -->
+ 
+    <!-- <update id="updateSelective" parameterType="ClientOrder">
+        UPDATE t_sms_client_order 
+            <set>
+                <if test="subId != null and subId != ''">
+                    sub_id = #{subId},
+                </if>
+                <if test="orderId != null and orderId != ''">
+                    order_id = #{orderId},
+                </if>
+                <if test="clientId != null and clientId != ''">
+                    client_id = #{clientId},
+                </if>
+                <if test="agentId != null and agentId != ''">
+                    agent_id = #{agentId},
+                </if>
+                <if test="productId != null and productId != ''">
+                    product_id = #{productId},
+                </if>
+                <if test="productType != null and productType != ''">
+                    product_type = #{productType},
+                </if>
+                <if test="productName != null and productName != ''">
+                    product_name = #{productName},
+                </if>
+                <if test="productNumber != null and productNumber != ''">
+                    product_number = #{productNumber},
+                </if>
+                <if test="orderType != null and orderType != ''">
+                    order_type = #{orderType},
+                </if>
+                <if test="status != null and status != ''">
+                    status = #{status},
+                </if>
+                <if test="activePeriod != null and activePeriod != ''">
+                    active_period = #{activePeriod},
+                </if>
+                <if test="quantity != null and quantity != ''">
+                    quantity = #{quantity},
+                </if>
+                <if test="remainQuantity != null and remainQuantity != ''">
+                    remain_quantity = #{remainQuantity},
+                </if>
+                <if test="salePrice != null and salePrice != ''">
+                    sale_price = #{salePrice},
+                </if>
+                <if test="productCost != null and productCost != ''">
+                    product_cost = #{productCost},
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    end_time = #{endTime},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="effectiveTime != null and effectiveTime != ''">
+                    effective_time = #{effectiveTime},
+                </if>
+                <if test="auditType != null and auditType != ''">
+                    audit_type = #{auditType},
+                </if>
+                <if test="auditor != null and auditor != ''">
+                    auditor = #{auditor},
+                </if>
+                <if test="adminId != null and adminId != ''">
+                    admin_id = #{adminId},
+                </if>
+                <if test="operatorId != null and operatorId != ''">    
+                    OPERATOR_ID = #{operatorId},
+                </if>
+                UPDATE_TIME = now()
+            </set>
+        WHERE 
+            sub_id = #{subId} 
+    </update> -->
+    
+    
+    <update id="updateSelective" parameterType="ClientOrder">
+        UPDATE t_sms_client_order 
+            <set>
+                <if test="orderId != null and orderId != ''">
+                    order_id = #{orderId},
+                </if>
+                <if test="clientId != null and clientId != ''">
+                    client_id = #{clientId},
+                </if>
+                <if test="agentId != null and agentId != ''">
+                    agent_id = #{agentId},
+                </if>
+                <if test="productId != null and productId != ''">
+                    product_id = #{productId},
+                </if>
+                <if test="productType != null and productType != ''">
+                    product_type = #{productType},
+                </if>
+                <if test="productName != null and productName != ''">
+                    product_name = #{productName},
+                </if>
+                <if test="productNumber != null and productNumber != ''">
+                    product_number = #{productNumber},
+                </if>
+                <if test="orderType != null and orderType != ''">
+                    order_type = #{orderType},
+                </if>
+                <if test="status != null and status != ''">
+                    status = #{status},
+                </if>
+                <if test="activePeriod != null and activePeriod != ''">
+                    active_period = #{activePeriod},
+                </if>
+                <if test="quantity != null and quantity != ''">
+                    quantity = #{quantity},
+                </if>
+                <if test="remainQuantity != null and remainQuantity != ''">
+                    remain_quantity = #{remainQuantity},
+                </if>
+                <if test="salePrice != null and salePrice != ''">
+                    sale_price = #{salePrice},
+                </if>
+                <if test="productCost != null and productCost != ''">
+                    product_cost = #{productCost},
+                </if>
+                <if test="endTime != null and endTime != ''">
+                    end_time = #{endTime},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="effectiveTime != null and effectiveTime != ''">
+                    effective_time = #{effectiveTime},
+                </if>
+                <if test="updateTime != null and updateTime != ''">
+                    update_time = #{updateTime},
+                </if>
+                <if test="auditType != null and auditType != ''">
+                    audit_type = #{auditType},
+                </if>
+                <if test="auditor != null and auditor != ''">
+                    auditor = #{auditor},
+                </if>
+                <if test="adminId != null and adminId != ''">
+                    admin_id = #{adminId}
+                </if>
+            </set>
+        WHERE 
+            sub_id = #{subId} 
+    </update>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_client_order
+        WHERE 
+            sub_id = #{logId}
+    </select>
+
+    <select id="queryList" parameterType="map" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_client_order 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="subId != null and subId != ''">
+                and sub_id = #{subId}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and client_id = #{clientId}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="productId != null and productId != ''">
+                and product_id = #{productId}
+            </if>
+            <if test="productType != null and productType != ''">
+                and product_type = #{productType}
+            </if>
+            <if test="productName != null and productName != ''">
+                and product_name = #{productName}
+            </if>
+            <if test="productNumber != null and productNumber != ''">
+                and product_number = #{productNumber}
+            </if>
+            <if test="orderType != null and orderType != ''">
+                and order_type = #{orderType}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="activePeriod != null and activePeriod != ''">
+                and active_period = #{activePeriod}
+            </if>
+            <if test="quantity != null and quantity != ''">
+                and quantity = #{quantity}
+            </if>
+            <if test="remainQuantity != null and remainQuantity != ''">
+                and remain_quantity = #{remainQuantity}
+            </if>
+            <if test="salePrice != null and salePrice != ''">
+                and sale_price = #{salePrice}
+            </if>
+            <if test="productCost != null and productCost != ''">
+                and product_cost = #{productCost}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and end_time = #{endTime}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="effectiveTime != null and effectiveTime != ''">
+                and effective_time = #{effectiveTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                and update_time = #{updateTime}
+            </if>
+            <if test="auditType != null and auditType != ''">
+                and audit_type = #{auditType}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and admin_id = #{adminId}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="ClientOrder" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_client_order 
+        WHERE 
+            1 = 1
+            <if test="subId != null and subId != ''">
+                and sub_id = #{subId}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and client_id = #{clientId}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="productId != null and productId != ''">
+                and product_id = #{productId}
+            </if>
+            <if test="productType != null and productType != ''">
+                and product_type = #{productType}
+            </if>
+            <if test="productName != null and productName != ''">
+                and product_name = #{productName}
+            </if>
+            <if test="productNumber != null and productNumber != ''">
+                and product_number = #{productNumber}
+            </if>
+            <if test="orderType != null and orderType != ''">
+                and order_type = #{orderType}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="activePeriod != null and activePeriod != ''">
+                and active_period = #{activePeriod}
+            </if>
+            <if test="quantity != null and quantity != ''">
+                and quantity = #{quantity}
+            </if>
+            <if test="remainQuantity != null and remainQuantity != ''">
+                and remain_quantity = #{remainQuantity}
+            </if>
+            <if test="salePrice != null and salePrice != ''">
+                and sale_price = #{salePrice}
+            </if>
+            <if test="productCost != null and productCost != ''">
+                and product_cost = #{productCost}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and end_time = #{endTime}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="effectiveTime != null and effectiveTime != ''">
+                and effective_time = #{effectiveTime}
+            </if>
+            <if test="auditType != null and auditType != ''">
+                and audit_type = #{auditType}
+            </if>
+            <if test="auditor != null and auditor != ''">
+                and auditor = #{auditor}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and admin_id = #{adminId}
+            </if>
+    </select>
+
+    <select id="getNewBuyer" resultType="string" parameterType="date">
+        SELECT
+            co.client_id AS clientid
+        FROM
+            t_sms_client_order co
+        INNER JOIN t_sms_client_balance_alarm cba ON cba.clientid = co.client_id
+        AND co.create_time &gt; cba.reset_time
+        AND co.create_time &lt;= #{checkTime}
+        WHERE
+            co.`status` IN (1, 2)
+        AND cba.alarm_number &gt; 0
+        GROUP BY co.client_id
+    </select>
+
+    <select id="getClientAlarmInfo" resultType="map">
+         SELECT
+			SUM(CASE
+				WHEN co.product_type = 0 AND co.`status` = 1 AND co.end_time > NOW() THEN co.remain_quantity
+				WHEN co.product_type = 1 AND co.`status` = 1 AND co.end_time > NOW() THEN co.remain_quantity
+				WHEN co.product_type = 3 AND co.`status` = 1 AND co.end_time > NOW() THEN co.remain_quantity
+				WHEN co.product_type = 4 AND co.`status` = 1 AND co.end_time > NOW() THEN co.remain_quantity
+				ELSE 0 END) AS remainQuantity,
+			co.product_type AS productType,
+			co.client_id AS clientId,
+			co.agent_id AS agentId,
+			cba.reminder_number AS reminderNumber,
+			cba.cc_alarm_phone AS ccAlarmPhone,
+			cba.alarm_number AS alarmNumber,
+			ai.agent_name AS agentName,
+			cba.alarm_phone AS alarmPhone,
+            cba.alarm_email AS alarmEmail
+         FROM
+             t_sms_account a
+             JOIN t_sms_agent_info ai on ai.agent_id = a.agent_id
+             JOIN t_sms_client_order co ON co.client_id = a.clientid
+             JOIN t_sms_client_balance_alarm cba ON cba.clientid = a.clientid
+         WHERE
+             a.paytype = 0
+             AND ai.agent_type in (1,2)
+             AND co.`status` IN (1, 2)
+             AND cba.reminder_number >  0
+            GROUP BY co.client_id
+    </select>
+
+</mapper>
+

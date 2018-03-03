@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.OemClientPoolMapper">
+     
+        
+    <resultMap id="rowMapper" type="OemClientPool">
+        <result property="clientPoolId" jdbcType="BIGINT" column="client_pool_id"/>
+        <result property="clientId" jdbcType="VARCHAR" column="client_id"/>
+        <result property="productType" jdbcType="INTEGER" column="product_type"/>
+        <result property="dueTime" jdbcType="TIMESTAMP" column="due_time"/>
+        <result property="status" jdbcType="INTEGER" column="status"/>
+        <result property="totalNumber" jdbcType="INTEGER" column="total_number"/>
+        <result property="remainNumber" jdbcType="INTEGER" column="remain_number"/>
+        <result property="unitPrice" jdbcType="DECIMAL" column="unit_price"/>
+        <result property="totalAmount" jdbcType="DECIMAL" column="total_amount"/>
+        <result property="remainAmount" jdbcType="DECIMAL" column="remain_amount"/>
+        <result property="remainTestNumber" jdbcType="INTEGER" column="remain_test_number"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+        <result property="remark" jdbcType="VARCHAR" column="remark"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        client_pool_id,
+        client_id,
+        product_type,
+        due_time,
+        status,
+        total_number,
+        remain_number,
+        unit_price,
+        total_amount,
+        remain_amount,
+--         remain_test_number,
+        update_time,
+        remark
+    </sql>
+
+    <insert id="insert" parameterType="OemClientPool" >
+        INSERT INTO t_sms_oem_client_pool 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="clientPoolId != null" >
+                client_pool_id,
+            </if>
+            <if test="clientId != null" >
+                client_id,
+            </if>
+            <if test="productType != null" >
+                product_type,
+            </if>
+            <if test="dueTime != null" >
+                due_time,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="totalNumber != null" >
+                total_number,
+            </if>
+            <if test="remainNumber != null" >
+                remain_number,
+            </if>
+            <if test="unitPrice != null" >
+                unit_price,
+            </if>
+            <if test="totalAmount != null" >
+                total_amount,
+            </if>
+            <if test="remainAmount != null" >
+                remain_amount,
+            </if>
+            <if test="remainTestNumber != null" >
+                remain_test_number,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+            <if test="remark != null" >
+                remark
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="clientPoolId != null" >
+                #{clientPoolId},
+            </if>
+            <if test="clientId != null" >
+                #{clientId},
+            </if>
+            <if test="productType != null" >
+                #{productType},
+            </if>
+            <if test="dueTime != null" >
+                #{dueTime},
+            </if>
+            <if test="status != null" >
+                #{status},
+            </if>
+            <if test="totalNumber != null" >
+                #{totalNumber},
+            </if>
+            <if test="remainNumber != null" >
+                #{remainNumber},
+            </if>
+            <if test="unitPrice != null" >
+                #{unitPrice},
+            </if>
+            <if test="totalAmount != null" >
+                #{totalAmount},
+            </if>
+            <if test="remainAmount != null" >
+                #{remainAmount},
+            </if>
+            <if test="remainTestNumber != null" >
+                #{remainTestNumber},
+            </if>
+            <if test="updateTime != null" >
+                now(),
+            </if>
+            <if test="remark != null" >
+                #{remark}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_oem_client_pool (
+            client_pool_id,
+            client_id,
+            product_type,
+            due_time,
+            status,
+            total_number,
+            remain_number,
+            unit_price,
+            total_amount,
+            remain_amount,
+            remain_test_number,
+            update_time,
+            remark
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.clientPoolId},
+                #{item.clientId},
+                #{item.productType},
+                #{item.dueTime},
+                #{item.status},
+                #{item.totalNumber},
+                #{item.remainNumber},
+                #{item.unitPrice},
+                #{item.totalAmount},
+                #{item.remainAmount},
+                #{item.remainTestNumber},
+                now(),
+                #{item.remark}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_oem_client_pool WHERE client_pool_id = #{logId} 
+    </delete>
+    
+
+    <!-- <update id="update" parameterType="OemClientPool">
+        UPDATE t_sms_oem_client_pool SET 
+            client_pool_id=#{clientPoolId},
+            client_id=#{clientId},
+            product_type=#{productType},
+            due_time=#{dueTime},
+            status=#{status},
+            total_number=#{totalNumber},
+            remain_number=#{remainNumber},
+            unit_price=#{unitPrice},
+            total_amount=#{totalAmount},
+            remain_amount=#{remainAmount},
+            remain_test_number=#{remainTestNumber},
+            remark=#{remark}
+            UPDATE_TIME = now(),
+            OPERATOR_ID = #{operatorId}
+        WHERE 
+            client_pool_id = #{client_pool_id} 
+    </update> -->
+    
+    <update id="update" parameterType="OemClientPool">
+        UPDATE t_sms_oem_client_pool SET 
+            client_id=#{clientId},
+            product_type=#{productType},
+            due_time=#{dueTime},
+            status=#{status},
+            total_number=#{totalNumber},
+            remain_number=#{remainNumber},
+            unit_price=#{unitPrice},
+            total_amount=#{totalAmount},
+            remain_amount=#{remainAmount},
+            remain_test_number=#{remainTestNumber},
+            update_time=#{updateTime},
+            remark=#{remark}
+        WHERE 
+            client_pool_id = #{clientPoolId} 
+    </update>
+    
+    
+    
+    
+<!-- 
+    <update id="updateStatus" parameterType="OemClientPool">
+        UPDATE t_sms_oem_client_pool 
+            <set>
+                STATUS = #{status}
+                ,UPDATE_TIME = now(),
+                OPERATOR_ID = #{operatorId}
+            </set>
+        WHERE 
+            LOG_ID = #{logId} 
+    </update>
+ -->
+ 
+    <!-- <update id="updateSelective" parameterType="OemClientPool">
+        UPDATE t_sms_oem_client_pool 
+            <set>
+                <if test="clientPoolId != null and clientPoolId != ''">
+                    client_pool_id = #{clientPoolId},
+                </if>
+                <if test="clientId != null and clientId != ''">
+                    client_id = #{clientId},
+                </if>
+                <if test="productType != null and productType != ''">
+                    product_type = #{productType},
+                </if>
+                <if test="dueTime != null and dueTime != ''">
+                    due_time = #{dueTime},
+                </if>
+                <if test="status != null and status != ''">
+                    status = #{status},
+                </if>
+                <if test="totalNumber != null and totalNumber != ''">
+                    total_number = #{totalNumber},
+                </if>
+                <if test="remainNumber != null and remainNumber != ''">
+                    remain_number = #{remainNumber},
+                </if>
+                <if test="unitPrice != null and unitPrice != ''">
+                    unit_price = #{unitPrice},
+                </if>
+                <if test="totalAmount != null and totalAmount != ''">
+                    total_amount = #{totalAmount},
+                </if>
+                <if test="remainAmount != null and remainAmount != ''">
+                    remain_amount = #{remainAmount},
+                </if>
+                <if test="remainTestNumber != null and remainTestNumber != ''">
+                    remain_test_number = #{remainTestNumber},
+                </if>
+                <if test="remark != null and remark != ''">
+                    remark = #{remark},
+                </if>
+                <if test="operatorId != null and operatorId != ''">    
+                    OPERATOR_ID = #{operatorId},
+                </if>
+                UPDATE_TIME = now()
+            </set>
+        WHERE 
+            client_pool_id = #{clientPoolId} 
+    </update> -->
+    
+    
+    <update id="updateSelective" parameterType="OemClientPool">
+        UPDATE t_sms_oem_client_pool 
+            <set>
+                <if test="clientId != null and clientId != ''">
+                    client_id = #{clientId},
+                </if>
+                <if test="productType != null and productType != ''">
+                    product_type = #{productType},
+                </if>
+                <if test="dueTime != null and dueTime != ''">
+                    due_time = #{dueTime},
+                </if>
+                <if test="status != null and status != ''">
+                    status = #{status},
+                </if>
+                <if test="totalNumber != null and totalNumber != ''">
+                    total_number = #{totalNumber},
+                </if>
+                <if test="remainNumber != null and remainNumber != ''">
+                    remain_number = #{remainNumber},
+                </if>
+                <if test="unitPrice != null and unitPrice != ''">
+                    unit_price = #{unitPrice},
+                </if>
+                <if test="totalAmount != null and totalAmount != ''">
+                    total_amount = #{totalAmount},
+                </if>
+                <if test="remainAmount != null and remainAmount != ''">
+                    remain_amount = #{remainAmount},
+                </if>
+                <if test="remainTestNumber != null and remainTestNumber != ''">
+                    remain_test_number = #{remainTestNumber},
+                </if>
+                <if test="updateTime != null and updateTime != ''">
+                    update_time = #{updateTime},
+                </if>
+                <if test="remark != null and remark != ''">
+                    remark = #{remark}
+                </if>
+            </set>
+        WHERE 
+            client_pool_id = #{clientPoolId} 
+    </update>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_oem_client_pool
+        WHERE 
+            client_pool_id = #{logId}
+    </select>
+
+    <select id="getByParams" parameterType="map" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_oem_client_pool 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="clientPoolId != null and clientPoolId != ''">
+                and client_pool_id = #{params.clientPoolId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and client_id = #{clientId}
+            </if>
+            <if test="productType != null">
+                and product_type = #{productType}
+            </if>
+            <if test="dueTime != null">
+                and due_time = #{dueTime}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="totalNumber != null and totalNumber != ''">
+                and total_number = #{totalNumber}
+            </if>
+            <if test="remainNumber != null and remainNumber != ''">
+                and remain_number = #{remainNumber}
+            </if>
+            <if test="unitPrice != null and unitPrice != ''">
+                and unit_price = #{unitPrice}
+            </if>
+            <if test="totalAmount != null and totalAmount != ''">
+                and total_amount = #{totalAmount}
+            </if>
+            <if test="remainAmount != null and remainAmount != ''">
+                and remain_amount = #{remainAmount}
+            </if>
+            <if test="remainTestNumber != null and remainTestNumber != ''">
+                and remain_test_number = #{remainTestNumber}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+	     </trim>
+        LIMIT 1
+    </select>
+
+    <select id="queryList" parameterType="map" resultMap="rowMapper">
+        SELECT
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_oem_client_pool
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.clientPoolId != null and params.clientPoolId != ''">
+                and client_pool_id = #{params.clientPoolId}
+            </if>
+            <if test="params.clientId != null and params.clientId != ''">
+                and client_id = #{params.clientId}
+            </if>
+            <if test="params.productType != null and params.productType != ''">
+                and product_type = #{params.productType}
+            </if>
+            <if test="params.dueTime != null and params.dueTime != ''">
+                and due_time = #{params.dueTime}
+            </if>
+            <if test="params.status != null and params.status != ''">
+                and status = #{params.status}
+            </if>
+            <if test="params.totalNumber != null and params.totalNumber != ''">
+                and total_number = #{params.totalNumber}
+            </if>
+            <if test="params.remainNumber != null and params.remainNumber != ''">
+                and remain_number = #{params.remainNumber}
+            </if>
+            <if test="params.unitPrice != null and params.unitPrice != ''">
+                and unit_price = #{params.unitPrice}
+            </if>
+            <if test="params.totalAmount != null and params.totalAmount != ''">
+                and total_amount = #{params.totalAmount}
+            </if>
+            <if test="params.remainAmount != null and params.remainAmount != ''">
+                and remain_amount = #{params.remainAmount}
+            </if>
+            <if test="params.remainTestNumber != null and params.remainTestNumber != ''">
+                and remain_test_number = #{params.remainTestNumber}
+            </if>
+            <if test="params.updateTime != null and params.updateTime != ''">
+                and update_time = #{params.updateTime}
+            </if>
+            <if test="params.remark != null and params.remark != ''">
+                and remark = #{params.remark}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="OemClientPool" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_oem_client_pool 
+        WHERE 
+            1 = 1
+            <if test="clientPoolId != null and clientPoolId != ''">
+                and client_pool_id = #{clientPoolId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and client_id = #{clientId}
+            </if>
+            <if test="productType != null and productType != ''">
+                and product_type = #{productType}
+            </if>
+            <if test="dueTime != null and dueTime != ''">
+                and due_time = #{dueTime}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="totalNumber != null and totalNumber != ''">
+                and total_number = #{totalNumber}
+            </if>
+            <if test="remainNumber != null and remainNumber != ''">
+                and remain_number = #{remainNumber}
+            </if>
+            <if test="unitPrice != null and unitPrice != ''">
+                and unit_price = #{unitPrice}
+            </if>
+            <if test="totalAmount != null and totalAmount != ''">
+                and total_amount = #{totalAmount}
+            </if>
+            <if test="remainAmount != null and remainAmount != ''">
+                and remain_amount = #{remainAmount}
+            </if>
+            <if test="remainTestNumber != null and remainTestNumber != ''">
+                and remain_test_number = #{remainTestNumber}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+    </select>
+	 
+</mapper>
+

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 每月报表 -->
+<mapper namespace="sendReprotMonth">
+
+	<select id="queryAgentIdListByAgentType" resultType="map">
+    	SELECT 
+    		`agent_id`
+    	FROM 
+    		t_sms_agent_info 
+    	WHERE
+    		agent_type IN
+    		<foreach collection="agentTypeList" item="item" open="(" separator="," close=")">
+    			#{item}
+    		</foreach>
+    		<if test="notSendAgentIdList != null">
+    			AND agent_id NOT IN
+    			<foreach collection="notSendAgentIdList" item="item" open="(" separator="," close=")">
+    				#{item}
+    			</foreach>
+    		</if>
+    		and status != 6 <!-- 注销不发送邮件 -->
+    		and oauth_status = 3 <!-- 待认证、认证不通过不发送邮件 -->
+    		and date_format(oauth_date, '%Y%m') <![CDATA[ <= ]]> #{lastDate} <!-- 认证时间也要是上一个月 -->
+    </select>
+    
+    <select id="queryAgentIDListByType" resultType="map">
+    	SELECT 
+    		agent_id
+    	FROM 
+    		t_sms_agent_info 
+    	WHERE 
+    		agent_type = #{agent_type}
+    		and status != 6 <!-- 注销不发送邮件 -->
+    		and oauth_status = 3 <!-- 待认证、认证不通过不发送邮件 -->
+    		and date_format(oauth_date, '%Y%m') <![CDATA[ <= ]]> #{lastDate}
+    </select>
+    
+    <select id="queryAgentInfoByAgentId" resultType="map">
+    	SELECT 
+    		`agent_id`,
+			`admin_id`,
+			`agent_name`,
+			`shorter_name`,
+			`agent_type`,
+			`status`,
+			`oauth_status`,
+			`oauth_date`,
+			`address`,
+			`company`,
+			`company_nbr`,
+			`mobile`,
+			`create_time`,
+			`update_time`,
+			`remark`,
+			`rebate_use_radio`
+    	FROM 
+    		t_sms_agent_info
+    	WHERE 
+    		agent_id = #{agent_id}
+    </select>
+    
+    
+    <!-- 从统计表查出发送条数和客户实际消耗金额(客户购买价) -->
+    <select id="queryBillDataForAgent_1" resultType="map">
+    	SELECT 
+    		IFNULL(sum(chargetotal),0) AS total_chargetotal,
+    		ROUND(IFNULL(sum(salefee),0)/1000,2) AS total_salefee
+    	FROM 
+    		t_sms_access_channel_statistics t 
+    	WHERE 
+    		t.agent_id = #{agent_id} 
+    	AND t.stattype = 0 
+    	AND t.date LIKE '${last_month_str}%'
+    	AND t.product_type in(0,1,2,7,8,9) <!-- 跟代理商平台保持一致 -->
+    	GROUP BY t.agent_id
+    </select>
+    
+    <select id="queryBillDataForClient_1" resultType="map">
+    	SELECT 
+    		IFNULL(sum(chargetotal),0) AS total_chargetotal,
+    		ROUND(IFNULL(sum(salefee),0)/1000,2) AS total_salefee
+    	FROM 
+    		t_sms_access_channel_statistics t 
+    	WHERE 
+    		t.clientid = #{client_id} 
+    	AND t.stattype = 0 
+    	AND t.date LIKE '${last_month_str}%'
+    	AND t.product_type in(0,1,2,7,8,9) <!-- 跟代理商平台保持一致 -->
+    	GROUP BY t.clientid
+    </select>
+    
+    <!-- 从订单表里面查询剩余条数/剩余量 -->
+    <select id="queryBillDataForAgent_2" resultType="map">
+    	SELECT 
+    		sum(remain_quantity) as total_remain_quantity
+    	FROM 
+    		t_sms_client_order t 
+    	WHERE 
+    		t.agent_id = #{agent_id}
+    	AND t.product_type IN
+    	<foreach collection="product_type_list" item="item" open="(" separator="," close=")">
+ 			#{item}   	
+    	</foreach>
+    	and t.status = 1 <!-- 订单生效 -->
+    	and date_format(t.effective_time, '%Y%m') <![CDATA[ <= ]]> #{lastDate} <!-- 生效时间小于等于上一个月 -->
+    	GROUP BY t.agent_id
+    </select>
+    
+    <select id="queryBillDataForClient_2" resultType="map">
+    	SELECT 
+    		sum(remain_quantity) as total_remain_quantity
+    	FROM 
+    		t_sms_client_order t 
+    	WHERE 
+    		t.client_id = #{client_id}
+    	AND t.product_type IN
+    	<foreach collection="product_type_list" item="item" open="(" separator="," close=")">
+ 			#{item}   	
+    	</foreach>
+    	and t.status = 1 <!-- 订单生效 -->
+    	and date_format(t.effective_time, '%Y%m') <![CDATA[ <= ]]> #{lastDate}
+    	GROUP BY t.client_id
+    </select>
+    
+    
+    <!-- 从统计表查询代理商统计发送量 -->
+    <select id="queryBillDataForAgent_3" resultType="map">
+    	SELECT 
+    		SUM(t.chargetotal) as chargetotal,
+    		SUM(t.chargetotal) as date_value,
+    		STR_TO_DATE(CONCAT("",t.date),'%Y%m%d') as date <!-- 2016-09-10 -->
+    	FROM 
+    		t_sms_access_channel_statistics t 
+    	WHERE 
+    		t.agent_id = #{agent_id} 
+    	AND t.stattype = 0 
+    	AND t.date LIKE '${last_month_str}%'
+    	GROUP BY t.date
+    </select>
+    
+    <!-- 从统计表查询客户发送统计发送量 -->
+    <select id="queryBillDataForClient_3" resultType="map">
+    	SELECT 
+    		SUM(t.chargetotal) as chargetotal,
+    		SUM(t.chargetotal) as date_value,
+    		STR_TO_DATE(CONCAT("",t.date),'%Y%m%d') as date <!-- 2016-09-10 -->
+    	FROM 
+    		t_sms_access_channel_statistics t 
+    	WHERE 
+    		t.clientid = #{client_id}
+    	AND t.stattype = 0 
+    	AND t.date LIKE '${last_month_str}%'
+    	GROUP BY t.date
+    </select>
+    
+    <!-- 从统计表查看代理商短信发送金额 -->
+    <select id="queryBillDataForAgent_4" resultType="map">
+    	SELECT 
+    		ROUND(SUM(t.salefee)/1000,2) as salefee,
+    		ROUND(SUM(t.salefee)/1000,2) as date_value,
+    		STR_TO_DATE(CONCAT("",t.date),'%Y%m%d') as date <!-- 2016-09-10 -->
+    	FROM 
+    		t_sms_access_channel_statistics t 
+    	WHERE 
+    		t.agent_id = #{agent_id} 
+    	AND t.stattype = 0 
+    	AND t.date LIKE '${last_month_str}%'
+    	GROUP BY t.date
+    </select>
+    
+    <select id="queryBillDataForClient_4" resultType="map">
+    	SELECT 
+    		ROUND(SUM(t.salefee)/1000,2) as salefee,
+    		ROUND(SUM(t.salefee)/1000,2) as date_value,
+    		STR_TO_DATE(CONCAT("",t.date),'%Y%m%d') as date <!-- 2016-09-10 -->
+    	FROM 
+    		t_sms_access_channel_statistics t 
+    	WHERE 
+    		t.clientid = #{client_id} 
+    	AND t.stattype = 0 
+    	AND t.date LIKE '${last_month_str}%'
+    	GROUP BY t.date
+    </select>
+    
+    <select id="queryAgentClientIdListByAgentId" resultType="string">
+    	SELECT 
+    		DISTINCT t.clientid as client_id
+    	FROM 
+    		t_sms_account t 
+    	WHERE 
+    		t.agent_id = #{agent_id}
+    		AND 
+    		t.clientid not in('a00101','a00102','a00103','a00104','a00105','a00106') <!-- 大客户a00101-a00106不发送邮件，也不计算百分比 -->
+    		and t.status != 6  <!-- 注销不发送邮件 -->
+    		and t.oauth_status = 3 <!-- 待认证、认证不通过不发送邮件 -->
+    		and date_format(t.oauth_date, '%Y%m') <![CDATA[ <= ]]> #{lastDate}
+    		<if test="notSendClientIdList != null">
+    			and t.clientid not in
+    			<foreach collection="notSendClientIdList" item="item" open="(" separator="," close=")">
+    				#{item}
+    			</foreach>
+    		</if>
+    </select>
+    
+    <select id="queryAgentClientIdMapByAgentId" resultType="map">
+    	SELECT 
+    		DISTINCT t.clientid as client_id
+    	FROM 
+    		t_sms_account t 
+    	WHERE 
+    		t.agent_id = #{agent_id}
+    		AND 
+    		t.clientid not in('a00101','a00102','a00103','a00104','a00105','a00106') <!-- 大客户a00101-a00106不发送邮件，也不计算百分比 -->
+    		and t.status != 6  <!-- 注销不发送邮件 -->
+    		and t.oauth_status = 3 <!-- 待认证、认证不通过不发送邮件 -->
+    		and date_format(t.oauth_date, '%Y%m') <![CDATA[ <= ]]> #{lastDate}
+    		<if test="notSendClientIdList != null">
+    			and t.clientid not in
+    			<foreach collection="notSendClientIdList" item="item" open="(" separator="," close=")">
+    				#{item}
+    			</foreach>
+    		</if>
+    </select>
+    
+    
+    
+    <select id="queryLastMonthChargetotalForAgentOne" resultType="map">
+    	SELECT
+			t.agent_id,
+			sum(t.chargetotal) as total_chargetotal
+		FROM
+			`t_sms_access_channel_statistics` t
+		WHERE
+			t.stattype = 0
+		AND t.date LIKE '${last_month_str}%'
+		AND t.agent_id = #{agent_id}
+		GROUP BY t.agent_id
+    </select> 
+    
+    <select id="queryLastMonthChargetotalForClientOne" resultType="map">
+    	SELECT
+			t.clientid,
+			sum(t.chargetotal) as total_chargetotal
+		FROM
+			`t_sms_access_channel_statistics` t
+		WHERE
+			t.stattype = 0
+		AND t.date LIKE '${last_month_str}%'
+		AND t.clientid = #{client_id}
+		GROUP BY t.clientid
+    </select> 
+    
+    <select id="queryLastMonthChargetotalForAgentAll" resultType="map">
+    	SELECT
+			t.agent_id,
+			sum(t.chargetotal) as total_chargetotal
+		FROM
+			`t_sms_access_channel_statistics` t
+		WHERE
+			t.stattype = 0
+		AND t.date LIKE '${last_month_str}%'
+		AND t.agent_id IN
+		<foreach collection="idList" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		GROUP BY t.agent_id
+    </select>
+    
+    <select id="queryLastMonthChargetotalForClientAll" resultType="map">
+    	SELECT
+			t.clientid as client_id,
+			sum(t.chargetotal) as total_chargetotal
+		FROM
+			`t_sms_access_channel_statistics` t
+		WHERE
+			t.stattype = 0
+		AND t.date LIKE '${last_month_str}%'
+		AND t.clientid IN
+		<foreach collection="idList" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		GROUP BY t.clientid
+    </select>
+    
+    
+    <select id="queryLoginMailByAgentID" resultType="string">
+    	SELECT 
+    		u.email 
+    	FROM 
+    		t_sms_agent_info ai, t_sms_user u 
+    	WHERE 
+    		ai.admin_id = u.id 
+    	AND ai.agent_id = #{agent_id}
+    </select>
+    
+    <select id="queryLoginMailByClientId" resultType="string">
+    	SELECT 
+    		email
+    	FROM 
+    		t_sms_account
+    	WHERE 
+    		clientid = #{client_id}
+    </select>
+    
+    <select id="queryPaytypeByClientId" resultType="string">
+    	select
+    		paytype
+    	from 
+    		t_sms_account
+    	where
+    		clientid = #{client_id}
+    </select>
+    
+    <insert id="insertCancelSubscribeRecord">
+		INSERT INTO t_sms_cancel_subscribe_record(
+			type,
+			agent_id,
+			client_id,
+			flag
+		)values(
+			#{type},
+			#{agent_id},
+			#{client_id},
+			#{flag}
+		)
+	</insert>
+	
+	<select id="queryCancelSubscribeAgentIdList" resultType="string">
+    	SELECT 
+    		agent_id
+    	FROM 
+    		t_sms_cancel_subscribe_record
+    	WHERE 
+    		type = 0
+    		and 
+    		flag = 1
+    </select>
+	
+	<select id="queryCancelSubscribeClientIdList" resultType="string">
+    	SELECT 
+    		client_id
+    	FROM 
+    		t_sms_cancel_subscribe_record
+    	WHERE 
+    		type = 1
+    		and 
+    		flag = 1
+    </select>
+    
+    <select id="querySendMailClickStatisticsNum" resultType="int">
+    	SELECT 
+    		COUNT(id)
+    	FROM t_sms_send_mail_click_statistics
+    	WHERE 
+    		type = #{type}
+    	AND data_date = #{data_date}
+    </select>
+    
+    <insert id="insertSendMailClickStatisticsNum">
+    	INSERT INTO `t_sms_send_mail_click_statistics` (
+			`type`,
+			`send_date`,
+			`data_date`,
+			`title`,
+			`send_quantity`,
+			`click_quantity`,
+			`click_rate`
+		)
+		VALUES
+			(
+				#{type},
+				#{send_date},
+				#{data_date},
+				#{title},
+				#{send_quantity},
+				#{click_quantity},
+				#{click_rate}
+			);
+    </insert>
+    
+    
+    <select id="querySendMailClickStatistics" resultType="map">
+    	SELECT 
+    		send_quantity,
+    		click_quantity
+    	FROM 
+    		t_sms_send_mail_click_statistics 
+    	WHERE 
+    		type = #{type} 
+    	AND data_date = #{data_date}
+    </select>
+    
+    
+    <update id="updateSendMailClickStatisticsForSendMail">
+    	UPDATE 
+    		t_sms_send_mail_click_statistics
+		SET 
+			send_quantity = #{send_quantity},
+			click_rate = #{click_rate}
+		WHERE
+			type = #{type}
+		AND data_date = #{data_date}
+    </update>
+    
+    <delete id="deleteLastMonthStatistics">
+    	DELETE FROM
+    		t_sms_send_mail_click_statistics 
+    	WHERE
+    		data_date = #{data_date}
+    </delete>
+    
+    <delete id="deleteClickRecord">
+    	DELETE FROM
+    		t_sms_mail_click_record
+    	WHERE
+    		date = #{data_date}
+    </delete>
+    
+    <select id="queryMailClickRecord" resultType="int">
+    	SELECT 
+    		COUNT(id) 
+    	FROM 
+    		t_sms_mail_click_record 
+    	WHERE 
+	    	type = #{type} 
+	    	AND date = #{date}
+    	<if test="agent_id != null">
+    		AND agent_id = #{agent_id}
+    	</if>
+    	<if test="client_id != null">
+    		AND client_id = #{client_id}
+    	</if>
+    </select>
+    
+    <insert id="insertMailClickRecord">
+    	INSERT INTO `t_sms_mail_click_record` (
+			`type`,
+			`agent_id`,
+			`client_id`,
+			`date`
+		)
+		VALUES
+			(
+			#{type},
+			#{agent_id},
+			#{client_id},
+			#{date}
+			)
+    </insert>
+	
+	<select id="querySmsMailprop" resultType="map">
+    	SELECT 
+    		frm,
+    		tonbr,
+    		subject,
+    		text,
+    		type
+    	FROM 
+    		t_sms_mailprop
+    	WHERE 
+    		id = #{id}
+    </select>
+	
+</mapper>

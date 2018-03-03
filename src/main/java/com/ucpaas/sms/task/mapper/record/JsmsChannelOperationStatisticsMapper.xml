@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.record.JsmsChannelOperationStatisticsMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.record.JsmsChannelOperationStatistics">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="channelId" jdbcType="INTEGER" column="channel_id"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="submitTotal" jdbcType="INTEGER" column="submit_total"/>
+        <result property="reportsuccess" jdbcType="INTEGER" column="reportsuccess"/>
+        <result property="sendSuccessRatio" jdbcType="DECIMAL" column="send_success_ratio"/>
+        <result property="lowConsumeNumber" jdbcType="DECIMAL" column="low_consume_number"/>
+        <result property="lowConsumeRatio" jdbcType="DECIMAL" column="low_consume_ratio"/>
+        <result property="complaintNumber" jdbcType="INTEGER" column="complaint_number"/>
+        <result property="complaintRatio" jdbcType="DECIMAL" column="complaint_ratio"/>
+        <result property="complaintCoefficient" jdbcType="DECIMAL" column="complaint_coefficient"/>
+        <result property="complaintDifference" jdbcType="DECIMAL" column="complaint_difference"/>
+        <result property="costprice" jdbcType="DECIMAL" column="costprice"/>
+        <result property="belongBusiness" jdbcType="BIGINT" column="belong_business"/>
+        <result property="ownerType" jdbcType="INTEGER" column="owner_type"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        channel_id,
+        operatorstype,
+        submit_total,
+        reportsuccess,
+        send_success_ratio,
+        low_consume_number,
+        low_consume_ratio,
+        complaint_number,
+        complaint_ratio,
+        complaint_coefficient,
+        complaint_difference,
+        costprice,
+        belong_business,
+        owner_type,
+        date,
+        update_time
+    </sql>
+    <update id="updateSelectiveByDate" parameterType="com.ucpaas.sms.task.entity.record.JsmsChannelOperationStatistics" >
+        UPDATE t_sms_channel_operation_statistics
+        <set>
+
+            <if test="operatorstype != null">
+                operatorstype = #{operatorstype},
+            </if>
+            <if test="submitTotal != null">
+                submit_total = #{submitTotal},
+            </if>
+            <if test="reportsuccess != null">
+                reportsuccess = #{reportsuccess},
+            </if>
+            <if test="sendSuccessRatio != null">
+                send_success_ratio = #{sendSuccessRatio},
+            </if>
+            <if test="lowConsumeNumber != null">
+                low_consume_number = #{lowConsumeNumber},
+            </if>
+            <if test="lowConsumeRatio != null">
+                low_consume_ratio = #{lowConsumeRatio},
+            </if>
+            <if test="complaintNumber != null">
+                complaint_number = #{complaintNumber},
+            </if>
+            <if test="complaintRatio != null">
+                complaint_ratio = #{complaintRatio},
+            </if>
+            <if test="complaintCoefficient != null">
+                complaint_coefficient = #{complaintCoefficient},
+            </if>
+            <if test="complaintDifference != null">
+                complaint_difference = #{complaintDifference},
+            </if>
+            <if test="costprice != null">
+                costprice = #{costprice},
+            </if>
+            <if test="belongBusiness != null">
+                belong_business = #{belongBusiness},
+            </if>
+            <if test="ownerType != null">
+                owner_type = #{ownerType},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        WHERE
+        date = #{date} and channel_id = #{channelId}
+    </update>
+
+
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.record.JsmsChannelOperationStatistics" >
+        INSERT INTO t_sms_channel_operation_statistics 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="channelId != null" >
+                channel_id,
+            </if>
+            <if test="operatorstype != null" >
+                operatorstype,
+            </if>
+            <if test="submitTotal != null" >
+                submit_total,
+            </if>
+            <if test="reportsuccess != null" >
+                reportsuccess,
+            </if>
+            <if test="sendSuccessRatio != null" >
+                send_success_ratio,
+            </if>
+            <if test="lowConsumeNumber != null" >
+                low_consume_number,
+            </if>
+            <if test="lowConsumeRatio != null" >
+                low_consume_ratio,
+            </if>
+            <if test="complaintNumber != null" >
+                complaint_number,
+            </if>
+            <if test="complaintRatio != null" >
+                complaint_ratio,
+            </if>
+            <if test="complaintCoefficient != null" >
+                complaint_coefficient,
+            </if>
+            <if test="complaintDifference != null" >
+                complaint_difference,
+            </if>
+            <if test="costprice != null" >
+                costprice,
+            </if>
+            <if test="belongBusiness != null" >
+                belong_business,
+            </if>
+            <if test="ownerType != null" >
+                owner_type,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="updateTime != null" >
+                update_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="channelId != null" >
+                #{channelId},
+            </if>
+            <if test="operatorstype != null" >
+                #{operatorstype},
+            </if>
+            <if test="submitTotal != null" >
+                #{submitTotal},
+            </if>
+            <if test="reportsuccess != null" >
+                #{reportsuccess},
+            </if>
+            <if test="sendSuccessRatio != null" >
+                #{sendSuccessRatio},
+            </if>
+            <if test="lowConsumeNumber != null" >
+                #{lowConsumeNumber},
+            </if>
+            <if test="lowConsumeRatio != null" >
+                #{lowConsumeRatio},
+            </if>
+            <if test="complaintNumber != null" >
+                #{complaintNumber},
+            </if>
+            <if test="complaintRatio != null" >
+                #{complaintRatio},
+            </if>
+            <if test="complaintCoefficient != null" >
+                #{complaintCoefficient},
+            </if>
+            <if test="complaintDifference != null" >
+                #{complaintDifference},
+            </if>
+            <if test="costprice != null" >
+                #{costprice},
+            </if>
+            <if test="belongBusiness != null" >
+                #{belongBusiness},
+            </if>
+            <if test="ownerType != null" >
+                #{ownerType},
+            </if>
+            <if test="date != null" >
+                #{date},
+            </if>
+            <if test="updateTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_channel_operation_statistics (
+            id,
+            channel_id,
+            operatorstype,
+            submit_total,
+            reportsuccess,
+            send_success_ratio,
+            low_consume_number,
+            low_consume_ratio,
+            complaint_number,
+            complaint_ratio,
+            complaint_coefficient,
+            complaint_difference,
+            costprice,
+            belong_business,
+            owner_type,
+            date,
+            update_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.channelId},
+                #{item.operatorstype},
+                #{item.submitTotal},
+                #{item.reportsuccess},
+                #{item.sendSuccessRatio},
+                #{item.lowConsumeNumber},
+                #{item.lowConsumeRatio},
+                #{item.complaintNumber},
+                #{item.complaintRatio},
+                #{item.complaintCoefficient},
+                #{item.complaintDifference},
+                #{item.costprice},
+                #{item.belongBusiness},
+                #{item.ownerType},
+                #{item.date},
+                now()
+            )
+        </foreach>
+    </insert>
+    
+
+    
+
+    <!--
+    <delete id="delete">
+        DELETE FROM t_sms_channel_operation_statistics WHERE id = #{id}
+    </delete>
+    -->
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.record.JsmsChannelOperationStatistics" >
+        UPDATE t_sms_channel_operation_statistics SET 
+            channel_id=#{channelId},
+            operatorstype=#{operatorstype},
+            submit_total=#{submitTotal},
+            reportsuccess=#{reportsuccess},
+            send_success_ratio=#{sendSuccessRatio},
+            low_consume_number=#{lowConsumeNumber},
+            low_consume_ratio=#{lowConsumeRatio},
+            complaint_number=#{complaintNumber},
+            complaint_ratio=#{complaintRatio},
+            complaint_coefficient=#{complaintCoefficient},
+            complaint_difference=#{complaintDifference},
+            costprice=#{costprice},
+            belong_business=#{belongBusiness},
+            owner_type=#{ownerType},
+            date=#{date},
+            update_time=#{updateTime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.record.JsmsChannelOperationStatistics" >
+        UPDATE t_sms_channel_operation_statistics 
+            <set>
+                <if test="channelId != null">
+                    channel_id = #{channelId},
+                </if>
+                <if test="operatorstype != null">
+                    operatorstype = #{operatorstype},
+                </if>
+                <if test="submitTotal != null">
+                    submit_total = #{submitTotal},
+                </if>
+                <if test="reportsuccess != null">
+                    reportsuccess = #{reportsuccess},
+                </if>
+                <if test="sendSuccessRatio != null">
+                    send_success_ratio = #{sendSuccessRatio},
+                </if>
+                <if test="lowConsumeNumber != null">
+                    low_consume_number = #{lowConsumeNumber},
+                </if>
+                <if test="lowConsumeRatio != null">
+                    low_consume_ratio = #{lowConsumeRatio},
+                </if>
+                <if test="complaintNumber != null">
+                    complaint_number = #{complaintNumber},
+                </if>
+                <if test="complaintRatio != null">
+                    complaint_ratio = #{complaintRatio},
+                </if>
+                <if test="complaintCoefficient != null">
+                    complaint_coefficient = #{complaintCoefficient},
+                </if>
+                <if test="complaintDifference != null">
+                    complaint_difference = #{complaintDifference},
+                </if>
+                <if test="costprice != null">
+                    costprice = #{costprice},
+                </if>
+                <if test="belongBusiness != null">
+                    belong_business = #{belongBusiness},
+                </if>
+                <if test="ownerType != null">
+                    owner_type = #{ownerType},
+                </if>
+                <if test="date != null">
+                    date = #{date},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_channel_operation_statistics
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryList" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_channel_operation_statistics 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.channelId != null">
+                and channel_id = #{params.channelId}
+            </if>
+            <if test="params.operatorstype != null">
+                and operatorstype = #{params.operatorstype}
+            </if>
+            <if test="params.submitTotal != null">
+                and submit_total = #{params.submitTotal}
+            </if>
+            <if test="params.reportsuccess != null">
+                and reportsuccess = #{params.reportsuccess}
+            </if>
+            <if test="params.sendSuccessRatio != null">
+                and send_success_ratio = #{params.sendSuccessRatio}
+            </if>
+            <if test="params.lowConsumeNumber != null">
+                and low_consume_number = #{params.lowConsumeNumber}
+            </if>
+            <if test="params.lowConsumeRatio != null">
+                and low_consume_ratio = #{params.lowConsumeRatio}
+            </if>
+            <if test="params.complaintNumber != null">
+                and complaint_number = #{params.complaintNumber}
+            </if>
+            <if test="params.complaintRatio != null">
+                and complaint_ratio = #{params.complaintRatio}
+            </if>
+            <if test="params.complaintCoefficient != null">
+                and complaint_coefficient = #{params.complaintCoefficient}
+            </if>
+            <if test="params.complaintDifference != null">
+                and complaint_difference = #{params.complaintDifference}
+            </if>
+            <if test="params.costprice != null">
+                and costprice = #{params.costprice}
+            </if>
+            <if test="params.belongBusiness != null">
+                and belong_business = #{params.belongBusiness}
+            </if>
+            <if test="params.ownerType != null">
+                and owner_type = #{params.ownerType}
+            </if>
+            <if test="params.date != null">
+                and date = #{params.date}
+            </if>
+            <if test="params.updateTime != null">
+                and update_time = #{params.updateTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="findList" resultMap="rowMapper">
+        SELECT
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_channel_operation_statistics
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="channelId != null">
+                and channel_id = #{channelId}
+            </if>
+            <if test="operatorstype != null">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="submitTotal != null">
+                and submit_total = #{submitTotal}
+            </if>
+            <if test="reportsuccess != null">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="sendSuccessRatio != null">
+                and send_success_ratio = #{sendSuccessRatio}
+            </if>
+            <if test="lowConsumeNumber != null">
+                and low_consume_number = #{lowConsumeNumber}
+            </if>
+            <if test="lowConsumeRatio != null">
+                and low_consume_ratio = #{lowConsumeRatio}
+            </if>
+            <if test="complaintNumber != null">
+                and complaint_number = #{complaintNumber}
+            </if>
+            <if test="complaintRatio != null">
+                and complaint_ratio = #{complaintRatio}
+            </if>
+            <if test="complaintCoefficient != null">
+                and complaint_coefficient = #{complaintCoefficient}
+            </if>
+            <if test="complaintDifference != null">
+                and complaint_difference = #{complaintDifference}
+            </if>
+            <if test="costprice != null">
+                and costprice = #{costprice}
+            </if>
+            <if test="belongBusiness != null">
+                and belong_business = #{belongBusiness}
+            </if>
+            <if test="ownerType != null">
+                and owner_type = #{ownerType}
+            </if>
+            <if test="date != null">
+                and date = #{date}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_channel_operation_statistics 
+        WHERE 
+            1 = 1
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="channelId != null">
+                and channel_id = #{channelId}
+            </if>
+            <if test="operatorstype != null">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="submitTotal != null">
+                and submit_total = #{submitTotal}
+            </if>
+            <if test="reportsuccess != null">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="sendSuccessRatio != null">
+                and send_success_ratio = #{sendSuccessRatio}
+            </if>
+            <if test="lowConsumeNumber != null">
+                and low_consume_number = #{lowConsumeNumber}
+            </if>
+            <if test="lowConsumeRatio != null">
+                and low_consume_ratio = #{lowConsumeRatio}
+            </if>
+            <if test="complaintNumber != null">
+                and complaint_number = #{complaintNumber}
+            </if>
+            <if test="complaintRatio != null">
+                and complaint_ratio = #{complaintRatio}
+            </if>
+            <if test="complaintCoefficient != null">
+                and complaint_coefficient = #{complaintCoefficient}
+            </if>
+            <if test="complaintDifference != null">
+                and complaint_difference = #{complaintDifference}
+            </if>
+            <if test="costprice != null">
+                and costprice = #{costprice}
+            </if>
+            <if test="belongBusiness != null">
+                and belong_business = #{belongBusiness}
+            </if>
+            <if test="ownerType != null">
+                and owner_type = #{ownerType}
+            </if>
+            <if test="date != null">
+                and date = #{date}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+    </select>
+
+    <select id="getCostfee" resultType="java.math.BigDecimal">
+        select costfee from t_sms_record_${identify}_${date} where channelid=#{channelid} limit 0,1
+    </select>
+	 
+</mapper>
+

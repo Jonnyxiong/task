@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 短信报表统计 -->
+<mapper namespace="smsReportStat">
+	
+	<!-- 每日数据统计：每个客户在每个通道下面的明细数据(不包括通道0) -->
+	<select id="getDailyDetail" resultType="map">
+		SELECT
+			t.agent_id,
+			t.clientid,
+			t.username,
+			t.sid,
+			t.paytype,
+		    t.operatorstype,
+			t.channelid,
+			t.channelremark AS remark,
+			<!-- chargeTotal = 1 + 3 + 4 + 6-->
+			SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.reportfail) AS chargeTotal,
+			SUM(overrate_charge_total) AS overrate_charge_total,
+			t.product_type,
+			t.sub_id,
+			SUM(t.submitsuccess * t.costfee) + SUM(t.reportsuccess * t.costfee) + SUM(t.submitfail * t.costfee) + SUM(t.reportfail * t.costfee) AS costfee,
+			SUM(t.submitsuccess * t.salefee) + SUM(t.reportsuccess * t.salefee) + SUM(t.submitfail * t.salefee) + SUM(t.reportfail * t.salefee) AS salefee,
+			SUM(t.submitsuccess * t.productfee) + SUM(t.reportsuccess * t.productfee) + SUM(t.submitfail * t.productfee) + SUM(t.reportfail * t.productfee) AS productfee,
+			<!-- usersmstotal = 0 + 1 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 -->
+			SUM(t.notsend) + SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.subretfail) + SUM(t.reportfail) + SUM(t.auditfail)
+			+ SUM(t.recvintercept) + SUM(t.sendintercept) + SUM(t.overrateintercept) AS usersmstotal,
+			<!-- sendtotal = 1 + 3 + 6 -->
+			SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.reportfail) AS sendtotal,
+			SUM(t.notsend) AS notsend,
+			SUM(t.submitsuccess) AS submitsuccess,
+			SUM(t.reportsuccess) AS reportsuccess,
+			SUM(t.submitfail) AS submitfail,
+			SUM(t.subretfail) AS subretfail,
+			SUM(t.reportfail) AS reportfail,
+			SUM(t.auditfail) AS auditfail,
+			SUM(t.recvintercept) AS recvintercept,
+			SUM(t.sendintercept) AS sendintercept,
+			SUM(t.overrateintercept) AS overrateintercept,
+			0 AS stattype,
+			t.date AS date,
+			NOW() AS createtime <!-- createtime -->
+		FROM t_sms_customer_stat_temp t
+		WHERE channelid != 0
+		GROUP BY t.clientid,t.product_type, t.channelid, t.paytype
+	</select>
+	<!-- 昨日日数据统计：每个客户在每个通道下面的明细数据(不包括通道0) -->
+	<select id="getDailyDetailYesterday" resultType="map">
+		SELECT
+			t.agent_id,
+			t.clientid,
+			t.username,
+			t.sid,
+			t.paytype,
+		    t.operatorstype,
+			t.channelid,
+			t.channelremark AS remark,
+			SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.reportfail) AS chargeTotal,
+			SUM(overrate_charge_total) AS overrate_charge_total,
+			t.product_type,
+			t.sub_id,
+			SUM(t.submitsuccess * t.costfee) + SUM(t.reportsuccess * t.costfee) + SUM(t.submitfail * t.costfee) + SUM(t.reportfail * t.costfee) AS costfee,
+			SUM(t.submitsuccess * t.salefee) + SUM(t.reportsuccess * t.salefee) + SUM(t.submitfail * t.salefee) + SUM(t.reportfail * t.salefee) AS salefee,
+			SUM(t.submitsuccess * t.productfee) + SUM(t.reportsuccess * t.productfee) + SUM(t.submitfail * t.productfee) + SUM(t.reportfail * t.productfee) AS productfee,
+			<!-- usersmstotal = 0 + 1 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10 -->
+			SUM(t.notsend) + SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.subretfail) + SUM(t.reportfail) + SUM(t.auditfail)
+			+ SUM(t.recvintercept) + SUM(t.sendintercept) + SUM(t.overrateintercept) AS usersmstotal,
+			<!-- sendtotal = 1 + 3 + 6 -->
+			SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.reportfail) AS sendtotal,
+			SUM(t.notsend) AS notsend,
+			SUM(t.submitsuccess) AS submitsuccess,
+			SUM(t.reportsuccess) AS reportsuccess,
+			SUM(t.submitfail) AS submitfail,
+			SUM(t.subretfail) AS subretfail,
+			SUM(t.reportfail) AS reportfail,
+			SUM(t.auditfail) AS auditfail,
+			SUM(t.recvintercept) AS recvintercept,
+			SUM(t.sendintercept) AS sendintercept,
+			SUM(t.overrateintercept) AS overrateintercept,
+			0 AS stattype,
+			t.date AS date,
+			NOW() AS createtime <!-- createtime -->
+		FROM t_sms_customer_stat_yesterday_temp t
+		WHERE channelid != 0
+		GROUP BY t.clientid,t.product_type, t.channelid, t.paytype
+	</select>
+	
+	<!-- 每日数据统计：通道为0状态为4的情况 -->
+	<select id="getDailyStateEq4" resultType="map">
+		SELECT
+		    t.agent_id,
+			t.clientid,
+			t.username,
+			t.sid,
+			t.paytype,
+		    t.operatorstype,
+			t.channelid,
+			t.channelremark AS remark,
+			SUM(t.submitfail)AS chargeTotal,
+			0 AS overrate_charge_total,
+			t.product_type,
+			t.sub_id,
+			SUM(t.submitfail * t.costfee) AS costfee,
+			SUM(t.submitfail * t.salefee) AS salefee,
+			SUM(t.submitfail * t.productfee)AS productfee,
+			SUM(t.submitfail) AS usersmstotal,
+			0 AS sendtotal,
+			0 AS notsend,
+			0 AS submitsuccess,
+			0 AS reportsuccess,
+			SUM(t.submitfail) AS submitfail,
+			0 AS subretfail,
+			0 AS reportfail,
+			0 AS auditfail,
+			0 AS recvintercept,
+			0 AS sendintercept,
+			0 AS overrateintercept,
+			0 AS stattype, 
+			t.date AS date,
+			NOW() AS createtime
+		FROM t_sms_customer_stat_temp t
+		WHERE channelid = 0
+		GROUP BY t.clientid,t.product_type, t.channelid, t.paytype
+	</select>
+	<!-- 昨日数据统计：通道为0状态为4的情况 -->
+	<select id="getDailyStateEq4Yesterday" resultType="map">
+		SELECT
+		    t.agent_id,
+			t.clientid,
+			t.username,
+			t.sid,
+			t.paytype,
+		    t.operatorstype,
+			t.channelid,
+			t.channelremark AS remark,
+			SUM(t.submitfail)AS chargeTotal,
+			0 AS overrate_charge_total,
+			t.product_type,
+			t.sub_id,
+			SUM(t.submitfail * t.costfee) AS costfee,
+			SUM(t.submitfail * t.salefee) AS salefee,
+			SUM(t.submitfail * t.productfee)AS productfee,
+			SUM(t.submitfail) AS usersmstotal,
+			0 AS sendtotal,
+			0 AS notsend,
+			0 AS submitsuccess,
+			0 AS reportsuccess,
+			SUM(t.submitfail) AS submitfail,
+			0 AS subretfail,
+			0 AS reportfail,
+			0 AS auditfail,
+			0 AS recvintercept,
+			0 AS sendintercept,
+			0 AS overrateintercept,
+			0 AS stattype, 
+			t.date AS date,
+			NOW() AS createtime
+		FROM t_sms_customer_stat_yesterday_temp t
+		WHERE channelid = 0
+		GROUP BY t.clientid,t.product_type, t.channelid, t.paytype
+	</select>
+	
+	<!-- 每日数据统计：拦截数据，状态等于0/5/7/8/9/10 -->
+	<select id="getDailyIntercept" resultType="map">
+		SELECT
+			t.agent_id,
+			t.clientid,
+			t.username,
+			t.sid,
+			t.paytype,
+		    -1 AS operatorstype,
+			t.channelid,
+			' - ' AS remark,
+			SUM(t.overrate_charge_total) AS chargeTotal,
+			SUM(t.overrate_charge_total) AS overrate_charge_total,
+			t.product_type,
+			t.sub_id,
+			SUM(t.overrate_charge_total * t.costfee) AS costfee,
+			SUM(t.overrate_charge_total * t.salefee) AS salefee,
+			SUM(t.overrate_charge_total * t.productfee)AS productfee,
+			SUM(t.notsend) + SUM(t.subretfail) + SUM(t.auditfail) + SUM(t.recvintercept) + SUM(t.sendintercept) + SUM(t.overrateintercept) AS usersmstotal,
+			0 AS sendtotal,
+			SUM(t.notsend) AS notsend,
+			0 AS submitsuccess,
+			0 AS reportsuccess,
+			0 AS submitfail,
+			SUM(t.subretfail) AS subretfail,
+			0 AS reportfail,
+			SUM(t.auditfail) AS auditfail,
+			SUM(t.recvintercept) AS recvintercept,
+			SUM(t.sendintercept) AS sendintercept,
+			SUM(t.overrateintercept) AS overrateintercept,
+			0 AS stattype,
+			t.date AS date,
+			NOW() AS createtime
+		FROM t_sms_customer_stat_temp t
+		WHERE t.channelid = 0
+		GROUP BY t.clientid,t.product_type, t.channelid, t.paytype
+	</select>
+	<!--昨日数据统计：拦截数据，状态等于0/5/7/8/9/10 -->
+	<select id="getDailyInterceptYesterday" resultType="map">
+		SELECT
+			t.agent_id,
+			t.clientid,
+			t.username,
+			t.sid,
+			t.paytype,
+		    -1 AS operatorstype,
+			t.channelid,
+			' - ' AS remark,
+			SUM(t.overrate_charge_total) AS chargeTotal,
+			SUM(t.overrate_charge_total) AS overrate_charge_total,
+			t.product_type,
+			t.sub_id,
+			SUM(t.overrate_charge_total * t.costfee) AS costfee,
+			SUM(t.overrate_charge_total * t.salefee) AS salefee,
+			SUM(t.overrate_charge_total * t.productfee)AS productfee,
+			SUM(t.notsend) + SUM(t.subretfail) + SUM(t.auditfail) + SUM(t.recvintercept) + SUM(t.sendintercept) + SUM(t.overrateintercept) AS usersmstotal,
+			0 AS sendtotal,
+			SUM(t.notsend) AS notsend,
+			0 AS submitsuccess,
+			0 AS reportsuccess,
+			0 AS submitfail,
+			SUM(t.subretfail) AS subretfail,
+			0 AS reportfail,
+			SUM(t.auditfail) AS auditfail,
+			SUM(t.recvintercept) AS recvintercept,
+			SUM(t.sendintercept) AS sendintercept,
+			SUM(t.overrateintercept) AS overrateintercept,
+			0 AS stattype,
+			t.date AS date,
+			NOW() AS createtime
+		FROM t_sms_customer_stat_yesterday_temp t
+		WHERE t.channelid = 0
+		GROUP BY t.clientid,t.product_type, t.channelid, t.paytype
+	</select>
+	
+	<!-- 每日数据统计：合计数据 -->
+	<insert id="getDailyTotal" >
+		INSERT INTO 
+			t_sms_access_channel_statistics
+		(
+			`id`,
+			`agent_id`,
+			`clientid`,
+			`name`,
+			`sid`,
+			`paytype`,
+			`operatorstype`,
+			`channelid`,
+			`remark`,
+			`chargetotal`,
+			`overrate_charge_total`,
+			`sub_id`,
+			`costfee`,
+			`salefee`,
+			`productfee`,
+			`product_type`,
+			`sendtotal`,
+			`usersmstotal`,
+			`notsend`,
+			`submitsuccess`,
+			`reportsuccess`,
+			`submitfail`,
+			`subretfail`,
+			`reportfail`,
+			`auditfail`,
+			`recvintercept`,
+			`sendintercept`,
+			`overrateintercept`,
+			`stattype`,
+			`date`,
+			`createtime`
+		)
+		SELECT 
+			 NULL,
+			`agent_id`,
+			`clientid`,
+			`name`,
+			 '' AS sid,
+			 -1, <!-- paytype -->
+			 -2 AS operatorstype, <!-- 合计 -->
+			 -1,
+			 ' - ' AS remark,
+			 SUM(IF(chargetotal=0, 0, chargetotal)) AS chargetotal,
+			 SUM(overrate_charge_total) AS overrate_charge_total,
+			 sub_id,
+			 SUM(costfee) AS costfee,
+		     SUM(salefee) AS salefee,
+		     SUM(productfee) AS productfee,
+		     -1, <!-- 合计没有短信类型 -->
+			 SUM(sendtotal) AS sendtotal,
+			 SUM(usersmstotal) AS usersmstotal,
+			 SUM(notsend) AS notsend,
+			 SUM(submitsuccess) AS submitsuccess,
+			 SUM(reportsuccess) AS reportsuccess,
+			 SUM(submitfail) AS submitfail,
+			 SUM(subretfail) AS subretfail,
+			 SUM(reportfail) AS reportfail,
+			 SUM(auditfail) AS auditfail,
+			 SUM(recvintercept) AS recvintercept,
+			 SUM(sendintercept) AS sendintercept,
+		     SUM(overrateintercept) AS overrateintercept,
+			 1,
+			`date`,
+			`createtime`
+		FROM t_sms_access_channel_statistics
+		WHERE date = #{statTime}
+		GROUP BY clientid
+	</insert>
+	
+	<!-- 保存统计数据到 t_sms_access_channel_statistics -->
+	<insert id="saveCustomerStatData">
+		INSERT INTO 
+			t_sms_access_channel_statistics
+		(
+			`agent_id`,
+			`clientid`,
+			`name`,
+			`sid`,
+			`paytype`,
+			`operatorstype`,
+			`channelid`,
+			`remark`,
+			`chargetotal`,
+			`overrate_charge_total`,
+			`sub_id`,
+			`costfee`,
+			`salefee`,
+			`productfee`,
+			`product_type`,
+			`sendtotal`,
+			`usersmstotal`,
+			`notsend`,
+			`submitsuccess`,
+			`reportsuccess`,
+			`submitfail`,
+			`subretfail`,
+			`reportfail`,
+			`auditfail`,
+			`recvintercept`,
+			`sendintercept`,
+			`overrateintercept`,
+			`stattype`,
+			`date`,
+			`createtime`
+		)VALUES
+		<foreach collection="dataList" item="i" separator=",">
+			(
+				#{i.agent_id},
+				#{i.clientid},
+				#{i.username},
+				#{i.sid},
+				#{i.paytype},
+				#{i.operatorstype},
+				#{i.channelid},
+				#{i.remark},
+				#{i.chargeTotal},
+				#{i.overrate_charge_total},
+				#{i.sub_id},
+				#{i.costfee},
+				#{i.salefee},
+				#{i.productfee},
+				#{i.product_type},
+				#{i.sendtotal},
+				#{i.usersmstotal},
+				#{i.notsend},
+				#{i.submitsuccess},
+				#{i.reportsuccess},
+				#{i.submitfail},
+				#{i.subretfail},
+				#{i.reportfail},
+				#{i.auditfail},
+				#{i.recvintercept},
+				#{i.sendintercept},
+				#{i.overrateintercept},
+				#{i.stattype},
+				#{i.date},
+				NOW()
+			)
+		</foreach>
+	</insert>
+	
+	<delete id="clearStatDataByTime">
+		DELETE s FROM t_sms_access_channel_statistics s WHERE s.date = #{statTime}
+	</delete>
+	
+	<delete id="clearStatTempTable">
+		DELETE t FROM t_sms_customer_stat_temp t
+	</delete>
+	<delete id="clearStatYesterdayTempTable">
+		DELETE t FROM t_sms_customer_stat_yesterday_temp t
+	</delete>
+	
+	<!-- 每月数据统计：生成统计每月数据的基础数据 -->
+	<insert id="generateMonthTempData">
+		INSERT INTO t_sms_customer_stat_temp
+		SELECT
+			NULL,
+			t.clientid,
+			t.name,
+			t.sid,
+			t.agent_id,
+			t.paytype,
+			t.channelid,
+			t.operatorstype,
+			t.remark,
+			t.sub_id,
+		    t.product_type,
+			SUM(t.notsend) AS notsend,
+			SUM(t.submitsuccess) AS submitsuccess,
+			SUM(t.reportsuccess) AS reportsuccess,
+			SUM(t.submitfail) AS submitfail,
+			SUM(t.subretfail) AS subretfail,
+			SUM(t.reportfail) AS reportfail,
+			SUM(t.auditfail) AS auditfail,
+			SUM(t.recvintercept) AS recvintercept,
+			SUM(t.sendintercept) AS sendintercept,
+		    SUM(t.overrateintercept) AS overrateintercept,
+			SUM(t.overrate_charge_total) AS overrate_charge_total,
+			SUM(t.costfee) AS costfee,
+		    SUM(t.salefee) AS salefee,
+		    SUM(t.productfee) AS productfee,
+			#{statTime} AS date
+		FROM t_sms_access_channel_statistics t 
+			WHERE date LIKE CONCAT(#{statTime},'%') AND t.stattype = 0  AND operatorstype != -1 <!-- 不计算拦截数据，拦截数据单独计算-->
+		GROUP BY t.clientid, t.channelid, t.paytype
+	</insert>
+	
+	<!-- 每月数据统计：生成统计每月数据的基础数据 （昨日版）-->
+	<insert id="generateMonthTempDataYesterday">
+		INSERT INTO t_sms_customer_stat_yesterday_temp
+		SELECT
+			NULL,
+			t.clientid,
+			t.name,
+			t.sid,
+			t.agent_id,
+			t.paytype,
+			t.channelid,
+			t.operatorstype,
+			t.remark,
+			t.sub_id,
+		    t.product_type,
+			SUM(t.notsend) AS notsend,
+			SUM(t.submitsuccess) AS submitsuccess,
+			SUM(t.reportsuccess) AS reportsuccess,
+			SUM(t.submitfail) AS submitfail,
+			SUM(t.subretfail) AS subretfail,
+			SUM(t.reportfail) AS reportfail,
+			SUM(t.auditfail) AS auditfail,
+			SUM(t.recvintercept) AS recvintercept,
+			SUM(t.sendintercept) AS sendintercept,
+		    SUM(t.overrateintercept) AS overrateintercept,
+			SUM(t.overrate_charge_total) AS overrate_charge_total,
+			SUM(t.costfee) AS costfee,
+		    SUM(t.salefee) AS salefee,
+		    SUM(t.productfee) AS productfee,
+			#{statTime} AS date
+		FROM t_sms_access_channel_statistics t 
+			WHERE date LIKE CONCAT(#{statTime},'%') AND t.stattype = 0  AND operatorstype != -1 <!-- 不计算拦截数据，拦截数据单独计算-->
+		GROUP BY t.clientid, t.channelid, t.paytype
+	</insert>
+	
+	<select id="getMonthlyDetail" resultType="map">
+		SELECT
+			 t.`agent_id`,
+			 t.`clientid`,
+			 t.`username`,
+			 t.`sid`,
+			 t.`paytype`,
+			 t.`operatorstype`,
+			 t.`channelid`,
+			 t.`channelremark` AS remark,
+			 SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.reportfail) AS `chargeTotal`,
+			 SUM(t.overrate_charge_total) AS `overrate_charge_total`,
+			 t.`sub_id`,
+			 SUM(t.costfee) AS `costfee`,
+			 SUM(t.salefee) AS `salefee`,
+			 SUM(t.productfee) AS `productfee`,
+			 t.`product_type`,
+			 SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.reportfail) AS `sendtotal`,
+			 SUM(t.notsend) + SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.subretfail) + SUM(t.reportfail) + SUM(t.auditfail)
+					+ SUM(t.recvintercept) + SUM(t.sendintercept) + SUM(t.overrateintercept) AS `usersmstotal`,
+			 SUM(t.notsend) AS `notsend`,
+			 SUM(t.submitsuccess) AS `submitsuccess`,
+			 SUM(t.reportsuccess) AS `reportsuccess`,
+			 SUM(t.submitfail) AS `submitfail`,
+			 SUM(t.subretfail) AS `subretfail`,
+			 SUM(t.reportfail) AS `reportfail`,
+			 SUM(t.auditfail) AS `auditfail`,
+			 SUM(t.recvintercept) AS `recvintercept`,
+			 SUM(t.sendintercept) AS `sendintercept`,
+			 SUM(t.overrateintercept) AS `overrateintercept`,
+			 2 AS `stattype`,
+			 t.date AS date,
+			 NOW() AS createtime
+		FROM t_sms_customer_stat_temp t
+		GROUP BY t.clientid, t.channelid, t.paytype
+	</select>
+	 
+	
+	<select id="getMonthlyDetailYesterday" resultType="map">
+		SELECT
+			 t.`agent_id`,
+			 t.`clientid`,
+			 t.`username`,
+			 t.`sid`,
+			 t.`paytype`,
+			 t.`operatorstype`,
+			 t.`channelid`,
+			 t.`channelremark` AS remark,
+			 SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.reportfail) AS `chargeTotal`,
+			 SUM(t.overrate_charge_total) AS `overrate_charge_total`,
+			 t.`sub_id`,
+			 SUM(t.costfee) AS `costfee`,
+			 SUM(t.salefee) AS `salefee`,
+			 SUM(t.productfee) AS `productfee`,
+			 t.`product_type`,
+			 SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.reportfail) AS `sendtotal`,
+			 SUM(t.notsend) + SUM(t.submitsuccess) + SUM(t.reportsuccess) + SUM(t.submitfail) + SUM(t.subretfail) + SUM(t.reportfail) + SUM(t.auditfail)
+					+ SUM(t.recvintercept) + SUM(t.sendintercept) + SUM(t.overrateintercept) AS `usersmstotal`,
+			 SUM(t.notsend) AS `notsend`,
+			 SUM(t.submitsuccess) AS `submitsuccess`,
+			 SUM(t.reportsuccess) AS `reportsuccess`,
+			 SUM(t.submitfail) AS `submitfail`,
+			 SUM(t.subretfail) AS `subretfail`,
+			 SUM(t.reportfail) AS `reportfail`,
+			 SUM(t.auditfail) AS `auditfail`,
+			 SUM(t.recvintercept) AS `recvintercept`,
+			 SUM(t.sendintercept) AS `sendintercept`,
+			 SUM(t.overrateintercept) AS `overrateintercept`,
+			 2 AS `stattype`,
+			 t.date AS date,
+			 NOW() AS createtime
+		FROM t_sms_customer_stat_yesterday_temp t
+		GROUP BY t.clientid, t.channelid, t.paytype
+	</select>
+	
+	<select id="getMonthlyIntercept" resultType="map">
+		SELECT 
+		     `agent_id`,
+			 `clientid`,
+			 `name` AS username,
+			 `sid`,
+			 `paytype`,
+			  -1 AS operatorstype,
+			 `channelid`,
+			  ' - ' AS remark,
+			  SUM(chargetotal) AS chargeTotal,
+			  SUM(overrate_charge_total) AS overrate_charge_total,
+			 `sub_id`,
+			  SUM(costfee) AS costfee,
+			  SUM(salefee) AS salefee,
+			  SUM(productfee) AS productfee,
+			  SUM(product_type) AS product_type,
+			  SUM(sendtotal) AS sendtotal,
+			  SUM(usersmstotal) AS usersmstotal,
+			  SUM(notsend) AS notsend,
+			  SUM(submitsuccess) AS submitsuccess,
+			  SUM(reportsuccess) AS reportsuccess,
+			  SUM(submitfail) AS submitfail,
+			  SUM(subretfail) AS subretfail,
+			  SUM(reportfail) AS reportfail,
+			  SUM(auditfail) AS auditfail,
+			  SUM(recvintercept) AS recvintercept,
+			  SUM(sendintercept) AS sendintercept,
+			  SUM(overrateintercept) AS overrateintercept,
+			  2 AS stattype,
+			  #{statTime} AS date,
+			 `createtime`
+		FROM t_sms_access_channel_statistics
+		WHERE date LIKE CONCAT(#{statTime},'%') AND stattype = 0 AND operatorstype = -1
+		GROUP BY clientid
+	</select>
+	
+	<insert id="getMonthlyTotal">
+		INSERT INTO 
+				t_sms_access_channel_statistics
+			(
+				`id`,
+				`agent_id`,
+				`clientid`,
+				`name`,
+				`sid`,
+				`paytype`,
+				`operatorstype`,
+				`channelid`,
+				`remark`,
+				`chargetotal`,
+				`overrate_charge_total`,
+				`sub_id`,
+				`costfee`,
+				`salefee`,
+				`productfee`,
+				`product_type`,
+				`sendtotal`,
+				`usersmstotal`,
+				`notsend`,
+				`submitsuccess`,
+				`reportsuccess`,
+				`submitfail`,
+				`subretfail`,
+				`reportfail`,
+				`auditfail`,
+				`recvintercept`,
+				`sendintercept`,
+				`overrateintercept`,
+				`stattype`,
+				`date`,
+				`createtime`
+			)
+			SELECT
+				 NULL,
+			     `agent_id`,
+				 `clientid`,
+				 `name`,
+				 `sid`,
+				 `paytype`,
+				  -2 AS operatorstype,
+				  -1 AS channelid,
+				  ' - ' AS remark,
+				  SUM(IF(operatorstype = -1,overrate_charge_total,chargetotal)) AS chargeTotal,
+				  SUM(overrate_charge_total) AS overrate_charge_total,
+				 `sub_id`,
+				  SUM(costfee) AS costfee,
+				  SUM(salefee) AS salefee,
+				  SUM(productfee) AS productfee,
+				  SUM(product_type) AS product_type,
+				  SUM(sendtotal) AS sendtotal,
+				  SUM(usersmstotal) AS usersmstotal,
+				  SUM(notsend) AS notsend,
+				  SUM(submitsuccess) AS submitsuccess,
+				  SUM(reportsuccess) AS reportsuccess,
+				  SUM(submitfail) AS submitfail,
+				  SUM(subretfail) AS subretfail,
+				  SUM(reportfail) AS reportfail,
+				  SUM(auditfail) AS auditfail,
+				  SUM(recvintercept) AS recvintercept,
+				  SUM(sendintercept) AS sendintercept,
+				  SUM(overrateintercept) AS overrateintercept,
+				  3 AS stattype,
+				  #{statTime} AS date,
+				 `createtime` AS createtime
+			FROM t_sms_access_channel_statistics
+			WHERE stattype = 2 AND date = #{statTime}
+			GROUP BY clientid
+	</insert> 
+	
+	
+</mapper>

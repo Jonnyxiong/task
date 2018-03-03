@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 代理商短信池状态服务 -->
+<mapper namespace="agentPoolStatus">
+	
+	<!-- 查询到期时间小于当前时间的OEM短信池信息 -->
+	<select id="findExpiredAgentPoolList" resultType="map">
+		SELECT
+			agent_pool_id
+		FROM
+			t_sms_oem_agent_pool
+		WHERE
+			<![CDATA[
+				due_time < NOW()
+			]]>
+		AND `status` = 0 <!-- 生效的订单 -->
+	</select>
+	
+	<!-- 根据Oem客户池ID列表更新其状态为“停用” -->
+	<update id="updateAgentPoolStatusByPoolIds">
+		UPDATE t_sms_oem_agent_pool
+		SET `status` = 1
+		WHERE
+			agent_pool_id IN
+		(
+		<foreach collection="expiredAgentPoolList" item="item" separator=",">
+			#{item.agent_pool_id}
+		</foreach>
+		)
+	</update>
+	
+</mapper> 

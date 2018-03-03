@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<!-- 根据不同的运行环境加载配置文件 -->
+	<context:property-placeholder location="classpath:system.properties" />
+	<!-- 采用注释的方式配置bean -->
+	<context:annotation-config />
+	<!-- 配置要扫描的包 -->
+	<context:component-scan base-package="com.ucpaas.sms.task" />
+	<context:component-scan base-package="com.jsmsframework" />
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<task:executor id="asyncExecutor" pool-size="8" />
+	<task:annotation-driven executor="asyncExecutor"/>
+
+	<!-- dbcp2公共配置-->
+	<bean id="dataSourceParent" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" abstract="true">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="initialSize" value="3" />		<!-- 初始化连接 -->
+		<property name="maxTotal" value="20" />		<!-- 最大活动连接 -->
+		<property name="maxIdle" value="5" />			<!-- 最大空闲连接 -->
+		<property name="minIdle" value="1" />			<!-- 最小空闲连接 -->
+		<property name="maxWaitMillis" value="3000" />	<!-- 从池中取连接的最大等待时间，单位毫秒 -->
+		<property name="validationQuery" value="SELECT 1" />			<!-- 验证使用的SQL语句 -->
+		<property name="testWhileIdle" value="true" />					<!-- 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除 -->
+		<property name="testOnBorrow" value="false" />					<!-- 借出连接时不要测试，否则很影响性能 -->
+		<property name="timeBetweenEvictionRunsMillis" value="30000" />	<!-- 每30秒运行一次空闲连接回收器 -->
+		<property name="minEvictableIdleTimeMillis" value="1800000" />	<!-- 池中的连接空闲30分钟后被回收 -->
+		<property name="numTestsPerEvictionRun" value="3" />			<!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 -->
+		<property name="removeAbandonedOnBorrow" value="true" />		<!-- 连接泄漏回收参数，当可用连接数少于3个时才执行 -->
+		<property name="removeAbandonedTimeout" value="180" />			<!-- 连接泄漏回收参数，180秒，泄露的连接可以被删除的超时值 -->
+	</bean>
+	<!--应用运行情况监控-->
+	<bean id="jsmsAppObserverImpl" class="com.jsmsframework.monitor.service.JsmsAppObserverImpl">
+		<property name="appServerInfoList">
+			<list>
+				<ref bean="smsp_schedule"/>
+				<ref bean="smsa_operation"/>
+				<ref bean="smsa_agent_oem"/>
+				<ref bean="smsa_agent"/>
+				<ref bean="smsa_web"/>
+				<ref bean="smsp_web"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="smsp_schedule" class="com.jsmsframework.monitor.pojo.JsmsAppServerInfo" >
+		<constructor-arg name="appServerDesc" value="调度系统"/>
+		<constructor-arg name="monitorUrl" value="${smsp_schedule_monitor_url}"/>
+		<constructor-arg name="isNeedCheck" value="true"/>
+	</bean>
+	<bean id="smsa_operation" class="com.jsmsframework.monitor.pojo.JsmsAppServerInfo" >
+		<constructor-arg name="appServerDesc" value="运营平台"/>
+		<constructor-arg name="monitorUrl" value="${smsa_operation_monitor_url}"/>
+		<constructor-arg name="isNeedCheck" value="true"/>
+	</bean>
+	<bean id="smsa_agent_oem" class="com.jsmsframework.monitor.pojo.JsmsAppServerInfo" >
+		<constructor-arg name="appServerDesc" value="用户中心"/>
+		<constructor-arg name="monitorUrl" value="${smsa_agent_oem_monitor_url}"/>
+		<constructor-arg name="isNeedCheck" value="true"/>
+	</bean>
+	<bean id="smsa_agent" class="com.jsmsframework.monitor.pojo.JsmsAppServerInfo" >
+		<constructor-arg name="appServerDesc" value="品牌代理商"/>
+		<constructor-arg name="monitorUrl" value="${smsa_agent_monitor_url}"/>
+		<constructor-arg name="isNeedCheck" value="true"/>
+	</bean>
+	<bean id="smsa_web" class="com.jsmsframework.monitor.pojo.JsmsAppServerInfo" >
+		<constructor-arg name="appServerDesc" value="OEM客户端"/>
+		<constructor-arg name="monitorUrl" value="${smsa_web_monitor_url}"/>
+		<constructor-arg name="isNeedCheck" value="true"/>
+	</bean>
+	<bean id="smsp_web" class="com.jsmsframework.monitor.pojo.JsmsAppServerInfo" >
+		<constructor-arg name="appServerDesc" value="品牌客户端"/>
+		<constructor-arg name="monitorUrl" value="${smsp_web_monitor_url}"/>
+		<constructor-arg name="isNeedCheck" value="true"/>
+	</bean>
+
+	<!-- 邮件配置 -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.exmail.qq.com" />
+		<property name="port" value="465" />
+		<property name="username" value="admin@ucpaas.com" />
+		<property name="password" value="Ucpaas.com@2014" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 邮件配置 -->
+	<bean id="javaMailSenderAlarm" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.exmail.qq.com" />
+		<property name="port" value="465" />
+		<property name="username" value="alarm@ucpaas.com" />
+		<property name="password" value="Ucpaas.com2016" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.timeout">25000</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+			</props>
+		</property>
+	</bean>
+
+	<import resource="spring-db/spring-db-message.xml"/>
+	<import resource="spring-db/spring-db-access.xml"/>
+	<import resource="spring-db/spring-db-record.xml"/>
+	<import resource="spring-db/spring-db-stats.xml"/>
+
+</beans>

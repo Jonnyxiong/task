@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.ClientBalanceAlarmMapper">
+     
+        
+    <resultMap id="rowMapper" type="ClientBalanceAlarm">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="alarmPhone" jdbcType="VARCHAR" column="alarm_phone"/>
+        <result property="alarmNumber" jdbcType="INTEGER" column="alarm_number"/>
+        <result property="reminderNumber" jdbcType="INTEGER" column="reminder_number"/>
+        <result property="resetTime" jdbcType="TIMESTAMP" column="reset_time"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        clientid,
+        alarm_phone,
+        alarm_number,
+        reminder_number,
+        reset_time,
+        create_time,
+        update_time
+    </sql>
+
+    <insert id="insert" parameterType="ClientBalanceAlarm" >
+        INSERT INTO t_sms_client_balance_alarm 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="alarmPhone != null" >
+                alarm_phone,
+            </if>
+            <if test="alarmNumber != null" >
+                alarm_number,
+            </if>
+            <if test="reminderNumber != null" >
+                reminder_number,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="alarmPhone != null" >
+                #{alarmPhone},
+            </if>
+            <if test="alarmNumber != null" >
+                #{alarmNumber},
+            </if>
+            <if test="reminderNumber != null" >
+                #{reminderNumber},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="updateTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_client_balance_alarm (
+            id,
+            clientid,
+            alarm_phone,
+            alarm_number,
+            reminder_number,
+            create_time,
+            update_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.clientid},
+                #{item.alarmPhone},
+                #{item.alarmNumber},
+                #{item.reminderNumber},
+                now(),
+                now()
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_client_balance_alarm WHERE id = #{id} 
+    </delete>
+    
+
+    <!-- <update id="update" parameterType="ClientBalanceAlarm">
+        UPDATE t_sms_client_balance_alarm SET 
+            id=#{id},
+            clientid=#{clientid},
+            alarm_phone=#{alarmPhone},
+            alarm_number=#{alarmNumber},
+            reminder_number=#{reminderNumber},
+            create_time=#{createTime},
+            UPDATE_TIME = now(),
+            OPERATOR_ID = #{operatorId}
+        WHERE 
+            id = #{id} 
+    </update> -->
+    
+    <update id="update" parameterType="ClientBalanceAlarm">
+        UPDATE t_sms_client_balance_alarm SET 
+            clientid=#{clientid},
+            alarm_phone=#{alarmPhone},
+            alarm_number=#{alarmNumber},
+            reminder_number=#{reminderNumber},
+            create_time=#{createTime},
+            update_time=#{updateTime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+    
+    
+    
+<!-- 
+    <update id="updateStatus" parameterType="ClientBalanceAlarm">
+        UPDATE t_sms_client_balance_alarm 
+            <set>
+                STATUS = #{status}
+                ,UPDATE_TIME = now(),
+                OPERATOR_ID = #{operatorId}
+            </set>
+        WHERE 
+            ID = #{id} 
+    </update>
+ -->
+ 
+    <!-- <update id="updateSelective" parameterType="ClientBalanceAlarm">
+        UPDATE t_sms_client_balance_alarm 
+            <set>
+                <if test="id != null and id != ''">
+                    id = #{id},
+                </if>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="alarmPhone != null and alarmPhone != ''">
+                    alarm_phone = #{alarmPhone},
+                </if>
+                <if test="alarmNumber != null and alarmNumber != ''">
+                    alarm_number = #{alarmNumber},
+                </if>
+                <if test="reminderNumber != null and reminderNumber != ''">
+                    reminder_number = #{reminderNumber},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="operatorId != null and operatorId != ''">    
+                    OPERATOR_ID = #{operatorId},
+                </if>
+                UPDATE_TIME = now()
+            </set>
+        WHERE 
+            id = #{id} 
+    </update> -->
+    
+    
+    <update id="updateSelective" parameterType="ClientBalanceAlarm">
+        UPDATE t_sms_client_balance_alarm 
+            <set>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="alarmPhone != null and alarmPhone != ''">
+                    alarm_phone = #{alarmPhone},
+                </if>
+                <if test="alarmNumber != null and alarmNumber != ''">
+                    alarm_number = #{alarmNumber},
+                </if>
+                <if test="reminderNumber != null and reminderNumber != ''">
+                    reminder_number = #{reminderNumber},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null and updateTime != ''">
+                    update_time = #{updateTime}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_client_balance_alarm
+        WHERE
+            id = #{id}
+    </select>
+
+    <select id="queryList" parameterType="ClientBalanceAlarm" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_client_balance_alarm 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null and params.id != ''">
+                and id = #{params.id}
+            </if>
+            <if test="params.clientid != null and params.clientid != ''">
+                and clientid = #{params.clientid}
+            </if>
+            <if test="params.alarmPhone != null and params.alarmPhone != ''">
+                and alarm_phone = #{params.alarmPhone}
+            </if>
+            <if test="params.alarmNumber != null and params.alarmNumber != ''">
+                and alarm_number = #{params.alarmNumber}
+            </if>
+            <if test="params.reminderNumber != null and params.reminderNumber != ''">
+                and reminder_number = #{params.reminderNumber}
+            </if>
+            <if test="params.createTime != null and params.createTime != ''">
+                and create_time = #{params.createTime}
+            </if>
+            <if test="params.updateTime != null and params.updateTime != ''">
+                and update_time = #{params.updateTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="ClientBalanceAlarm" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_client_balance_alarm 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="alarmPhone != null and alarmPhone != ''">
+                and alarm_phone = #{alarmPhone}
+            </if>
+            <if test="alarmNumber != null and alarmNumber != ''">
+                and alarm_number = #{alarmNumber}
+            </if>
+            <if test="reminderNumber != null and reminderNumber != ''">
+                and reminder_number = #{reminderNumber}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+    </select>
+
+    <update id="updateReminderNum" parameterType="map">
+        UPDATE t_sms_client_balance_alarm
+        SET
+          reminder_number = 1,
+          reset_time = #{date}
+        <where>
+            1=1
+            <if test="alarm_type != null">
+                and alarm_type = #{alarmType}
+            </if>
+            and clientid IN (
+            <foreach collection="clientIds" item="item" separator=",">
+                #{item}
+            </foreach>
+            )
+        </where>
+    </update>
+
+    <update id="reduceReminderNum" parameterType="string">
+        UPDATE t_sms_client_balance_alarm
+        SET
+        reminder_number = 0
+        where
+        clientid = #{clientId}
+    </update>
+
+    <update id="reduceReminderNumOem">
+        UPDATE t_sms_client_balance_alarm
+        SET
+          reminder_number = 0
+        where
+            clientid = #{clientId} and alarm_type = #{alarmType}
+    </update>
+</mapper>
+

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.AgentClientParamMapper">
+     
+        
+    <resultMap id="rowMapper" type="AgentClientParam">
+        <result property="paramId" jdbcType="BIGINT" column="param_id"/>
+        <result property="paramKey" jdbcType="VARCHAR" column="param_key"/>
+        <result property="paramValue" jdbcType="VARCHAR" column="param_value"/>
+        <result property="description" jdbcType="VARCHAR" column="description"/>
+        <result property="createDate" jdbcType="TIMESTAMP" column="create_date"/>
+        <result property="updateDate" jdbcType="TIMESTAMP" column="update_date"/>
+        <result property="paramStatus" jdbcType="TINYINT" column="param_status"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        param_id,
+        param_key,
+        param_value,
+        description,
+        create_date,
+        update_date,
+        param_status
+    </sql>
+
+    <insert id="insert" parameterType="AgentClientParam" >
+        INSERT INTO t_sms_agent_client_param 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="paramId != null" >
+                param_id,
+            </if>
+            <if test="paramKey != null" >
+                param_key,
+            </if>
+            <if test="paramValue != null" >
+                param_value,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="updateDate != null" >
+                update_date,
+            </if>
+            <if test="paramStatus != null" >
+                param_status
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="paramId != null" >
+                #{paramId},
+            </if>
+            <if test="paramKey != null" >
+                #{paramKey},
+            </if>
+            <if test="paramValue != null" >
+                #{paramValue},
+            </if>
+            <if test="description != null" >
+                #{description},
+            </if>
+            <if test="createDate != null" >
+                #{createDate},
+            </if>
+            <if test="updateDate != null" >
+                #{updateDate},
+            </if>
+            <if test="paramStatus != null" >
+                #{paramStatus}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_agent_client_param (
+            param_id,
+            param_key,
+            param_value,
+            description,
+            create_date,
+            update_date,
+            param_status
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.paramId},
+                #{item.paramKey},
+                #{item.paramValue},
+                #{item.description},
+                #{item.createDate},
+                #{item.updateDate},
+                #{item.paramStatus}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_agent_client_param WHERE param_id = #{paramId} 
+    </delete>
+    
+
+    <!-- <update id="update" parameterType="AgentClientParam">
+        UPDATE t_sms_agent_client_param SET 
+            param_id=#{paramId},
+            param_key=#{paramKey},
+            param_value=#{paramValue},
+            description=#{description},
+            create_date=#{createDate},
+            update_date=#{updateDate},
+            param_status=#{paramStatus}
+        WHERE 
+            param_id = #{param_id} 
+    </update> -->
+    
+    <update id="update" parameterType="AgentClientParam">
+        UPDATE t_sms_agent_client_param SET 
+            param_key=#{paramKey},
+            param_value=#{paramValue},
+            description=#{description},
+            create_date=#{createDate},
+            update_date=#{updateDate},
+            param_status=#{paramStatus}
+        WHERE 
+            param_id = #{paramId} 
+    </update>
+    
+    
+    
+    
+<!-- 
+    <update id="updateStatus" parameterType="AgentClientParam">
+        UPDATE t_sms_agent_client_param 
+            <set>
+                STATUS = #{status}
+            </set>
+        WHERE 
+            PARAM_ID = #{paramId} 
+    </update>
+ -->
+ 
+    <!-- <update id="updateSelective" parameterType="AgentClientParam">
+        UPDATE t_sms_agent_client_param 
+            <set>
+                <if test="paramId != null and paramId != ''">
+                    param_id = #{paramId},
+                </if>
+                <if test="paramKey != null and paramKey != ''">
+                    param_key = #{paramKey},
+                </if>
+                <if test="paramValue != null and paramValue != ''">
+                    param_value = #{paramValue},
+                </if>
+                <if test="description != null and description != ''">
+                    description = #{description},
+                </if>
+                <if test="createDate != null and createDate != ''">
+                    create_date = #{createDate},
+                </if>
+                <if test="updateDate != null and updateDate != ''">
+                    update_date = #{updateDate},
+                </if>
+                <if test="paramStatus != null and paramStatus != ''">
+                    param_status = #{paramStatus},
+                </if>
+            </set>
+        WHERE 
+            param_id = #{paramId} 
+    </update> -->
+    
+    
+    <update id="updateSelective" parameterType="AgentClientParam">
+        UPDATE t_sms_agent_client_param 
+            <set>
+                <if test="paramKey != null and paramKey != ''">
+                    param_key = #{paramKey},
+                </if>
+                <if test="paramValue != null and paramValue != ''">
+                    param_value = #{paramValue},
+                </if>
+                <if test="description != null and description != ''">
+                    description = #{description},
+                </if>
+                <if test="createDate != null and createDate != ''">
+                    create_date = #{createDate},
+                </if>
+                <if test="updateDate != null and updateDate != ''">
+                    update_date = #{updateDate},
+                </if>
+                <if test="paramStatus != null and paramStatus != ''">
+                    param_status = #{paramStatus}
+                </if>
+            </set>
+        WHERE 
+            param_id = #{paramId} 
+    </update>
+
+    <select id="getByParamKey" parameterType="string" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_agent_client_param
+        WHERE
+          param_key = #{paramKey}
+    </select>
+
+    <select id="queryList" parameterType="AgentClientParam" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_agent_client_param 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.paramId != null and params.paramId != ''">
+                and param_id = #{params.paramId}
+            </if>
+            <if test="params.paramKey != null and params.paramKey != ''">
+                and param_key = #{params.paramKey}
+            </if>
+            <if test="params.paramValue != null and params.paramValue != ''">
+                and param_value = #{params.paramValue}
+            </if>
+            <if test="params.description != null and params.description != ''">
+                and description = #{params.description}
+            </if>
+            <if test="params.createDate != null and params.createDate != ''">
+                and create_date = #{params.createDate}
+            </if>
+            <if test="params.updateDate != null and params.updateDate != ''">
+                and update_date = #{params.updateDate}
+            </if>
+            <if test="params.paramStatus != null and params.paramStatus != ''">
+                and param_status = #{params.paramStatus}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="AgentClientParam" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_agent_client_param 
+        WHERE 
+            1 = 1
+            <if test="paramId != null and paramId != ''">
+                and param_id = #{paramId}
+            </if>
+            <if test="paramKey != null and paramKey != ''">
+                and param_key = #{paramKey}
+            </if>
+            <if test="paramValue != null and paramValue != ''">
+                and param_value = #{paramValue}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and create_date = #{createDate}
+            </if>
+            <if test="updateDate != null and updateDate != ''">
+                and update_date = #{updateDate}
+            </if>
+            <if test="paramStatus != null and paramStatus != ''">
+                and param_status = #{paramStatus}
+            </if>
+    </select>
+	 
+</mapper>
+

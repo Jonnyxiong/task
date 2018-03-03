@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.record.RecordConsumeStatisticsMapper">
+     
+        
+    <resultMap id="rowMapper" type="RecordConsumeStatistics">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="channelid" jdbcType="INTEGER" column="channelid"/>
+        <result property="belongBusiness" jdbcType="BIGINT" column="belong_business"/>
+        <result property="departmentId" jdbcType="INTEGER" column="department_id"/>
+        <result property="smstype" jdbcType="INTEGER" column="smstype"/>
+        <result property="paytype" jdbcType="INTEGER" column="paytype"/>
+        <result property="remark" jdbcType="VARCHAR" column="remark"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="costprice" jdbcType="DECIMAL" column="costprice"/>
+        <result property="costtotal" jdbcType="DECIMAL" column="costtotal"/>
+        <result property="saletotal" jdbcType="DECIMAL" column="saletotal"/>
+        <result property="notsend" jdbcType="INTEGER" column="notsend"/>
+        <result property="submitsuccess" jdbcType="INTEGER" column="submitsuccess"/>
+        <result property="subretsuccess" jdbcType="INTEGER" column="subretsuccess"/>
+        <result property="reportsuccess" jdbcType="INTEGER" column="reportsuccess"/>
+        <result property="submitfail" jdbcType="INTEGER" column="submitfail"/>
+        <result property="subretfail" jdbcType="INTEGER" column="subretfail"/>
+        <result property="reportfail" jdbcType="INTEGER" column="reportfail"/>
+        <result property="stattype" jdbcType="INTEGER" column="stattype"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        channelid,
+        belong_business,
+        department_id,
+        smstype,
+        paytype,
+        remark,
+        operatorstype,
+        costprice,
+        costtotal,
+        saletotal,
+        notsend,
+        submitsuccess,
+        subretsuccess,
+        reportsuccess,
+        submitfail,
+        subretfail,
+        reportfail,
+        stattype,
+        date,
+        createtime
+    </sql>
+
+    <insert id="insert" parameterType="RecordConsumeStatistics" >
+        INSERT INTO t_sms_record_consume_stat 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="channelid != null" >
+                channelid,
+            </if>
+            <if test="belongBusiness != null" >
+                belong_business,
+            </if>
+            <if test="departmentId != null" >
+                department_id,
+            </if>
+            <if test="smstype != null" >
+                smstype,
+            </if>
+            <if test="paytype != null" >
+                paytype,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="operatorstype != null" >
+                operatorstype,
+            </if>
+            <if test="costprice != null" >
+                costprice,
+            </if>
+            <if test="costtotal != null" >
+                costtotal,
+            </if>
+            <if test="saletotal != null" >
+                saletotal,
+            </if>
+            <if test="notsend != null" >
+                notsend,
+            </if>
+            <if test="submitsuccess != null" >
+                submitsuccess,
+            </if>
+            <if test="subretsuccess != null" >
+                subretsuccess,
+            </if>
+            <if test="reportsuccess != null" >
+                reportsuccess,
+            </if>
+            <if test="submitfail != null" >
+                submitfail,
+            </if>
+            <if test="subretfail != null" >
+                subretfail,
+            </if>
+            <if test="reportfail != null" >
+                reportfail,
+            </if>
+            <if test="stattype != null" >
+                stattype,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="createtime != null" >
+                createtime
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="channelid != null" >
+                #{channelid},
+            </if>
+            <if test="belongBusiness != null" >
+                #{belongBusiness},
+            </if>
+            <if test="departmentId != null" >
+                #{departmentId},
+            </if>
+            <if test="smstype != null" >
+                #{smstype},
+            </if>
+            <if test="paytype != null" >
+                #{paytype},
+            </if>
+            <if test="remark != null" >
+                #{remark},
+            </if>
+            <if test="operatorstype != null" >
+                #{operatorstype},
+            </if>
+            <if test="costprice != null" >
+                #{costprice},
+            </if>
+            <if test="costtotal != null" >
+                #{costtotal},
+            </if>
+            <if test="saletotal != null" >
+                #{saletotal},
+            </if>
+            <if test="notsend != null" >
+                #{notsend},
+            </if>
+            <if test="submitsuccess != null" >
+                #{submitsuccess},
+            </if>
+            <if test="subretsuccess != null" >
+                #{subretsuccess},
+            </if>
+            <if test="reportsuccess != null" >
+                #{reportsuccess},
+            </if>
+            <if test="submitfail != null" >
+                #{submitfail},
+            </if>
+            <if test="subretfail != null" >
+                #{subretfail},
+            </if>
+            <if test="reportfail != null" >
+                #{reportfail},
+            </if>
+            <if test="stattype != null" >
+                #{stattype},
+            </if>
+            <if test="date != null" >
+                #{date},
+            </if>
+            <if test="createtime != null" >
+                #{createtime}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_record_consume_stat (
+            id,
+            channelid,
+            belong_business,
+            department_id,
+            smstype,
+            paytype,
+            remark,
+            operatorstype,
+            costprice,
+            costtotal,
+            saletotal,
+            notsend,
+            submitsuccess,
+            subretsuccess,
+            reportsuccess,
+            submitfail,
+            subretfail,
+            reportfail,
+            stattype,
+            date,
+            createtime
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.channelid},
+                #{item.belongBusiness},
+                #{item.departmentId},
+                #{item.smstype},
+                #{item.paytype},
+                #{item.remark},
+                #{item.operatorstype},
+                #{item.costprice},
+                #{item.costtotal},
+                #{item.saletotal},
+                #{item.notsend},
+                #{item.submitsuccess},
+                #{item.subretsuccess},
+                #{item.reportsuccess},
+                #{item.submitfail},
+                #{item.subretfail},
+                #{item.reportfail},
+                #{item.stattype},
+                #{item.date},
+                #{item.createtime}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_record_consume_stat WHERE id = #{id} 
+    </delete>
+    
+    
+    <delete id="deleteByDate" parameterType="string">
+        DELETE FROM t_sms_record_consume_stat WHERE date = #{statDay} 
+    </delete>
+    
+    <update id="update" parameterType="RecordConsumeStatistics">
+        UPDATE t_sms_record_consume_stat SET 
+            channelid=#{channelid},
+            belong_business=#{belongBusiness},
+            department_id=#{departmentId},
+            smstype=#{smstype},
+            paytype=#{paytype},
+            remark=#{remark},
+            operatorstype=#{operatorstype},
+            costprice=#{costprice},
+            costtotal=#{costtotal},
+            saletotal=#{saletotal},
+            notsend=#{notsend},
+            submitsuccess=#{submitsuccess},
+            subretsuccess=#{subretsuccess},
+            reportsuccess=#{reportsuccess},
+            submitfail=#{submitfail},
+            subretfail=#{subretfail},
+            reportfail=#{reportfail},
+            stattype=#{stattype},
+            date=#{date},
+            createtime=#{createtime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="RecordConsumeStatistics">
+        UPDATE t_sms_record_consume_stat 
+            <set>
+                <if test="channelid != null">
+                    channelid = #{channelid},
+                </if>
+                <if test="belongBusiness != null">
+                    belong_business = #{belongBusiness},
+                </if>
+                <if test="departmentId != null">
+                    department_id = #{departmentId},
+                </if>
+                <if test="smstype != null">
+                    smstype = #{smstype},
+                </if>
+                <if test="paytype != null ">
+                    paytype = #{paytype},
+                </if>
+                <if test="remark != null and remark != ''">
+                    remark = #{remark},
+                </if>
+                <if test="operatorstype != null">
+                    operatorstype = #{operatorstype},
+                </if>
+                <if test="costprice != null">
+                    costprice = #{costprice},
+                </if>
+                <if test="costtotal != null">
+                    costtotal = #{costtotal},
+                </if>
+                <if test="saletotal != null">
+                    saletotal = #{saletotal},
+                </if>
+                <if test="notsend != null">
+                    notsend = #{notsend},
+                </if>
+                <if test="submitsuccess != null">
+                    submitsuccess = #{submitsuccess},
+                </if>
+                <if test="subretsuccess != null">
+                    subretsuccess = #{subretsuccess},
+                </if>
+                <if test="reportsuccess != null">
+                    reportsuccess = #{reportsuccess},
+                </if>
+                <if test="submitfail != null">
+                    submitfail = #{submitfail},
+                </if>
+                <if test="subretfail != null">
+                    subretfail = #{subretfail},
+                </if>
+                <if test="reportfail != null">
+                    reportfail = #{reportfail},
+                </if>
+                <if test="stattype != null">
+                    stattype = #{stattype},
+                </if>
+                <if test="date != null">
+                    date = #{date},
+                </if>
+                <if test="createtime != null and createtime != ''">
+                    createtime = #{createtime}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_record_consume_stat
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryList" parameterType="RecordConsumeStatistics" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_record_consume_stat 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null and params.id != ''">
+                and id = #{params.id}
+            </if>
+            <if test="params.channelid != null and params.channelid != ''">
+                and channelid = #{params.channelid}
+            </if>
+            <if test="params.belongBusiness != null and params.belongBusiness != ''">
+                and belong_business = #{params.belongBusiness}
+            </if>
+            <if test="params.departmentId != null and params.departmentId != ''">
+                and department_id = #{params.departmentId}
+            </if>
+            <if test="params.smstype != null and params.smstype != ''">
+                and smstype = #{params.smstype}
+            </if>
+            <if test="params.paytype != null and params.paytype != ''">
+                and paytype = #{params.paytype}
+            </if>
+            <if test="params.remark != null and params.remark != ''">
+                and remark = #{params.remark}
+            </if>
+            <if test="params.operatorstype != null and params.operatorstype != ''">
+                and operatorstype = #{params.operatorstype}
+            </if>
+            <if test="params.costprice != null and params.costprice != ''">
+                and costprice = #{params.costprice}
+            </if>
+            <if test="params.costtotal != null and params.costtotal != ''">
+                and costtotal = #{params.costtotal}
+            </if>
+            <if test="params.saletotal != null and params.saletotal != ''">
+                and saletotal = #{params.saletotal}
+            </if>
+            <if test="params.notsend != null and params.notsend != ''">
+                and notsend = #{params.notsend}
+            </if>
+            <if test="params.submitsuccess != null and params.submitsuccess != ''">
+                and submitsuccess = #{params.submitsuccess}
+            </if>
+            <if test="params.subretsuccess != null and params.subretsuccess != ''">
+                and subretsuccess = #{params.subretsuccess}
+            </if>
+            <if test="params.reportsuccess != null and params.reportsuccess != ''">
+                and reportsuccess = #{params.reportsuccess}
+            </if>
+            <if test="params.submitfail != null and params.submitfail != ''">
+                and submitfail = #{params.submitfail}
+            </if>
+            <if test="params.subretfail != null and params.subretfail != ''">
+                and subretfail = #{params.subretfail}
+            </if>
+            <if test="params.reportfail != null and params.reportfail != ''">
+                and reportfail = #{params.reportfail}
+            </if>
+            <if test="params.stattype != null and params.stattype != ''">
+                and stattype = #{params.stattype}
+            </if>
+            <if test="params.date != null and params.date != ''">
+                and date = #{params.date}
+            </if>
+            <if test="params.createtime != null and params.createtime != ''">
+                and createtime = #{params.createtime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="RecordConsumeStatistics" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_record_consume_stat 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="belongBusiness != null and belongBusiness != ''">
+                and belong_business = #{belongBusiness}
+            </if>
+            <if test="departmentId != null and departmentId != ''">
+                and department_id = #{departmentId}
+            </if>
+            <if test="smstype != null and smstype != ''">
+                and smstype = #{smstype}
+            </if>
+            <if test="paytype != null and paytype != ''">
+                and paytype = #{paytype}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="costprice != null and costprice != ''">
+                and costprice = #{costprice}
+            </if>
+            <if test="costtotal != null and costtotal != ''">
+                and costtotal = #{costtotal}
+            </if>
+            <if test="saletotal != null and saletotal != ''">
+                and saletotal = #{saletotal}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="subretsuccess != null and subretsuccess != ''">
+                and subretsuccess = #{subretsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="stattype != null and stattype != ''">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+    </select>
+    
+    <select id="queryMonthly" resultMap="rowMapper">
+    	SELECT
+    		<include refid="BASE_COLUMN_LIST"/>
+    	FROM
+    		t_sms_record_consume_stat
+    	WHERE
+    		stattype =  #{stattype}
+    		AND date LIKE CONCAT(#{statMothStr}, "%")
+    </select>
+    
+    <select id="queryByDateLike" resultMap="rowMapper">
+    	SELECT
+    		<include refid="BASE_COLUMN_LIST"/>
+    	FROM
+    		t_sms_record_consume_stat
+    	WHERE
+    		date LIKE CONCAT(#{yyyyMM}, "%")
+    </select>
+	 
+</mapper>
+

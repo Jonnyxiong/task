@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.access.JsmsClientOperationStatisticsMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.access.JsmsClientOperationStatistics">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="clientId" jdbcType="VARCHAR" column="client_id"/>
+        <result property="smstype" jdbcType="INTEGER" column="smstype"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="submitTotal" jdbcType="INTEGER" column="submit_total"/>
+        <result property="reportsuccess" jdbcType="INTEGER" column="reportsuccess"/>
+        <result property="sendSuccessRatio" jdbcType="DECIMAL" column="send_success_ratio"/>
+        <result property="complaintNumber" jdbcType="INTEGER" column="complaint_number"/>
+        <result property="complaintRatio" jdbcType="DECIMAL" column="complaint_ratio"/>
+        <result property="complaintCoefficient" jdbcType="DECIMAL" column="complaint_coefficient"/>
+        <result property="complaintDifference" jdbcType="DECIMAL" column="complaint_difference"/>
+        <result property="salefee" jdbcType="DECIMAL" column="salefee"/>
+        <result property="belongSale" jdbcType="BIGINT" column="belong_sale"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        client_id,
+        smstype,
+        operatorstype,
+        submit_total,
+        reportsuccess,
+        send_success_ratio,
+        complaint_number,
+        complaint_ratio,
+        complaint_coefficient,
+        complaint_difference,
+        salefee,
+        belong_sale,
+        date,
+        update_time
+    </sql>
+    <update id="updateSelectiveUnique" parameterType="com.ucpaas.sms.task.entity.access.JsmsClientOperationStatistics" >
+        UPDATE t_sms_client_operation_statistics
+        <set>
+            <if test="submitTotal != null">
+                submit_total = #{submitTotal},
+            </if>
+            <if test="reportsuccess != null">
+                reportsuccess = #{reportsuccess},
+            </if>
+            <if test="sendSuccessRatio != null">
+                send_success_ratio = #{sendSuccessRatio},
+            </if>
+            <if test="complaintNumber != null">
+                complaint_number = #{complaintNumber},
+            </if>
+            <if test="complaintRatio != null">
+                complaint_ratio = #{complaintRatio},
+            </if>
+            <if test="complaintCoefficient != null">
+                complaint_coefficient = #{complaintCoefficient},
+            </if>
+            <if test="complaintDifference != null">
+                complaint_difference = #{complaintDifference},
+            </if>
+            <if test="salefee != null">
+                salefee = #{salefee},
+            </if>
+            <if test="belongSale != null">
+                belong_sale = #{belongSale},
+            </if>
+
+            <if test="updateTime != null">
+                update_time = #{updateTime}
+            </if>
+        </set>
+        WHERE
+        client_id = #{clientId} and smstype = #{smstype} and operatorstype = #{operatorstype} and date = #{date}
+    </update>
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.access.JsmsClientOperationStatistics" >
+        INSERT INTO t_sms_client_operation_statistics 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientId != null" >
+                client_id,
+            </if>
+            <if test="smstype != null" >
+                smstype,
+            </if>
+            <if test="operatorstype != null" >
+                operatorstype,
+            </if>
+            <if test="submitTotal != null" >
+                submit_total,
+            </if>
+            <if test="reportsuccess != null" >
+                reportsuccess,
+            </if>
+            <if test="sendSuccessRatio != null" >
+                send_success_ratio,
+            </if>
+            <if test="complaintNumber != null" >
+                complaint_number,
+            </if>
+            <if test="complaintRatio != null" >
+                complaint_ratio,
+            </if>
+            <if test="complaintCoefficient != null" >
+                complaint_coefficient,
+            </if>
+            <if test="complaintDifference != null" >
+                complaint_difference,
+            </if>
+            <if test="salefee != null" >
+                salefee,
+            </if>
+            <if test="belongSale != null" >
+                belong_sale,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="updateTime != null" >
+                update_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="clientId != null" >
+                #{clientId},
+            </if>
+            <if test="smstype != null" >
+                #{smstype},
+            </if>
+            <if test="operatorstype != null" >
+                #{operatorstype},
+            </if>
+            <if test="submitTotal != null" >
+                #{submitTotal},
+            </if>
+            <if test="reportsuccess != null" >
+                #{reportsuccess},
+            </if>
+            <if test="sendSuccessRatio != null" >
+                #{sendSuccessRatio},
+            </if>
+            <if test="complaintNumber != null" >
+                #{complaintNumber},
+            </if>
+            <if test="complaintRatio != null" >
+                #{complaintRatio},
+            </if>
+            <if test="complaintCoefficient != null" >
+                #{complaintCoefficient},
+            </if>
+            <if test="complaintDifference != null" >
+                #{complaintDifference},
+            </if>
+            <if test="salefee != null" >
+                #{salefee},
+            </if>
+            <if test="belongSale != null" >
+                #{belongSale},
+            </if>
+            <if test="date != null" >
+                #{date},
+            </if>
+            <if test="updateTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_client_operation_statistics (
+            id,
+            client_id,
+            smstype,
+            operatorstype,
+            submit_total,
+            reportsuccess,
+            send_success_ratio,
+            complaint_number,
+            complaint_ratio,
+            complaint_coefficient,
+            complaint_difference,
+            salefee,
+            belong_sale,
+            date,
+            update_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.clientId},
+                #{item.smstype},
+                #{item.operatorstype},
+                #{item.submitTotal},
+                #{item.reportsuccess},
+                #{item.sendSuccessRatio},
+                #{item.complaintNumber},
+                #{item.complaintRatio},
+                #{item.complaintCoefficient},
+                #{item.complaintDifference},
+                #{item.salefee},
+                #{item.belongSale},
+                #{item.date},
+                now()
+            )
+        </foreach>
+    </insert>
+    
+
+    
+
+    <!--
+    <delete id="delete">
+        DELETE FROM t_sms_client_operation_statistics WHERE id = #{id}
+    </delete>
+    -->
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.access.JsmsClientOperationStatistics" >
+        UPDATE t_sms_client_operation_statistics SET 
+            client_id=#{clientId},
+            smstype=#{smstype},
+            operatorstype=#{operatorstype},
+            submit_total=#{submitTotal},
+            reportsuccess=#{reportsuccess},
+            send_success_ratio=#{sendSuccessRatio},
+            complaint_number=#{complaintNumber},
+            complaint_ratio=#{complaintRatio},
+            complaint_coefficient=#{complaintCoefficient},
+            complaint_difference=#{complaintDifference},
+            salefee=#{salefee},
+            belong_sale=#{belongSale},
+            date=#{date},
+            update_time=#{updateTime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.access.JsmsClientOperationStatistics" >
+        UPDATE t_sms_client_operation_statistics 
+            <set>
+                <if test="clientId != null">
+                    client_id = #{clientId},
+                </if>
+                <if test="smstype != null">
+                    smstype = #{smstype},
+                </if>
+                <if test="operatorstype != null">
+                    operatorstype = #{operatorstype},
+                </if>
+                <if test="submitTotal != null">
+                    submit_total = #{submitTotal},
+                </if>
+                <if test="reportsuccess != null">
+                    reportsuccess = #{reportsuccess},
+                </if>
+                <if test="sendSuccessRatio != null">
+                    send_success_ratio = #{sendSuccessRatio},
+                </if>
+                <if test="complaintNumber != null">
+                    complaint_number = #{complaintNumber},
+                </if>
+                <if test="complaintRatio != null">
+                    complaint_ratio = #{complaintRatio},
+                </if>
+                <if test="complaintCoefficient != null">
+                    complaint_coefficient = #{complaintCoefficient},
+                </if>
+                <if test="complaintDifference != null">
+                    complaint_difference = #{complaintDifference},
+                </if>
+                <if test="salefee != null">
+                    salefee = #{salefee},
+                </if>
+                <if test="belongSale != null">
+                    belong_sale = #{belongSale},
+                </if>
+                <if test="date != null">
+                    date = #{date},
+                </if>
+                <if test="updateTime != null">
+                    update_time = #{updateTime}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_client_operation_statistics
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryList" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_client_operation_statistics 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null">
+                and id = #{params.id}
+            </if>
+            <if test="params.clientId != null">
+                and client_id = #{params.clientId}
+            </if>
+            <if test="params.smstype != null">
+                and smstype = #{params.smstype}
+            </if>
+            <if test="params.operatorstype != null">
+                and operatorstype = #{params.operatorstype}
+            </if>
+            <if test="params.submitTotal != null">
+                and submit_total = #{params.submitTotal}
+            </if>
+            <if test="params.reportsuccess != null">
+                and reportsuccess = #{params.reportsuccess}
+            </if>
+            <if test="params.sendSuccessRatio != null">
+                and send_success_ratio = #{params.sendSuccessRatio}
+            </if>
+            <if test="params.complaintNumber != null">
+                and complaint_number = #{params.complaintNumber}
+            </if>
+            <if test="params.complaintRatio != null">
+                and complaint_ratio = #{params.complaintRatio}
+            </if>
+            <if test="params.complaintCoefficient != null">
+                and complaint_coefficient = #{params.complaintCoefficient}
+            </if>
+            <if test="params.complaintDifference != null">
+                and complaint_difference = #{params.complaintDifference}
+            </if>
+            <if test="params.salefee != null">
+                and salefee = #{params.salefee}
+            </if>
+            <if test="params.belongSale != null">
+                and belong_sale = #{params.belongSale}
+            </if>
+            <if test="params.date != null">
+                and date = #{params.date}
+            </if>
+            <if test="params.updateTime != null">
+                and update_time = #{params.updateTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="findList" resultMap="rowMapper">
+        SELECT
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_client_operation_statistics
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="clientId != null">
+                and client_id = #{clientId}
+            </if>
+            <if test="smstype != null">
+                and smstype = #{smstype}
+            </if>
+            <if test="operatorstype != null">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="submitTotal != null">
+                and submit_total = #{submitTotal}
+            </if>
+            <if test="reportsuccess != null">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="sendSuccessRatio != null">
+                and send_success_ratio = #{sendSuccessRatio}
+            </if>
+            <if test="complaintNumber != null">
+                and complaint_number = #{complaintNumber}
+            </if>
+            <if test="complaintRatio != null">
+                and complaint_ratio = #{complaintRatio}
+            </if>
+            <if test="complaintCoefficient != null">
+                and complaint_coefficient = #{complaintCoefficient}
+            </if>
+            <if test="complaintDifference != null">
+                and complaint_difference = #{complaintDifference}
+            </if>
+            <if test="salefee != null">
+                and salefee = #{salefee}
+            </if>
+            <if test="belongSale != null">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="date != null">
+                and date = #{date}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+	     </trim>
+    </select>
+
+
+    <select id="getSalefee" resultType="java.math.BigDecimal">
+       select salefee from t_sms_access_${identify}_${date} where clientid=#{clientid} limit 0,1
+    </select>
+
+    <select id="count" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_client_operation_statistics 
+        WHERE 
+            1 = 1
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="clientId != null">
+                and client_id = #{clientId}
+            </if>
+            <if test="smstype != null">
+                and smstype = #{smstype}
+            </if>
+            <if test="operatorstype != null">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="submitTotal != null">
+                and submit_total = #{submitTotal}
+            </if>
+            <if test="reportsuccess != null">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="sendSuccessRatio != null">
+                and send_success_ratio = #{sendSuccessRatio}
+            </if>
+            <if test="complaintNumber != null">
+                and complaint_number = #{complaintNumber}
+            </if>
+            <if test="complaintRatio != null">
+                and complaint_ratio = #{complaintRatio}
+            </if>
+            <if test="complaintCoefficient != null">
+                and complaint_coefficient = #{complaintCoefficient}
+            </if>
+            <if test="complaintDifference != null">
+                and complaint_difference = #{complaintDifference}
+            </if>
+            <if test="salefee != null">
+                and salefee = #{salefee}
+            </if>
+            <if test="belongSale != null">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="date != null">
+                and date = #{date}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+    </select>
+	 
+</mapper>
+

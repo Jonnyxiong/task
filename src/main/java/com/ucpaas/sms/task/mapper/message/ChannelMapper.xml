@@ -1,0 +1,985 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.ChannelMapper">
+     
+        
+    <resultMap id="rowMapper" type="Channel">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="cid" jdbcType="INTEGER" column="cid"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="password" jdbcType="VARCHAR" column="password"/>
+        <result property="channelname" jdbcType="VARCHAR" column="channelname"/>
+        <result property="remark" jdbcType="VARCHAR" column="remark"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="industrytype" jdbcType="INTEGER" column="industrytype"/>
+        <result property="longsms" jdbcType="TINYINT" column="longsms"/>
+        <result property="wappush" jdbcType="BIT" column="wappush"/>
+        <result property="httpmode" jdbcType="TINYINT" column="httpmode"/>
+        <result property="url" jdbcType="VARCHAR" column="url"/>
+        <result property="coding" jdbcType="VARCHAR" column="coding"/>
+        <result property="postdata" jdbcType="VARCHAR" column="postdata"/>
+        <result property="balance" jdbcType="DECIMAL" column="balance"/>
+        <result property="expenditure" jdbcType="DECIMAL" column="expenditure"/>
+        <result property="costprice" jdbcType="DECIMAL" column="costprice"/>
+        <result property="querystateurl" jdbcType="VARCHAR" column="querystateurl"/>
+        <result property="querystatepostdata" jdbcType="VARCHAR" column="querystatepostdata"/>
+        <result property="queryupurl" jdbcType="VARCHAR" column="queryupurl"/>
+        <result property="queryuppostdata" jdbcType="VARCHAR" column="queryuppostdata"/>
+        <result property="shownum" jdbcType="INTEGER" column="shownum"/>
+        <result property="showsign" jdbcType="VARCHAR" column="showsign"/>
+        <result property="showsigntype" jdbcType="TINYINT" column="showsigntype"/>
+        <result property="accessid" jdbcType="VARCHAR" column="accessid"/>
+        <result property="node" jdbcType="BIGINT" column="node"/>
+        <result property="spid" jdbcType="VARCHAR" column="spid"/>
+        <result property="state" jdbcType="INTEGER" column="state"/>
+        <result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+        <result property="updatetime" jdbcType="TIMESTAMP" column="updatetime"/>
+        <result property="warnSuccRate" jdbcType="INTEGER" column="warn_succ_rate"/>
+        <result property="serviceid" jdbcType="VARCHAR" column="serviceid"/>
+        <result property="sendid" jdbcType="INTEGER" column="sendid"/>
+        <result property="speed" jdbcType="INTEGER" column="speed"/>
+        <result property="moport" jdbcType="INTEGER" column="moport"/>
+        <result property="moip" jdbcType="VARCHAR" column="moip"/>
+        <result property="channeltype" jdbcType="INTEGER" column="channeltype"/>
+        <result property="iswhitelist" jdbcType="INTEGER" column="iswhitelist"/>
+        <result property="supportOhas" jdbcType="TINYINT" column="support_ohas"/>
+        <result property="extendsize" jdbcType="INTEGER" column="extendsize"/>
+        <result property="warnTimeRate" jdbcType="INTEGER" column="warn_time_rate"/>
+        <result property="needprefix" jdbcType="INTEGER" column="needprefix"/>
+        <result property="sendtimearea" jdbcType="VARCHAR" column="sendtimearea"/>
+        <result property="identify" jdbcType="INTEGER" column="identify"/>
+        <result property="maxqueuesize" jdbcType="INTEGER" column="maxqueuesize"/>
+        <result property="sliderwindow" jdbcType="INTEGER" column="sliderwindow"/>
+        <result property="ownerType" jdbcType="INTEGER" column="owner_type"/>
+        <result property="accessSpeed" jdbcType="INTEGER" column="access_speed"/>
+        <result property="oauthUrl" jdbcType="VARCHAR" column="oauth_url"/>
+        <result property="oauthPostData" jdbcType="VARCHAR" column="oauth_post_data"/>
+        <result property="addTempUrl" jdbcType="VARCHAR" column="add_temp_url"/>
+        <result property="addTempPostData" jdbcType="VARCHAR" column="add_temp_post_data"/>
+        <result property="getTempListUrl" jdbcType="VARCHAR" column="get_temp_list_url"/>
+        <result property="getTempListPostData" jdbcType="VARCHAR" column="get_temp_list_post_data"/>
+        <result property="contentlen" jdbcType="INTEGER" column="contentlen"/>
+        <result property="mqId" jdbcType="INTEGER" column="mq_id"/>
+        <result property="segcodeType" jdbcType="INTEGER" column="segcode_type"/>
+        <result property="belongBusiness" jdbcType="BIGINT" column="belong_business"/>
+    </resultMap>
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        cid,
+        clientid,
+        password,
+        channelname,
+        remark,
+        operatorstype,
+        industrytype,
+        longsms,
+        wappush,
+        httpmode,
+        url,
+        coding,
+        postdata,
+        balance,
+        expenditure,
+        costprice,
+        querystateurl,
+        querystatepostdata,
+        queryupurl,
+        queryuppostdata,
+        shownum,
+        showsign,
+        showsigntype,
+        accessid,
+        node,
+        spid,
+        state,
+        createtime,
+        updatetime,
+        warn_succ_rate,
+        serviceid,
+        sendid,
+        speed,
+        moport,
+        moip,
+        channeltype,
+        iswhitelist,
+        support_ohas,
+        extendsize,
+        warn_time_rate,
+        needprefix,
+        sendtimearea,
+        identify,
+        maxqueuesize,
+        sliderwindow,
+        owner_type,
+        access_speed,
+        oauth_url,
+        oauth_post_data,
+        add_temp_url,
+        add_temp_post_data,
+        get_temp_list_url,
+        get_temp_list_post_data,
+        contentlen,
+        mq_id,
+        segcode_type,
+        belong_business
+    </sql>
+
+    <insert id="insert" parameterType="Channel" >
+        INSERT INTO t_sms_channel 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="cid != null" >
+                cid,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="channelname != null" >
+                channelname,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="operatorstype != null" >
+                operatorstype,
+            </if>
+            <if test="industrytype != null" >
+                industrytype,
+            </if>
+            <if test="longsms != null" >
+                longsms,
+            </if>
+            <if test="wappush != null" >
+                wappush,
+            </if>
+            <if test="httpmode != null" >
+                httpmode,
+            </if>
+            <if test="url != null" >
+                url,
+            </if>
+            <if test="coding != null" >
+                coding,
+            </if>
+            <if test="postdata != null" >
+                postdata,
+            </if>
+            <if test="balance != null" >
+                balance,
+            </if>
+            <if test="expenditure != null" >
+                expenditure,
+            </if>
+            <if test="costprice != null" >
+                costprice,
+            </if>
+            <if test="querystateurl != null" >
+                querystateurl,
+            </if>
+            <if test="querystatepostdata != null" >
+                querystatepostdata,
+            </if>
+            <if test="queryupurl != null" >
+                queryupurl,
+            </if>
+            <if test="queryuppostdata != null" >
+                queryuppostdata,
+            </if>
+            <if test="shownum != null" >
+                shownum,
+            </if>
+            <if test="showsign != null" >
+                showsign,
+            </if>
+            <if test="showsigntype != null" >
+                showsigntype,
+            </if>
+            <if test="accessid != null" >
+                accessid,
+            </if>
+            <if test="node != null" >
+                node,
+            </if>
+            <if test="spid != null" >
+                spid,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="updatetime != null" >
+                updatetime,
+            </if>
+            <if test="warnSuccRate != null" >
+                warn_succ_rate,
+            </if>
+            <if test="serviceid != null" >
+                serviceid,
+            </if>
+            <if test="sendid != null" >
+                sendid,
+            </if>
+            <if test="speed != null" >
+                speed,
+            </if>
+            <if test="moport != null" >
+                moport,
+            </if>
+            <if test="moip != null" >
+                moip,
+            </if>
+            <if test="channeltype != null" >
+                channeltype,
+            </if>
+            <if test="iswhitelist != null" >
+                iswhitelist,
+            </if>
+            <if test="supportOhas != null" >
+                support_ohas,
+            </if>
+            <if test="extendsize != null" >
+                extendsize,
+            </if>
+            <if test="warnTimeRate != null" >
+                warn_time_rate,
+            </if>
+            <if test="needprefix != null" >
+                needprefix,
+            </if>
+            <if test="sendtimearea != null" >
+                sendtimearea,
+            </if>
+            <if test="identify != null" >
+                identify,
+            </if>
+            <if test="maxqueuesize != null" >
+                maxqueuesize,
+            </if>
+            <if test="sliderwindow != null" >
+                sliderwindow,
+            </if>
+            <if test="ownerType != null" >
+                owner_type,
+            </if>
+            <if test="accessSpeed != null" >
+                access_speed,
+            </if>
+            <if test="oauthUrl != null" >
+                oauth_url,
+            </if>
+            <if test="oauthPostData != null" >
+                oauth_post_data,
+            </if>
+            <if test="addTempUrl != null" >
+                add_temp_url,
+            </if>
+            <if test="addTempPostData != null" >
+                add_temp_post_data,
+            </if>
+            <if test="getTempListUrl != null" >
+                get_temp_list_url,
+            </if>
+            <if test="getTempListPostData != null" >
+                get_temp_list_post_data,
+            </if>
+            <if test="contentlen != null" >
+                contentlen,
+            </if>
+            <if test="mqId != null" >
+                mq_id,
+            </if>
+            <if test="segcodeType != null" >
+                segcode_type,
+            </if>
+            <if test="belongBusiness != null" >
+                belong_business
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="cid != null" >
+                #{cid},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="password != null" >
+                #{password},
+            </if>
+            <if test="channelname != null" >
+                #{channelname},
+            </if>
+            <if test="remark != null" >
+                #{remark},
+            </if>
+            <if test="operatorstype != null" >
+                #{operatorstype},
+            </if>
+            <if test="industrytype != null" >
+                #{industrytype},
+            </if>
+            <if test="longsms != null" >
+                #{longsms},
+            </if>
+            <if test="wappush != null" >
+                #{wappush},
+            </if>
+            <if test="httpmode != null" >
+                #{httpmode},
+            </if>
+            <if test="url != null" >
+                #{url},
+            </if>
+            <if test="coding != null" >
+                #{coding},
+            </if>
+            <if test="postdata != null" >
+                #{postdata},
+            </if>
+            <if test="balance != null" >
+                #{balance},
+            </if>
+            <if test="expenditure != null" >
+                #{expenditure},
+            </if>
+            <if test="costprice != null" >
+                #{costprice},
+            </if>
+            <if test="querystateurl != null" >
+                #{querystateurl},
+            </if>
+            <if test="querystatepostdata != null" >
+                #{querystatepostdata},
+            </if>
+            <if test="queryupurl != null" >
+                #{queryupurl},
+            </if>
+            <if test="queryuppostdata != null" >
+                #{queryuppostdata},
+            </if>
+            <if test="shownum != null" >
+                #{shownum},
+            </if>
+            <if test="showsign != null" >
+                #{showsign},
+            </if>
+            <if test="showsigntype != null" >
+                #{showsigntype},
+            </if>
+            <if test="accessid != null" >
+                #{accessid},
+            </if>
+            <if test="node != null" >
+                #{node},
+            </if>
+            <if test="spid != null" >
+                #{spid},
+            </if>
+            <if test="state != null" >
+                #{state},
+            </if>
+            <if test="createtime != null" >
+                #{createtime},
+            </if>
+            <if test="updatetime != null" >
+                #{updatetime},
+            </if>
+            <if test="warnSuccRate != null" >
+                #{warnSuccRate},
+            </if>
+            <if test="serviceid != null" >
+                #{serviceid},
+            </if>
+            <if test="sendid != null" >
+                #{sendid},
+            </if>
+            <if test="speed != null" >
+                #{speed},
+            </if>
+            <if test="moport != null" >
+                #{moport},
+            </if>
+            <if test="moip != null" >
+                #{moip},
+            </if>
+            <if test="channeltype != null" >
+                #{channeltype},
+            </if>
+            <if test="iswhitelist != null" >
+                #{iswhitelist},
+            </if>
+            <if test="supportOhas != null" >
+                #{supportOhas},
+            </if>
+            <if test="extendsize != null" >
+                #{extendsize},
+            </if>
+            <if test="warnTimeRate != null" >
+                #{warnTimeRate},
+            </if>
+            <if test="needprefix != null" >
+                #{needprefix},
+            </if>
+            <if test="sendtimearea != null" >
+                #{sendtimearea},
+            </if>
+            <if test="identify != null" >
+                #{identify},
+            </if>
+            <if test="maxqueuesize != null" >
+                #{maxqueuesize},
+            </if>
+            <if test="sliderwindow != null" >
+                #{sliderwindow},
+            </if>
+            <if test="ownerType != null" >
+                #{ownerType},
+            </if>
+            <if test="accessSpeed != null" >
+                #{accessSpeed},
+            </if>
+            <if test="oauthUrl != null" >
+                #{oauthUrl},
+            </if>
+            <if test="oauthPostData != null" >
+                #{oauthPostData},
+            </if>
+            <if test="addTempUrl != null" >
+                #{addTempUrl},
+            </if>
+            <if test="addTempPostData != null" >
+                #{addTempPostData},
+            </if>
+            <if test="getTempListUrl != null" >
+                #{getTempListUrl},
+            </if>
+            <if test="getTempListPostData != null" >
+                #{getTempListPostData},
+            </if>
+            <if test="contentlen != null" >
+                #{contentlen},
+            </if>
+            <if test="mqId != null" >
+                #{mqId},
+            </if>
+            <if test="segcodeType != null" >
+                #{segcodeType},
+            </if>
+            <if test="belongBusiness != null" >
+                #{belongBusiness}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_channel (
+            id,
+            cid,
+            clientid,
+            password,
+            channelname,
+            remark,
+            operatorstype,
+            industrytype,
+            longsms,
+            wappush,
+            httpmode,
+            url,
+            coding,
+            postdata,
+            balance,
+            expenditure,
+            costprice,
+            querystateurl,
+            querystatepostdata,
+            queryupurl,
+            queryuppostdata,
+            shownum,
+            showsign,
+            showsigntype,
+            accessid,
+            node,
+            spid,
+            state,
+            createtime,
+            updatetime,
+            warn_succ_rate,
+            serviceid,
+            sendid,
+            speed,
+            moport,
+            moip,
+            channeltype,
+            iswhitelist,
+            support_ohas,
+            extendsize,
+            warn_time_rate,
+            needprefix,
+            sendtimearea,
+            identify,
+            maxqueuesize,
+            sliderwindow,
+            owner_type,
+            access_speed,
+            oauth_url,
+            oauth_post_data,
+            add_temp_url,
+            add_temp_post_data,
+            get_temp_list_url,
+            get_temp_list_post_data,
+            contentlen,
+            mq_id,
+            segcode_type,
+            belong_business
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.cid},
+                #{item.clientid},
+                #{item.password},
+                #{item.channelname},
+                #{item.remark},
+                #{item.operatorstype},
+                #{item.industrytype},
+                #{item.longsms},
+                #{item.wappush},
+                #{item.httpmode},
+                #{item.url},
+                #{item.coding},
+                #{item.postdata},
+                #{item.balance},
+                #{item.expenditure},
+                #{item.costprice},
+                #{item.querystateurl},
+                #{item.querystatepostdata},
+                #{item.queryupurl},
+                #{item.queryuppostdata},
+                #{item.shownum},
+                #{item.showsign},
+                #{item.showsigntype},
+                #{item.accessid},
+                #{item.node},
+                #{item.spid},
+                #{item.state},
+                #{item.createtime},
+                #{item.updatetime},
+                #{item.warnSuccRate},
+                #{item.serviceid},
+                #{item.sendid},
+                #{item.speed},
+                #{item.moport},
+                #{item.moip},
+                #{item.channeltype},
+                #{item.iswhitelist},
+                #{item.supportOhas},
+                #{item.extendsize},
+                #{item.warnTimeRate},
+                #{item.needprefix},
+                #{item.sendtimearea},
+                #{item.identify},
+                #{item.maxqueuesize},
+                #{item.sliderwindow},
+                #{item.ownerType},
+                #{item.accessSpeed},
+                #{item.oauthUrl},
+                #{item.oauthPostData},
+                #{item.addTempUrl},
+                #{item.addTempPostData},
+                #{item.getTempListUrl},
+                #{item.getTempListPostData},
+                #{item.contentlen},
+                #{item.mqId},
+                #{item.segcodeType},
+                #{item.belongBusiness}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_channel
+        WHERE 
+            id = #{logId}
+    </select>
+
+    <select id="getByCid" parameterType="java.lang.Integer" resultMap="rowMapper">
+        SELECT
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_channel
+        WHERE
+            cid = #{cid}
+    </select>
+
+    <select id="queryList" parameterType="Channel" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_channel 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null and params.id != ''">
+                and id = #{params.id}
+            </if>
+            <if test="params.cid != null and params.cid != ''">
+                and cid = #{params.cid}
+            </if>
+            <if test="params.clientid != null and params.clientid != ''">
+                and clientid = #{params.clientid}
+            </if>
+            <if test="params.password != null and params.password != ''">
+                and password = #{params.password}
+            </if>
+            <if test="params.channelname != null and params.channelname != ''">
+                and channelname = #{params.channelname}
+            </if>
+            <if test="params.remark != null and params.remark != ''">
+                and remark = #{params.remark}
+            </if>
+            <if test="params.operatorstype != null and params.operatorstype != ''">
+                and operatorstype = #{params.operatorstype}
+            </if>
+            <if test="params.industrytype != null and params.industrytype != ''">
+                and industrytype = #{params.industrytype}
+            </if>
+            <if test="params.longsms != null and params.longsms != ''">
+                and longsms = #{params.longsms}
+            </if>
+            <if test="params.wappush != null and params.wappush != ''">
+                and wappush = #{params.wappush}
+            </if>
+            <if test="params.httpmode != null and params.httpmode != ''">
+                and httpmode = #{params.httpmode}
+            </if>
+            <if test="params.url != null and params.url != ''">
+                and url = #{params.url}
+            </if>
+            <if test="params.coding != null and params.coding != ''">
+                and coding = #{params.coding}
+            </if>
+            <if test="params.postdata != null and params.postdata != ''">
+                and postdata = #{params.postdata}
+            </if>
+            <if test="params.balance != null and params.balance != ''">
+                and balance = #{params.balance}
+            </if>
+            <if test="params.expenditure != null and params.expenditure != ''">
+                and expenditure = #{params.expenditure}
+            </if>
+            <if test="params.costprice != null and params.costprice != ''">
+                and costprice = #{params.costprice}
+            </if>
+            <if test="params.querystateurl != null and params.querystateurl != ''">
+                and querystateurl = #{params.querystateurl}
+            </if>
+            <if test="params.querystatepostdata != null and params.querystatepostdata != ''">
+                and querystatepostdata = #{params.querystatepostdata}
+            </if>
+            <if test="params.queryupurl != null and params.queryupurl != ''">
+                and queryupurl = #{params.queryupurl}
+            </if>
+            <if test="params.queryuppostdata != null and params.queryuppostdata != ''">
+                and queryuppostdata = #{params.queryuppostdata}
+            </if>
+            <if test="params.shownum != null and params.shownum != ''">
+                and shownum = #{params.shownum}
+            </if>
+            <if test="params.showsign != null and params.showsign != ''">
+                and showsign = #{params.showsign}
+            </if>
+            <if test="params.showsigntype != null and params.showsigntype != ''">
+                and showsigntype = #{params.showsigntype}
+            </if>
+            <if test="params.accessid != null and params.accessid != ''">
+                and accessid = #{params.accessid}
+            </if>
+            <if test="params.node != null and params.node != ''">
+                and node = #{params.node}
+            </if>
+            <if test="params.spid != null and params.spid != ''">
+                and spid = #{params.spid}
+            </if>
+            <if test="params.state != null and params.state != ''">
+                and state = #{params.state}
+            </if>
+            <if test="params.createtime != null and params.createtime != ''">
+                and createtime = #{params.createtime}
+            </if>
+            <if test="params.updatetime != null and params.updatetime != ''">
+                and updatetime = #{params.updatetime}
+            </if>
+            <if test="params.warnSuccRate != null and params.warnSuccRate != ''">
+                and warn_succ_rate = #{params.warnSuccRate}
+            </if>
+            <if test="params.serviceid != null and params.serviceid != ''">
+                and serviceid = #{params.serviceid}
+            </if>
+            <if test="params.sendid != null and params.sendid != ''">
+                and sendid = #{params.sendid}
+            </if>
+            <if test="params.speed != null and params.speed != ''">
+                and speed = #{params.speed}
+            </if>
+            <if test="params.moport != null and params.moport != ''">
+                and moport = #{params.moport}
+            </if>
+            <if test="params.moip != null and params.moip != ''">
+                and moip = #{params.moip}
+            </if>
+            <if test="params.channeltype != null and params.channeltype != ''">
+                and channeltype = #{params.channeltype}
+            </if>
+            <if test="params.iswhitelist != null and params.iswhitelist != ''">
+                and iswhitelist = #{params.iswhitelist}
+            </if>
+            <if test="params.supportOhas != null and params.supportOhas != ''">
+                and support_ohas = #{params.supportOhas}
+            </if>
+            <if test="params.extendsize != null and params.extendsize != ''">
+                and extendsize = #{params.extendsize}
+            </if>
+            <if test="params.warnTimeRate != null and params.warnTimeRate != ''">
+                and warn_time_rate = #{params.warnTimeRate}
+            </if>
+            <if test="params.needprefix != null and params.needprefix != ''">
+                and needprefix = #{params.needprefix}
+            </if>
+            <if test="params.sendtimearea != null and params.sendtimearea != ''">
+                and sendtimearea = #{params.sendtimearea}
+            </if>
+            <if test="params.identify != null and params.identify != ''">
+                and identify = #{params.identify}
+            </if>
+            <if test="params.maxqueuesize != null and params.maxqueuesize != ''">
+                and maxqueuesize = #{params.maxqueuesize}
+            </if>
+            <if test="params.sliderwindow != null and params.sliderwindow != ''">
+                and sliderwindow = #{params.sliderwindow}
+            </if>
+            <if test="params.ownerType != null and params.ownerType != ''">
+                and owner_type = #{params.ownerType}
+            </if>
+            <if test="params.accessSpeed != null and params.accessSpeed != ''">
+                and access_speed = #{params.accessSpeed}
+            </if>
+            <if test="params.oauthUrl != null and params.oauthUrl != ''">
+                and oauth_url = #{params.oauthUrl}
+            </if>
+            <if test="params.oauthPostData != null and params.oauthPostData != ''">
+                and oauth_post_data = #{params.oauthPostData}
+            </if>
+            <if test="params.addTempUrl != null and params.addTempUrl != ''">
+                and add_temp_url = #{params.addTempUrl}
+            </if>
+            <if test="params.addTempPostData != null and params.addTempPostData != ''">
+                and add_temp_post_data = #{params.addTempPostData}
+            </if>
+            <if test="params.getTempListUrl != null and params.getTempListUrl != ''">
+                and get_temp_list_url = #{params.getTempListUrl}
+            </if>
+            <if test="params.getTempListPostData != null and params.getTempListPostData != ''">
+                and get_temp_list_post_data = #{params.getTempListPostData}
+            </if>
+            <if test="params.contentlen != null and params.contentlen != ''">
+                and contentlen = #{params.contentlen}
+            </if>
+            <if test="params.mqId != null and params.mqId != ''">
+                and mq_id = #{params.mqId}
+            </if>
+            <if test="params.segcodeType != null and params.segcodeType != ''">
+                and segcode_type = #{params.segcodeType}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="Channel" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_channel 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="cid != null and cid != ''">
+                and cid = #{cid}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="channelname != null and channelname != ''">
+                and channelname = #{channelname}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="industrytype != null and industrytype != ''">
+                and industrytype = #{industrytype}
+            </if>
+            <if test="longsms != null and longsms != ''">
+                and longsms = #{longsms}
+            </if>
+            <if test="wappush != null and wappush != ''">
+                and wappush = #{wappush}
+            </if>
+            <if test="httpmode != null and httpmode != ''">
+                and httpmode = #{httpmode}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="coding != null and coding != ''">
+                and coding = #{coding}
+            </if>
+            <if test="postdata != null and postdata != ''">
+                and postdata = #{postdata}
+            </if>
+            <if test="balance != null and balance != ''">
+                and balance = #{balance}
+            </if>
+            <if test="expenditure != null and expenditure != ''">
+                and expenditure = #{expenditure}
+            </if>
+            <if test="costprice != null and costprice != ''">
+                and costprice = #{costprice}
+            </if>
+            <if test="querystateurl != null and querystateurl != ''">
+                and querystateurl = #{querystateurl}
+            </if>
+            <if test="querystatepostdata != null and querystatepostdata != ''">
+                and querystatepostdata = #{querystatepostdata}
+            </if>
+            <if test="queryupurl != null and queryupurl != ''">
+                and queryupurl = #{queryupurl}
+            </if>
+            <if test="queryuppostdata != null and queryuppostdata != ''">
+                and queryuppostdata = #{queryuppostdata}
+            </if>
+            <if test="shownum != null and shownum != ''">
+                and shownum = #{shownum}
+            </if>
+            <if test="showsign != null and showsign != ''">
+                and showsign = #{showsign}
+            </if>
+            <if test="showsigntype != null and showsigntype != ''">
+                and showsigntype = #{showsigntype}
+            </if>
+            <if test="accessid != null and accessid != ''">
+                and accessid = #{accessid}
+            </if>
+            <if test="node != null and node != ''">
+                and node = #{node}
+            </if>
+            <if test="spid != null and spid != ''">
+                and spid = #{spid}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="updatetime != null and updatetime != ''">
+                and updatetime = #{updatetime}
+            </if>
+            <if test="warnSuccRate != null and warnSuccRate != ''">
+                and warn_succ_rate = #{warnSuccRate}
+            </if>
+            <if test="serviceid != null and serviceid != ''">
+                and serviceid = #{serviceid}
+            </if>
+            <if test="sendid != null and sendid != ''">
+                and sendid = #{sendid}
+            </if>
+            <if test="speed != null and speed != ''">
+                and speed = #{speed}
+            </if>
+            <if test="moport != null and moport != ''">
+                and moport = #{moport}
+            </if>
+            <if test="moip != null and moip != ''">
+                and moip = #{moip}
+            </if>
+            <if test="channeltype != null and channeltype != ''">
+                and channeltype = #{channeltype}
+            </if>
+            <if test="iswhitelist != null and iswhitelist != ''">
+                and iswhitelist = #{iswhitelist}
+            </if>
+            <if test="supportOhas != null and supportOhas != ''">
+                and support_ohas = #{supportOhas}
+            </if>
+            <if test="extendsize != null and extendsize != ''">
+                and extendsize = #{extendsize}
+            </if>
+            <if test="warnTimeRate != null and warnTimeRate != ''">
+                and warn_time_rate = #{warnTimeRate}
+            </if>
+            <if test="needprefix != null and needprefix != ''">
+                and needprefix = #{needprefix}
+            </if>
+            <if test="sendtimearea != null and sendtimearea != ''">
+                and sendtimearea = #{sendtimearea}
+            </if>
+            <if test="identify != null and identify != ''">
+                and identify = #{identify}
+            </if>
+            <if test="maxqueuesize != null and maxqueuesize != ''">
+                and maxqueuesize = #{maxqueuesize}
+            </if>
+            <if test="sliderwindow != null and sliderwindow != ''">
+                and sliderwindow = #{sliderwindow}
+            </if>
+            <if test="ownerType != null and ownerType != ''">
+                and owner_type = #{ownerType}
+            </if>
+            <if test="accessSpeed != null and accessSpeed != ''">
+                and access_speed = #{accessSpeed}
+            </if>
+            <if test="oauthUrl != null and oauthUrl != ''">
+                and oauth_url = #{oauthUrl}
+            </if>
+            <if test="oauthPostData != null and oauthPostData != ''">
+                and oauth_post_data = #{oauthPostData}
+            </if>
+            <if test="addTempUrl != null and addTempUrl != ''">
+                and add_temp_url = #{addTempUrl}
+            </if>
+            <if test="addTempPostData != null and addTempPostData != ''">
+                and add_temp_post_data = #{addTempPostData}
+            </if>
+            <if test="getTempListUrl != null and getTempListUrl != ''">
+                and get_temp_list_url = #{getTempListUrl}
+            </if>
+            <if test="getTempListPostData != null and getTempListPostData != ''">
+                and get_temp_list_post_data = #{getTempListPostData}
+            </if>
+            <if test="contentlen != null and contentlen != ''">
+                and contentlen = #{contentlen}
+            </if>
+            <if test="mqId != null and mqId != ''">
+                and mq_id = #{mqId}
+            </if>
+            <if test="segcodeType != null and segcodeType != ''">
+                and segcode_type = #{segcodeType}
+            </if>
+    </select>
+	 
+</mapper>
+

@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.stats.ClientSuccessRateRealtimeMapper">
+     
+        
+    <resultMap id="rowMapper" type="ClientSuccessRateRealtime">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="clientId" jdbcType="VARCHAR" column="client_id"/>
+        <result property="clientName" jdbcType="VARCHAR" column="client_name"/>
+        <result property="sendTotal" jdbcType="INTEGER" column="send_total"/>
+        <result property="reallySuccessTotal" jdbcType="INTEGER" column="really_success_total"/>
+        <result property="fakeSuccessFail" jdbcType="INTEGER" column="fake_success_fail"/>
+        <result property="charge1" jdbcType="INTEGER" column="charge1"/>
+        <result property="charge2" jdbcType="INTEGER" column="charge2"/>
+        <result property="reallyFailTotal" jdbcType="INTEGER" column="really_fail_total"/>
+        <result property="auditFailTotal" jdbcType="INTEGER" column="audit_fail_total"/>
+        <result property="submitFailTotal" jdbcType="INTEGER" column="submit_fail_total"/>
+        <result property="interceptTotal" jdbcType="INTEGER" column="intercept_total"/>
+        <result property="nosend" jdbcType="INTEGER" column="nosend"/>
+        <result property="sendFailToatl" jdbcType="INTEGER" column="send_fail_toatl"/>
+        <result property="sendAll" jdbcType="INTEGER" column="send_all"/>
+        <result property="successRate" jdbcType="DECIMAL" column="success_rate"/>
+        <result property="fakeSuccessRate" jdbcType="DECIMAL" column="fake_success_rate"/>
+        <result property="reallyFailRate" jdbcType="DECIMAL" column="really_fail_rate"/>
+        <result property="dataTime" jdbcType="TIMESTAMP" column="data_time"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        client_id,
+        client_name,
+        send_total,
+        really_success_total,
+        fake_success_fail,
+        charge1,
+        charge2,
+        really_fail_total,
+        audit_fail_total,
+        submit_fail_total,
+        intercept_total,
+        nosend,
+        send_fail_toatl,
+        send_all,
+        success_rate,
+        fake_success_rate,
+        really_fail_rate,
+        data_time,
+        create_time
+    </sql>
+
+    <insert id="insert" parameterType="ClientSuccessRateRealtime" >
+        INSERT INTO t_sms_client_success_rate_realtime 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientId != null" >
+                client_id,
+            </if>
+            <if test="clientName != null" >
+                client_name,
+            </if>
+            <if test="sendTotal != null" >
+                send_total,
+            </if>
+            <if test="reallySuccessTotal != null" >
+                really_success_total,
+            </if>
+            <if test="fakeSuccessFail != null" >
+                fake_success_fail,
+            </if>
+            <if test="charge1 != null" >
+                charge1,
+            </if>
+            <if test="charge2 != null" >
+                charge2,
+            </if>
+            <if test="reallyFailTotal != null" >
+                really_fail_total,
+            </if>
+            <if test="auditFailTotal != null" >
+                audit_fail_total,
+            </if>
+            <if test="submitFailTotal != null" >
+                submit_fail_total,
+            </if>
+            <if test="interceptTotal != null" >
+                intercept_total,
+            </if>
+            <if test="nosend != null" >
+                nosend,
+            </if>
+            <if test="sendFailToatl != null" >
+                send_fail_toatl,
+            </if>
+            <if test="sendAll != null" >
+                send_all,
+            </if>
+            <if test="successRate != null" >
+                success_rate,
+            </if>
+            <if test="fakeSuccessRate != null" >
+                fake_success_rate,
+            </if>
+            <if test="reallyFailRate != null" >
+                really_fail_rate,
+            </if>
+            <if test="dataTime != null" >
+                data_time,
+            </if>
+            <if test="createTime != null" >
+                create_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="clientId != null" >
+                #{clientId},
+            </if>
+            <if test="clientName != null" >
+                #{clientName},
+            </if>
+            <if test="sendTotal != null" >
+                #{sendTotal},
+            </if>
+            <if test="reallySuccessTotal != null" >
+                #{reallySuccessTotal},
+            </if>
+            <if test="fakeSuccessFail != null" >
+                #{fakeSuccessFail},
+            </if>
+            <if test="charge1 != null" >
+                #{charge1},
+            </if>
+            <if test="charge2 != null" >
+                #{charge2},
+            </if>
+            <if test="reallyFailTotal != null" >
+                #{reallyFailTotal},
+            </if>
+            <if test="auditFailTotal != null" >
+                #{auditFailTotal},
+            </if>
+            <if test="submitFailTotal != null" >
+                #{submitFailTotal},
+            </if>
+            <if test="interceptTotal != null" >
+                #{interceptTotal},
+            </if>
+            <if test="nosend != null" >
+                #{nosend},
+            </if>
+            <if test="sendFailToatl != null" >
+                #{sendFailToatl},
+            </if>
+            <if test="sendAll != null" >
+                #{sendAll},
+            </if>
+            <if test="successRate != null" >
+                #{successRate},
+            </if>
+            <if test="fakeSuccessRate != null" >
+                #{fakeSuccessRate},
+            </if>
+            <if test="reallyFailRate != null" >
+                #{reallyFailRate},
+            </if>
+            <if test="dataTime != null" >
+                #{dataTime},
+            </if>
+            <if test="createTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_client_success_rate_realtime (
+            id,
+            client_id,
+            client_name,
+            send_total,
+            really_success_total,
+            fake_success_fail,
+            charge1,
+            charge2,
+            really_fail_total,
+            audit_fail_total,
+            submit_fail_total,
+            intercept_total,
+            nosend,
+            send_fail_toatl,
+            send_all,
+            success_rate,
+            fake_success_rate,
+            really_fail_rate,
+            data_time,
+            create_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.clientId},
+                #{item.clientName},
+                #{item.sendTotal},
+                #{item.reallySuccessTotal},
+                #{item.fakeSuccessFail},
+                #{item.charge1},
+                #{item.charge2},
+                #{item.reallyFailTotal},
+                #{item.auditFailTotal},
+                #{item.submitFailTotal},
+                #{item.interceptTotal},
+                #{item.nosend},
+                #{item.sendFailToatl},
+                #{item.sendAll},
+                #{item.successRate},
+                #{item.fakeSuccessRate},
+                #{item.reallyFailRate},
+                #{item.dataTime},
+                now()
+            )
+        </foreach>
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_client_success_rate_realtime WHERE ID = #{id} 
+    </delete>
+    
+
+    <update id="update" parameterType="ClientSuccessRateRealtime">
+        UPDATE t_sms_client_success_rate_realtime SET 
+            id=#{id},
+            client_id=#{clientId},
+            client_name=#{clientName},
+            send_total=#{sendTotal},
+            really_success_total=#{reallySuccessTotal},
+            fake_success_fail=#{fakeSuccessFail},
+            charge1=#{charge1},
+            charge2=#{charge2},
+            really_fail_total=#{reallyFailTotal},
+            audit_fail_total=#{auditFailTotal},
+            submit_fail_total=#{submitFailTotal},
+            intercept_total=#{interceptTotal},
+            nosend=#{nosend},
+            send_fail_toatl=#{sendFailToatl},
+            send_all=#{sendAll},
+            success_rate=#{successRate},
+            fake_success_rate=#{fakeSuccessRate},
+            really_fail_rate=#{reallyFailRate},
+            data_time=#{dataTime},
+            create_time=#{createTime}
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <update id="updateStatus" parameterType="ClientSuccessRateRealtime">
+        UPDATE t_sms_client_success_rate_realtime 
+            <set>
+                STATUS = #{status}
+                ,UPDATE_TIME = now(),
+                OPERATOR_ID = #{operatorId}
+            </set>
+        WHERE 
+            ID = #{id} 
+    </update>
+
+    <update id="updateSelective" parameterType="ClientSuccessRateRealtime">
+        UPDATE t_sms_client_success_rate_realtime 
+            <set>
+                <if test="id != null and id != ''">
+                    id = #{id},
+                </if>
+                <if test="clientId != null and clientId != ''">
+                    client_id = #{clientId},
+                </if>
+                <if test="clientName != null and clientName != ''">
+                    client_name = #{clientName},
+                </if>
+                <if test="sendTotal != null and sendTotal != ''">
+                    send_total = #{sendTotal},
+                </if>
+                <if test="reallySuccessTotal != null and reallySuccessTotal != ''">
+                    really_success_total = #{reallySuccessTotal},
+                </if>
+                <if test="fakeSuccessFail != null and fakeSuccessFail != ''">
+                    fake_success_fail = #{fakeSuccessFail},
+                </if>
+                <if test="charge1 != null and charge1 != ''">
+                    charge1 = #{charge1},
+                </if>
+                <if test="charge2 != null and charge2 != ''">
+                    charge2 = #{charge2},
+                </if>
+                <if test="reallyFailTotal != null and reallyFailTotal != ''">
+                    really_fail_total = #{reallyFailTotal},
+                </if>
+                <if test="auditFailTotal != null and auditFailTotal != ''">
+                    audit_fail_total = #{auditFailTotal},
+                </if>
+                <if test="submitFailTotal != null and submitFailTotal != ''">
+                    submit_fail_total = #{submitFailTotal},
+                </if>
+                <if test="interceptTotal != null and interceptTotal != ''">
+                    intercept_total = #{interceptTotal},
+                </if>
+                <if test="nosend != null and nosend != ''">
+                    nosend = #{nosend},
+                </if>
+                <if test="sendFailToatl != null and sendFailToatl != ''">
+                    send_fail_toatl = #{sendFailToatl},
+                </if>
+                <if test="sendAll != null and sendAll != ''">
+                    send_all = #{sendAll},
+                </if>
+                <if test="successRate != null and successRate != ''">
+                    success_rate = #{successRate},
+                </if>
+                <if test="fakeSuccessRate != null and fakeSuccessRate != ''">
+                    fake_success_rate = #{fakeSuccessRate},
+                </if>
+                <if test="reallyFailRate != null and reallyFailRate != ''">
+                    really_fail_rate = #{reallyFailRate},
+                </if>
+                <if test="dataTime != null and dataTime != ''">
+                    data_time = #{dataTime},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+            </set>
+        WHERE 
+            ID = #{id} 
+    </update>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_client_success_rate_realtime
+        WHERE 
+            ID = #{id}
+    </select>
+
+    <select id="count" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_client_success_rate_realtime 
+        WHERE 
+            STATUS = 1 
+    </select>
+    
+    
+    <delete id="deleteByDataTime">
+        DELETE FROM t_sms_client_success_rate_realtime 
+        WHERE 
+        data_time = #{dataTime}
+    </delete>
+
+	 
+	 
+    <select id="query" parameterType="ChannelSuccessRateRealtime" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_client_success_rate_realtime 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="dataTimeStart != null and dataTimeStart != ''">
+                and data_time &gt;= #{dataTimeStart}
+            </if>
+            <if test="dataTimeEnd != null and dataTimeEnd != ''">
+                and data_time &lt;= #{dataTimeEnd}
+            </if>
+        </trim>
+	     order by data_time
+        
+    </select>
+	 
+</mapper>
+

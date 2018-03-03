@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.record.RecordChannelStatisticsMapper">
+     
+        
+    <resultMap id="rowMapper" type="RecordChannelStatistics">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="channelid" jdbcType="INTEGER" column="channelid"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="belongSale" jdbcType="BIGINT" column="belong_sale"/>
+        <result property="belongBusiness" jdbcType="BIGINT" column="belong_business"/>
+        <result property="smstype" jdbcType="INTEGER" column="smstype"/>
+        <result property="paytype" jdbcType="INTEGER" column="paytype"/>
+        <result property="remark" jdbcType="VARCHAR" column="remark"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="chargetotal" jdbcType="INTEGER" column="chargetotal"/>
+        <result property="costtotal" jdbcType="DECIMAL" column="costtotal"/>
+        <result property="sendtotal" jdbcType="INTEGER" column="sendtotal"/>
+        <result property="notsend" jdbcType="INTEGER" column="notsend"/>
+        <result property="submitsuccess" jdbcType="INTEGER" column="submitsuccess"/>
+        <result property="subretsuccess" jdbcType="INTEGER" column="subretsuccess"/>
+        <result property="reportsuccess" jdbcType="INTEGER" column="reportsuccess"/>
+        <result property="submitfail" jdbcType="INTEGER" column="submitfail"/>
+        <result property="subretfail" jdbcType="INTEGER" column="subretfail"/>
+        <result property="reportfail" jdbcType="INTEGER" column="reportfail"/>
+        <result property="stattype" jdbcType="INTEGER" column="stattype"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        channelid,
+        clientid,
+        belong_sale,
+        belong_business,
+        smstype,
+        paytype,
+        remark,
+        operatorstype,
+        chargetotal,
+        costtotal,
+        sendtotal,
+        notsend,
+        submitsuccess,
+        subretsuccess,
+        reportsuccess,
+        submitfail,
+        subretfail,
+        reportfail,
+        stattype,
+        date,
+        createtime
+    </sql>
+    
+    <sql id="SUM_COLUMN_LIST">
+        id,
+        channelid,
+        remark,
+        clientid,
+        operatorstype,
+        SUM(chargetotal) AS 'chargetotal',
+        costtotal,
+        SUM(sendtotal) AS 'sendtotal',
+        SUM(notsend) AS 'notsend',
+        SUM(submitsuccess) AS 'submitsuccess',
+        SUM(subretsuccess) AS 'subretsuccess',
+        SUM(reportsuccess) AS 'reportsuccess',
+        SUM(submitfail) AS 'submitfail',
+        SUM(subretfail) AS 'subretfail',
+        SUM(reportfail) AS 'reportfail',
+        stattype,
+        date,
+        createtime,
+        clientid,
+        belong_sale,
+        paytype,
+        belong_business
+    </sql>
+
+    <insert id="insert" parameterType="RecordChannelStatistics" >
+        INSERT INTO t_sms_record_channel_statistics 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="channelid != null" >
+                channelid,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="operatorstype != null" >
+                operatorstype,
+            </if>
+            <if test="chargetotal != null" >
+                chargetotal,
+            </if>
+            <if test="costtotal != null" >
+                costtotal,
+            </if>
+            <if test="sendtotal != null" >
+                sendtotal,
+            </if>
+            <if test="notsend != null" >
+                notsend,
+            </if>
+            <if test="submitsuccess != null" >
+                submitsuccess,
+            </if>
+            <if test="subretsuccess != null" >
+                subretsuccess,
+            </if>
+            <if test="reportsuccess != null" >
+                reportsuccess,
+            </if>
+            <if test="submitfail != null" >
+                submitfail,
+            </if>
+            <if test="subretfail != null" >
+                subretfail,
+            </if>
+            <if test="reportfail != null" >
+                reportfail,
+            </if>
+            <if test="stattype != null" >
+                stattype,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="createtime != null" >
+                createtime,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="belongSale != null" >
+                belong_sale,
+            </if>
+            <if test="paytype != null" >
+                paytype,
+            </if>
+            <if test="belongBusiness != null" >
+                belong_business,
+            </if>
+            <if test="smstype != null" >
+                smstype
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="channelid != null" >
+                #{channelid},
+            </if>
+            <if test="remark != null" >
+                #{remark},
+            </if>
+            <if test="operatorstype != null" >
+                #{operatorstype},
+            </if>
+            <if test="chargetotal != null" >
+                #{chargetotal},
+            </if>
+            <if test="costtotal != null" >
+                #{costtotal},
+            </if>
+            <if test="sendtotal != null" >
+                #{sendtotal},
+            </if>
+            <if test="notsend != null" >
+                #{notsend},
+            </if>
+            <if test="submitsuccess != null" >
+                #{submitsuccess},
+            </if>
+            <if test="subretsuccess != null" >
+                #{subretsuccess},
+            </if>
+            <if test="reportsuccess != null" >
+                #{reportsuccess},
+            </if>
+            <if test="submitfail != null" >
+                #{submitfail},
+            </if>
+            <if test="subretfail != null" >
+                #{subretfail},
+            </if>
+            <if test="reportfail != null" >
+                #{reportfail},
+            </if>
+            <if test="stattype != null" >
+                #{stattype},
+            </if>
+            <if test="date != null" >
+                #{date},
+            </if>
+            <if test="createtime != null" >
+                #{createtime},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="belongSale != null" >
+                #{belongSale},
+            </if>
+            <if test="paytype != null" >
+                #{paytype},
+            </if>
+            <if test="belongBusiness != null" >
+                #{belongBusiness},
+            </if>
+            <if test="smstype != null" >
+                #{smstype}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_record_channel_statistics (
+            id,
+            channelid,
+            remark,
+            operatorstype,
+            chargetotal,
+            costtotal,
+            sendtotal,
+            notsend,
+            submitsuccess,
+            subretsuccess,
+            reportsuccess,
+            submitfail,
+            subretfail,
+            reportfail,
+            stattype,
+            date,
+            createtime,
+            clientid,
+            belong_sale,
+            paytype,
+            belong_business,
+            smstype
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.channelid},
+                #{item.remark},
+                #{item.operatorstype},
+                #{item.chargetotal},
+                #{item.costtotal},
+                #{item.sendtotal},
+                #{item.notsend},
+                #{item.submitsuccess},
+                #{item.subretsuccess},
+                #{item.reportsuccess},
+                #{item.submitfail},
+                #{item.subretfail},
+                #{item.reportfail},
+                #{item.stattype},
+                #{item.date},
+                #{item.createtime},
+                #{item.clientid},
+                #{item.belongSale},
+                #{item.paytype},
+                #{item.belongBusiness},
+                #{item.smstype}
+            )
+        </foreach>
+    </insert>
+    
+    <update id="update" parameterType="RecordChannelStatistics">
+        UPDATE t_sms_record_channel_statistics SET 
+            channelid=#{channelid},
+            remark=#{remark},
+            operatorstype=#{operatorstype},
+            chargetotal=#{chargetotal},
+            costtotal=#{costtotal},
+            sendtotal=#{sendtotal},
+            notsend=#{notsend},
+            submitsuccess=#{submitsuccess},
+            subretsuccess=#{subretsuccess},
+            reportsuccess=#{reportsuccess},
+            submitfail=#{submitfail},
+            subretfail=#{subretfail},
+            reportfail=#{reportfail},
+            stattype=#{stattype},
+            date=#{date},
+            createtime=#{createtime},
+            clientid=#{clientid},
+            belong_sale=#{belongSale},
+            paytype=#{paytype},
+            belong_business=#{belongBusiness},
+            smstype=#{smstype}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="RecordChannelStatistics">
+        UPDATE t_sms_record_channel_statistics 
+            <set>
+                <if test="channelid != null and channelid != ''">
+                    channelid = #{channelid},
+                </if>
+                <if test="remark != null and remark != ''">
+                    remark = #{remark},
+                </if>
+                <if test="operatorstype != null and operatorstype != ''">
+                    operatorstype = #{operatorstype},
+                </if>
+                <if test="chargetotal != null and chargetotal != ''">
+                    chargetotal = #{chargetotal},
+                </if>
+                <if test="costtotal != null and costtotal != ''">
+                    costtotal = #{costtotal},
+                </if>
+                <if test="sendtotal != null and sendtotal != ''">
+                    sendtotal = #{sendtotal},
+                </if>
+                <if test="notsend != null and notsend != ''">
+                    notsend = #{notsend},
+                </if>
+                <if test="submitsuccess != null and submitsuccess != ''">
+                    submitsuccess = #{submitsuccess},
+                </if>
+                <if test="subretsuccess != null and subretsuccess != ''">
+                    subretsuccess = #{subretsuccess},
+                </if>
+                <if test="reportsuccess != null and reportsuccess != ''">
+                    reportsuccess = #{reportsuccess},
+                </if>
+                <if test="submitfail != null and submitfail != ''">
+                    submitfail = #{submitfail},
+                </if>
+                <if test="subretfail != null and subretfail != ''">
+                    subretfail = #{subretfail},
+                </if>
+                <if test="reportfail != null and reportfail != ''">
+                    reportfail = #{reportfail},
+                </if>
+                <if test="stattype != null and stattype != ''">
+                    stattype = #{stattype},
+                </if>
+                <if test="date != null and date != ''">
+                    date = #{date},
+                </if>
+                <if test="createtime != null and createtime != ''">
+                    createtime = #{createtime},
+                </if>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="belongSale != null and belongSale != ''">
+                    belong_sale = #{belongSale},
+                </if>
+                <if test="paytype != null and paytype != ''">
+                    paytype = #{paytype},
+                </if>
+                <if test="belongBusiness != null and belongBusiness != ''">
+                    belong_business = #{belongBusiness}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_record_channel_statistics
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_record_channel_statistics 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="belongSale != null">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="belongBusiness != null and belongBusiness != ''">
+                and belong_business = #{belongBusiness}
+            </if>
+            <if test="smstype != null">
+                and smstype = #{smstype}
+            </if>
+            <if test="paytype != null">
+                and paytype = #{paytype}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="operatorstype != null">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="chargetotal != null and chargetotal != ''">
+                and chargetotal = #{chargetotal}
+            </if>
+            <if test="costtotal != null and costtotal != ''">
+                and costtotal = #{costtotal}
+            </if>
+            <if test="sendtotal != null and sendtotal != ''">
+                and sendtotal = #{sendtotal}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="subretsuccess != null and subretsuccess != ''">
+                and subretsuccess = #{subretsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="stattype != null">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null">
+                and `date` = #{date}
+            </if>
+            <if test="likeDate != null">
+                and `date` like CONCAT(#{likeDate},'%')
+            </if>
+            <if test="createtime != null">
+                and createtime = #{createtime}
+            </if>
+            <if test="createtimeStart != null">
+                <![CDATA[ and createtime >#{createtimeStart} and createtime < #{createtimeEnd}]]>
+            </if>
+	     </trim>
+    </select>
+
+
+    <select id="queryAllGroupBy" resultMap="rowMapper">
+        SELECT
+        <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_record_channel_statistics
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="stattype != null">
+                and stattype = #{stattype}
+            </if>
+            <if test="createtimeStart != null">
+                <![CDATA[ and createtime >#{createtimeStart} and createtime < #{createtimeEnd}]]>
+            </if>
+        </trim>
+        GROUP BY channelid
+    </select>
+
+    <select id="count" parameterType="RecordChannelStatistics" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_record_channel_statistics 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="chargetotal != null and chargetotal != ''">
+                and chargetotal = #{chargetotal}
+            </if>
+            <if test="costtotal != null and costtotal != ''">
+                and costtotal = #{costtotal}
+            </if>
+            <if test="sendtotal != null and sendtotal != ''">
+                and sendtotal = #{sendtotal}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="subretsuccess != null and subretsuccess != ''">
+                and subretsuccess = #{subretsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="stattype != null and stattype != ''">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="belongSale != null and belongSale != ''">
+                and belong_sale = #{belongSale}
+            </if>
+            <if test="paytype != null and paytype != ''">
+                and paytype = #{paytype}
+            </if>
+    </select>
+	 
+	 
+	 <delete id="deleteByDate">
+		DELETE s FROM t_sms_record_channel_statistics s WHERE s.date = #{statTime}
+    </delete>
+    
+    
+      <select id="queryMonthly" resultType="RecordChannelStatistics">
+        SELECT
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_record_channel_statistics t
+        WHERE
+        	t.stattype = #{stattype}
+        AND t.date LIKE CONCAT(#{dataTimePrix}, "%")
+      </select>
+
+    <select id="queryCommonlyChannel" resultType="RecordChannelStatistics" parameterType="map">
+        SELECT
+            channelid,
+            remark,
+            clientid,
+            operatorstype,
+            SUM(chargetotal) AS 'chargetotal',
+            costtotal,
+            SUM(sendtotal) AS 'sendtotal',
+            SUM(notsend) AS 'notsend',
+            SUM(submitsuccess) AS 'submitsuccess',
+            SUM(subretsuccess) AS 'subretsuccess',
+            SUM(reportsuccess) AS 'reportsuccess',
+            SUM(submitfail) AS 'submitfail',
+            SUM(subretfail) AS 'subretfail',
+            SUM(reportfail) AS 'reportfail',
+            stattype,
+            date
+        FROM
+          t_sms_record_channel_statistics
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="paytype != null">
+                and paytype = #{paytype}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="chargetotal != null and chargetotal != ''">
+                and chargetotal = #{chargetotal}
+            </if>
+            <if test="costtotal != null and costtotal != ''">
+                and costtotal = #{costtotal}
+            </if>
+            <if test="sendtotal != null and sendtotal != ''">
+                and sendtotal = #{sendtotal}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="subretsuccess != null and subretsuccess != ''">
+                and subretsuccess = #{subretsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="clientids != null and clientids != ''">
+                AND clientid in
+                <foreach item="item" index="index" collection="clientids"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="stattype != null ">
+                and stattype = #{stattype}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and date &lt;= #{endTime}
+            </if>
+            <if test="groupParams != null and groupParams != ''">
+                GROUP BY ${groupParams}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryAllByClientids" resultType="RecordChannelStatistics" parameterType="map">
+        SELECT
+          <include refid="BASE_COLUMN_LIST"/>
+        FROM
+          t_sms_record_channel_statistics
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="paytype != null">
+                and paytype = #{paytype}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="chargetotal != null and chargetotal != ''">
+                and chargetotal = #{chargetotal}
+            </if>
+            <if test="costtotal != null and costtotal != ''">
+                and costtotal = #{costtotal}
+            </if>
+            <if test="sendtotal != null and sendtotal != ''">
+                and sendtotal = #{sendtotal}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="subretsuccess != null and subretsuccess != ''">
+                and subretsuccess = #{subretsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="stattype != null">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="clientids != null and clientids != ''">
+                AND clientid in
+                <foreach item="item" index="index" collection="clientids"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and date &lt;= #{endTime}
+            </if>
+            <if test="groupParams != null and groupParams != ''">
+                GROUP BY
+                ${groupParams}
+            </if>
+        </where>
+    </select>
+
+    <select id="querySumByClientids" resultType="RecordChannelStatistics" parameterType="map">
+        SELECT
+          <include refid="SUM_COLUMN_LIST"/>
+        FROM
+          t_sms_record_channel_statistics
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="paytype != null">
+                and paytype = #{paytype}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="chargetotal != null and chargetotal != ''">
+                and chargetotal = #{chargetotal}
+            </if>
+            <if test="costtotal != null and costtotal != ''">
+                and costtotal = #{costtotal}
+            </if>
+            <if test="sendtotal != null and sendtotal != ''">
+                and sendtotal = #{sendtotal}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="subretsuccess != null and subretsuccess != ''">
+                and subretsuccess = #{subretsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="stattype != null">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+            <if test="clientids != null and clientids != ''">
+                AND clientid in
+                <foreach item="item" index="index" collection="clientids"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and date &lt;= #{endTime}
+            </if>
+            <if test="groupParams != null and groupParams != ''">
+                GROUP BY
+                ${groupParams}
+            </if>
+        </where>
+    </select>
+    
+    <select id="generateDataForRecordConsume" resultType="RecordConsumeStatistics" parameterType="string">
+    	SELECT
+			channelid,
+			belong_business,
+			smstype,
+			paytype,
+			remark,
+			operatorstype,
+			costtotal,
+			notsend,
+			submitsuccess,
+			subretsuccess,
+			reportsuccess,
+			submitfail,
+			subretfail,
+			reportfail
+		FROM
+			t_sms_record_channel_statistics
+		WHERE
+			stattype = 0 AND date = #{statDayStr}
+		GROUP BY
+			channelid,
+			belong_business,
+			smstype,
+			paytype,
+			operatorstype
+    </select>
+    
+</mapper>
+

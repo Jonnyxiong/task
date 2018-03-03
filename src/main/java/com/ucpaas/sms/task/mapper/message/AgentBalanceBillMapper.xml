@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.AgentBalanceBillMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.message.AgentBalanceBill">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="agentId" jdbcType="INTEGER" column="agent_id"/>
+        <result property="paymentType" jdbcType="INTEGER" column="payment_type"/>
+        <result property="financialType" jdbcType="VARCHAR" column="financial_type"/>
+        <result property="amount" jdbcType="DECIMAL" column="amount"/>
+        <result property="balance" jdbcType="DECIMAL" column="balance"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="orderId" jdbcType="BIGINT" column="order_id"/>
+        <result property="adminId" jdbcType="BIGINT" column="admin_id"/>
+        <result property="clientId" jdbcType="VARCHAR" column="client_id"/>
+        <result property="remark" jdbcType="VARCHAR" column="remark"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        agent_id,
+        payment_type,
+        financial_type,
+        amount,
+        balance,
+        create_time,
+        order_id,
+        admin_id,
+        client_id,
+        remark
+    </sql>
+
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.message.AgentBalanceBill" >
+        INSERT INTO t_sms_agent_balance_bill 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="agentId != null" >
+                agent_id,
+            </if>
+            <if test="paymentType != null" >
+                payment_type,
+            </if>
+            <if test="financialType != null" >
+                financial_type,
+            </if>
+            <if test="amount != null" >
+                amount,
+            </if>
+            <if test="balance != null" >
+                balance,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="orderId != null" >
+                order_id,
+            </if>
+            <if test="adminId != null" >
+                admin_id,
+            </if>
+            <if test="clientId != null" >
+                client_id,
+            </if>
+            <if test="remark != null" >
+                remark
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="agentId != null" >
+                #{agentId},
+            </if>
+            <if test="paymentType != null" >
+                #{paymentType},
+            </if>
+            <if test="financialType != null" >
+                #{financialType},
+            </if>
+            <if test="amount != null" >
+                #{amount},
+            </if>
+            <if test="balance != null" >
+                #{balance},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="orderId != null" >
+                #{orderId},
+            </if>
+            <if test="adminId != null" >
+                #{adminId},
+            </if>
+            <if test="clientId != null" >
+                #{clientId},
+            </if>
+            <if test="remark != null" >
+                #{remark}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_agent_balance_bill (
+            id,
+            agent_id,
+            payment_type,
+            financial_type,
+            amount,
+            balance,
+            create_time,
+            order_id,
+            admin_id,
+            client_id,
+            remark
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.agentId},
+                #{item.paymentType},
+                #{item.financialType},
+                #{item.amount},
+                #{item.balance},
+                now(),
+                #{item.orderId},
+                #{item.adminId},
+                #{item.clientId},
+                #{item.remark}
+            )
+        </foreach>
+    </insert>
+    
+
+    
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.message.AgentBalanceBill">
+        UPDATE t_sms_agent_balance_bill SET 
+            agent_id=#{agentId},
+            payment_type=#{paymentType},
+            financial_type=#{financialType},
+            amount=#{amount},
+            balance=#{balance},
+            create_time=#{createTime},
+            order_id=#{orderId},
+            admin_id=#{adminId},
+            client_id=#{clientId},
+            remark=#{remark}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.message.AgentBalanceBill">
+        UPDATE t_sms_agent_balance_bill 
+            <set>
+                <if test="agentId != null and agentId != ''">
+                    agent_id = #{agentId},
+                </if>
+                <if test="paymentType != null and paymentType != ''">
+                    payment_type = #{paymentType},
+                </if>
+                <if test="financialType != null and financialType != ''">
+                    financial_type = #{financialType},
+                </if>
+                <if test="amount != null and amount != ''">
+                    amount = #{amount},
+                </if>
+                <if test="balance != null and balance != ''">
+                    balance = #{balance},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="orderId != null and orderId != ''">
+                    order_id = #{orderId},
+                </if>
+                <if test="adminId != null and adminId != ''">
+                    admin_id = #{adminId},
+                </if>
+                <if test="clientId != null and clientId != ''">
+                    client_id = #{clientId},
+                </if>
+                <if test="remark != null and remark != ''">
+                    remark = #{remark}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_agent_balance_bill
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryAll"  resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_agent_balance_bill 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="paymentType != null">
+                and payment_type = #{paymentType}
+            </if>
+            <if test="financialType != null and financialType != ''">
+                and financial_type = #{financialType}
+            </if>
+            <if test="amount != null and amount != ''">
+                and amount = #{amount}
+            </if>
+            <if test="balance != null and balance != ''">
+                and balance = #{balance}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and admin_id = #{adminId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and client_id = #{clientId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="beginCreatTime!=null">
+                and create_time &gt;=  #{beginCreatTime}
+            </if>
+            <if test="endCreatTime!=null">
+                and create_time &lt;  #{endCreatTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="com.ucpaas.sms.task.entity.message.AgentBalanceBill" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_agent_balance_bill 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="paymentType != null and paymentType != ''">
+                and payment_type = #{paymentType}
+            </if>
+            <if test="financialType != null and financialType != ''">
+                and financial_type = #{financialType}
+            </if>
+            <if test="amount != null and amount != ''">
+                and amount = #{amount}
+            </if>
+            <if test="balance != null and balance != ''">
+                and balance = #{balance}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+            <if test="adminId != null and adminId != ''">
+                and admin_id = #{adminId}
+            </if>
+            <if test="clientId != null and clientId != ''">
+                and client_id = #{clientId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+    </select>
+	 
+</mapper>
+

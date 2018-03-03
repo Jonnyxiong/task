@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 预警任务 -->
+<mapper namespace="warning">
+	
+	<!-- 查询当前需要通知的用户 -->
+	<select id="getNoticeUser" resultType="map">
+		SELECT
+			nu.alarm_type as alarm_type,
+			GROUP_CONCAT(u.mobile) AS mobile,
+			GROUP_CONCAT(u.email) AS email
+		FROM
+			t_sms_sys_notice n,
+			t_sms_sys_notice_user nu,
+			t_sms_user u
+		WHERE
+			nu.notice_id = n.notice_id
+		AND u.id = nu.user_id
+		AND CURTIME() BETWEEN n.start_date
+		AND n.end_date
+		AND n.`status` = 1
+	</select>
+	
+	<!-- 获取通道(废弃) -->
+	<select id="getChanne" resultType="map">
+		SELECT
+			l.cid AS channelid,
+			CONVERT (
+				concat(
+					l.cid,
+					'（',
+					l.channelname,
+					'）'
+				),
+				CHAR
+			) AS channelname,
+			l.warningtime
+		FROM
+			t_sms_channel l
+		WHERE
+			l.state = 1
+	</select>
+	
+	<!-- 检查是否发生预警(废弃) -->
+	<select id="checkWarning" resultType="map">
+		SELECT
+		
+		IF (count(0) >= 3, TRUE, FALSE) AS is_warning,
+		 CONVERT (
+			GROUP_CONCAT(t.${column}),
+			CHAR
+		) AS warning_value,
+		 p.param_value AS threshold_value
+		FROM
+			(
+				SELECT
+					l.${column}
+				FROM
+					t_monitor_log l
+				WHERE
+					l.channelid = #{channelid}
+				AND l.${column} IS NOT NULL
+				
+				<if test="warningtime != null">
+					AND l.createtime > #{warningtime}
+				</if>
+				ORDER BY
+					l.createtime DESC
+				LIMIT 3
+			) t,
+			t_sms_param p
+		WHERE
+			t.${column} ${condition} p.param_value
+		AND p.param_key = #{param_key}
+	</select>
+	
+	<!-- 更新通道信息(废弃) -->
+	<update id="updateChannel">
+		UPDATE t_sms_channel c
+		SET c.warningtime = now()
+		WHERE
+			c.cid = #{channelid}
+	</update>
+	
+	<!-- 查询通道最近的告警 -->
+	<select id="checkChannelLatestWarning" resultType="map">
+		SELECT
+			w.id,
+			w.channelid,
+			w.reachrate,
+			w.timelyrate,
+			w.warnreachrate,
+			w.warntimelyrate,
+			w.datatime
+		FROM
+			t_sms_channel_warn w
+		INNER JOIN (
+			SELECT
+				channelid,
+				MAX(datatime) AS max_datatime
+			FROM
+				t_sms_channel_warn
+			GROUP BY
+				channelid
+		) t ON w.channelid = t.channelid
+		WHERE 
+		w.iswarn = 0
+		AND w.datatime = t.max_datatime
+	</select>
+	
+	<!-- 更新通道告警记录状态 -->
+	<update id="updateChannelWarn">
+		UPDATE t_sms_channel_warn
+		SET createtime = now(),
+		iswarn = #{iswarn}
+		WHERE
+			id = #{id}
+	</update>
+	
+	<select id="checkWarningIsNeed" resultType="map">
+		SELECT
+			channelid,
+			datatime
+		FROM
+			t_sms_channel_warn
+		WHERE
+			channelid = #{channelid}
+		AND datatime > FROM_UNIXTIME(
+			unix_timestamp(#{datatime}) - 60*(SELECT CONVERT(SUBSTRING_INDEX(param_value,';',-1),SIGNED) AS sms_count_num FROM t_sms_param WHERE param_key = 'CHANNELWARNING')
+		) 
+		AND iswarn != 0 LIMIT 1
+	</select>
+	
+	<!-- 删除过期的告警记录 -->
+	<delete id="deleteExpiredWarn">
+		DELETE s FROM t_sms_channel_warn s
+		WHERE datatime &lt; #{datatime}
+		AND iswarn = 0 
+		AND channelid = #{channelid}
+	</delete>
+	
+	
+</mapper> 

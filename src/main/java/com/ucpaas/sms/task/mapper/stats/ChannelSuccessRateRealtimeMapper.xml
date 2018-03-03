@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.stats.ChannelSuccessRateRealtimeMapper">
+     
+        
+    <resultMap id="rowMapper" type="ChannelSuccessRateRealtime">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="channelId" jdbcType="VARCHAR" column="channel_id"/>
+        <result property="channelName" jdbcType="VARCHAR" column="channel_name"/>
+        <result property="iden" jdbcType="VARCHAR" column="iden"/>
+        <result property="sendTotal" jdbcType="INTEGER" column="send_total"/>
+        <result property="successTotal" jdbcType="INTEGER" column="success_total"/>
+        <result property="submitFail" jdbcType="INTEGER" column="submit_fail"/>
+        <result property="sendFail" jdbcType="INTEGER" column="send_fail"/>
+        <result property="undetermined1" jdbcType="INTEGER" column="undetermined1"/>
+        <result property="undetermined2" jdbcType="INTEGER" column="undetermined2"/>
+        <result property="nosend" jdbcType="INTEGER" column="nosend"/>
+        <result property="successRate" jdbcType="DECIMAL" column="success_rate"/>
+        <result property="fakeSuccessRate" jdbcType="DECIMAL" column="fake_success_rate"/>
+        <result property="reallyFailRate" jdbcType="DECIMAL" column="really_fail_rate"/>
+        <result property="dataTime" jdbcType="TIMESTAMP" column="data_time"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        channel_id,
+        channel_name,
+        iden,
+        send_total,
+        success_total,
+        submit_fail,
+        send_fail,
+        undetermined1,
+        undetermined2,
+        nosend,
+        success_rate,
+        fake_success_rate,
+        really_fail_rate,
+        data_time,
+        create_time
+    </sql>
+
+    <insert id="insert" parameterType="ChannelSuccessRateRealtime" >
+        INSERT INTO t_sms_channel_success_rate_realtime 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="channelId != null" >
+                channel_id,
+            </if>
+            <if test="channelName != null" >
+                channel_name,
+            </if>
+            <if test="iden != null" >
+                iden,
+            </if>
+            <if test="sendTotal != null" >
+                send_total,
+            </if>
+            <if test="successTotal != null" >
+                success_total,
+            </if>
+            <if test="submitFail != null" >
+                submit_fail,
+            </if>
+            <if test="sendFail != null" >
+                send_fail,
+            </if>
+            <if test="undetermined1 != null" >
+                undetermined1,
+            </if>
+            <if test="undetermined2 != null" >
+                undetermined2,
+            </if>
+            <if test="nosend != null" >
+                nosend,
+            </if>
+            <if test="successRate != null" >
+                success_rate,
+            </if>
+            <if test="fakeSuccessRate != null" >
+                fake_success_rate,
+            </if>
+            <if test="reallyFailRate != null" >
+                really_fail_rate,
+            </if>
+            <if test="dataTime != null" >
+                data_time,
+            </if>
+            <if test="createTime != null" >
+                create_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="channelId != null" >
+                #{channelId},
+            </if>
+            <if test="channelName != null" >
+                #{channelName},
+            </if>
+            <if test="iden != null" >
+                #{iden},
+            </if>
+            <if test="sendTotal != null" >
+                #{sendTotal},
+            </if>
+            <if test="successTotal != null" >
+                #{successTotal},
+            </if>
+            <if test="submitFail != null" >
+                #{submitFail},
+            </if>
+            <if test="sendFail != null" >
+                #{sendFail},
+            </if>
+            <if test="undetermined1 != null" >
+                #{undetermined1},
+            </if>
+            <if test="undetermined2 != null" >
+                #{undetermined2},
+            </if>
+            <if test="nosend != null" >
+                #{nosend},
+            </if>
+            <if test="successRate != null" >
+                #{successRate},
+            </if>
+            <if test="fakeSuccessRate != null" >
+                #{fakeSuccessRate},
+            </if>
+            <if test="reallyFailRate != null" >
+                #{reallyFailRate},
+            </if>
+            <if test="dataTime != null" >
+                #{dataTime},
+            </if>
+            <if test="createTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_channel_success_rate_realtime (
+            id,
+            channel_id,
+            channel_name,
+            iden,
+            send_total,
+            success_total,
+            submit_fail,
+            send_fail,
+            undetermined1,
+            undetermined2,
+            nosend,
+            success_rate,
+            fake_success_rate,
+            really_fail_rate,
+            data_time,
+            create_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.channelId},
+                #{item.channelName},
+                #{item.iden},
+                #{item.sendTotal},
+                #{item.successTotal},
+                #{item.submitFail},
+                #{item.sendFail},
+                #{item.undetermined1},
+                #{item.undetermined2},
+                #{item.nosend},
+                #{item.successRate},
+                #{item.fakeSuccessRate},
+                #{item.reallyFailRate},
+                #{item.dataTime},
+                now()
+            )
+        </foreach>
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_channel_success_rate_realtime WHERE ID = #{id} 
+    </delete>
+
+    <update id="update" parameterType="ChannelSuccessRateRealtime">
+        UPDATE t_sms_channel_success_rate_realtime SET 
+            id=#{id},
+            channel_id=#{channelId},
+            channel_name=#{channelName},
+            iden=#{iden},
+            send_total=#{sendTotal},
+            success_total=#{successTotal},
+            submit_fail=#{submitFail},
+            send_fail=#{sendFail},
+            undetermined1=#{undetermined1},
+            undetermined2=#{undetermined2},
+            nosend=#{nosend},
+            success_rate=#{successRate},
+            fake_success_rate=#{fakeSuccessRate},
+            really_fail_rate=#{reallyFailRate},
+            data_time=#{dataTime},
+            create_time=#{createTime}
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <update id="updateStatus" parameterType="ChannelSuccessRateRealtime">
+        UPDATE t_sms_channel_success_rate_realtime 
+            <set>
+                STATUS = #{status}
+                ,UPDATE_TIME = now(),
+                OPERATOR_ID = #{operatorId}
+            </set>
+        WHERE 
+            ID = #{id} 
+    </update>
+
+    <update id="updateSelective" parameterType="ChannelSuccessRateRealtime">
+        UPDATE t_sms_channel_success_rate_realtime 
+            <set>
+                <if test="id != null and id != ''">
+                    id = #{id},
+                </if>
+                <if test="channelId != null and channelId != ''">
+                    channel_id = #{channelId},
+                </if>
+                <if test="channelName != null and channelName != ''">
+                    channel_name = #{channelName},
+                </if>
+                <if test="iden != null and iden != ''">
+                    iden = #{iden},
+                </if>
+                <if test="sendTotal != null and sendTotal != ''">
+                    send_total = #{sendTotal},
+                </if>
+                <if test="successTotal != null and successTotal != ''">
+                    success_total = #{successTotal},
+                </if>
+                <if test="submitFail != null and submitFail != ''">
+                    submit_fail = #{submitFail},
+                </if>
+                <if test="sendFail != null and sendFail != ''">
+                    send_fail = #{sendFail},
+                </if>
+                <if test="undetermined1 != null and undetermined1 != ''">
+                    undetermined1 = #{undetermined1},
+                </if>
+                <if test="undetermined2 != null and undetermined2 != ''">
+                    undetermined2 = #{undetermined2},
+                </if>
+                <if test="nosend != null and nosend != ''">
+                    nosend = #{nosend},
+                </if>
+                <if test="successRate != null and successRate != ''">
+                    success_rate = #{successRate},
+                </if>
+                <if test="fakeSuccessRate != null and fakeSuccessRate != ''">
+                    fake_success_rate = #{fakeSuccessRate},
+                </if>
+                <if test="reallyFailRate != null and reallyFailRate != ''">
+                    really_fail_rate = #{reallyFailRate},
+                </if>
+                <if test="dataTime != null and dataTime != ''">
+                    data_time = #{dataTime},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+            </set>
+        WHERE 
+            ID = #{id} 
+    </update>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_channel_success_rate_realtime
+        WHERE 
+            ID = #{id}
+    </select>
+ 
+
+    <select id="count" parameterType="java.util.Map" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_channel_success_rate_realtime 
+        WHERE 
+            STATUS = 1 
+    </select>
+	 
+    <delete id="deleteByDataTime">
+        DELETE FROM t_sms_channel_success_rate_realtime 
+        WHERE 
+        data_time = #{dataTime}
+    </delete>
+    
+    
+    <select id="query" parameterType="ChannelSuccessRateRealtime" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_channel_success_rate_realtime
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="channelId != null and channelId != ''">
+                and channel_id = #{channelId}
+            </if>
+            <if test="channelName != null and channelName != ''">
+                and channel_name = #{channelName}
+            </if>
+            <if test="iden != null and iden != ''">
+                and iden = #{iden}
+            </if>
+            <if test="sendTotal != null and sendTotal != ''">
+                and send_total = #{sendTotal}
+            </if>
+            <if test="successTotal != null and successTotal != ''">
+                and success_total = #{successTotal}
+            </if>
+            <if test="submitFail != null and submitFail != ''">
+                and submit_fail = #{submitFail}
+            </if>
+            <if test="sendFail != null and sendFail != ''">
+                and send_fail = #{sendFail}
+            </if>
+            <if test="undetermined1 != null and undetermined1 != ''">
+                and undetermined1 = #{undetermined1}
+            </if>
+            <if test="undetermined2 != null and undetermined2 != ''">
+                and undetermined2 = #{undetermined2}
+            </if>
+            <if test="nosend != null and nosend != ''">
+                and nosend = #{nosend}
+            </if>
+            <if test="successRate != null and successRate != ''">
+                and success_rate = #{successRate}
+            </if>
+            <if test="fakeSuccessRate != null and fakeSuccessRate != ''">
+                and fake_success_rate = #{fakeSuccessRate}
+            </if>
+            <if test="reallyFailRate != null and reallyFailRate != ''">
+                and really_fail_rate = #{reallyFailRate}
+            </if>
+            <if test="dataTime != null and dataTime != ''">
+                and data_time = #{dataTime}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="dataTimeStart != null and dataTimeStart != ''">
+                and data_time &gt;= #{dataTimeStart}
+            </if>
+            <if test="dataTimeEnd != null and dataTimeEnd != ''">
+                and data_time &lt;= #{dataTimeEnd}
+            </if>
+	     </trim>
+	     order by data_time
+    </select>
+    
+</mapper>
+

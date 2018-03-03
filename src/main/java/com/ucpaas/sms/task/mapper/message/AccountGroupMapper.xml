@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.AccountGroupMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.message.AccountGroup">
+        <result property="accountGid" jdbcType="INTEGER" column="account_gid"/>
+        <result property="accountGname" jdbcType="VARCHAR" column="account_gname"/>
+        <result property="type" jdbcType="INTEGER" column="type"/>
+        <result property="state" jdbcType="INTEGER" column="state"/>
+        <result property="remarks" jdbcType="VARCHAR" column="remarks"/>
+        <result property="createId" jdbcType="BIGINT" column="create_id"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        account_gid,
+        account_gname,
+        type,
+        state,
+        remarks,
+        create_id,
+        create_time,
+        update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.message.AccountGroup" >
+        INSERT INTO t_sms_account_group 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="accountGid != null" >
+                account_gid,
+            </if>
+            <if test="accountGname != null" >
+                account_gname,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="state != null" >
+                state,
+            </if>
+            <if test="remarks != null" >
+                remarks,
+            </if>
+            <if test="createId != null" >
+                create_id,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="accountGid != null" >
+                #{accountGid},
+            </if>
+            <if test="accountGname != null" >
+                #{accountGname},
+            </if>
+            <if test="type != null" >
+                #{type},
+            </if>
+            <if test="state != null" >
+                #{state},
+            </if>
+            <if test="remarks != null" >
+                #{remarks},
+            </if>
+            <if test="createId != null" >
+                #{createId},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="updateTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_account_group (
+            account_gid,
+            account_gname,
+            type,
+            state,
+            remarks,
+            create_id,
+            create_time,
+            update_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.accountGid},
+                #{item.accountGname},
+                #{item.type},
+                #{item.state},
+                #{item.remarks},
+                #{item.createId},
+                now(),
+                now()
+            )
+        </foreach>
+    </insert>
+
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.message.AccountGroup">
+        UPDATE t_sms_account_group SET 
+            account_gname=#{accountGname},
+            type=#{type},
+            state=#{state},
+            remarks=#{remarks},
+            create_id=#{createId},
+            create_time=#{createTime},
+            update_time=#{updateTime}
+        WHERE 
+            account_gid = #{accountGid} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.message.AccountGroup">
+        UPDATE t_sms_account_group 
+            <set>
+                <if test="accountGname != null and accountGname != ''">
+                    account_gname = #{accountGname},
+                </if>
+                <if test="type != null and type != ''">
+                    type = #{type},
+                </if>
+                <if test="state != null and state != ''">
+                    state = #{state},
+                </if>
+                <if test="remarks != null and remarks != ''">
+                    remarks = #{remarks},
+                </if>
+                <if test="createId != null and createId != ''">
+                    create_id = #{createId},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null and updateTime != ''">
+                    update_time = #{updateTime}
+                </if>
+            </set>
+        WHERE 
+            account_gid = #{accountGid} 
+    </update>
+
+    <select id="getByAccountGid" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_account_group
+        WHERE 
+            account_gid = #{accountGid}
+    </select>
+
+    <select id="queryList" parameterType="com.ucpaas.sms.task.entity.message.AccountGroup" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_account_group 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.accountGid != null and params.accountGid != ''">
+                and account_gid = #{params.accountGid}
+            </if>
+            <if test="params.accountGname != null and params.accountGname != ''">
+                and account_gname = #{params.accountGname}
+            </if>
+            <if test="params.type != null and params.type != ''">
+                and type = #{params.type}
+            </if>
+            <if test="params.state != null and params.state != ''">
+                and state = #{params.state}
+            </if>
+            <if test="params.remarks != null and params.remarks != ''">
+                and remarks = #{params.remarks}
+            </if>
+            <if test="params.createId != null and params.createId != ''">
+                and create_id = #{params.createId}
+            </if>
+            <if test="params.createTime != null and params.createTime != ''">
+                and create_time = #{params.createTime}
+            </if>
+            <if test="params.updateTime != null and params.updateTime != ''">
+                and update_time = #{params.updateTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="com.ucpaas.sms.task.entity.message.AccountGroup" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_account_group 
+        WHERE 
+            1 = 1
+            <if test="accountGid != null and accountGid != ''">
+                and account_gid = #{accountGid}
+            </if>
+            <if test="accountGname != null and accountGname != ''">
+                and account_gname = #{accountGname}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="state != null and state != ''">
+                and state = #{state}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="createId != null and createId != ''">
+                and create_id = #{createId}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                and update_time = #{updateTime}
+            </if>
+    </select>
+
+
+
+    <select id="getByClientid" resultMap="rowMapper">
+        SELECT
+        <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_account_group
+        WHERE
+        account_gid = #{accountGid}
+    </select>
+	 
+</mapper>
+

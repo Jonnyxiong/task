@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 公共业务 -->
+<mapper namespace="common">
+	
+	<!-- 获取数据库的当前时间 -->
+	<select id="getCurrentTime" resultType="string">
+		SELECT now()
+	</select>
+	
+	<update id="releaseClientIdExpiredLock">
+		UPDATE t_sms_clientid_sequence t
+		SET t.lock = 0, t.lock_start_time = NULL
+		WHERE
+			t.`status` = 0
+		<![CDATA[ 
+			AND t.lock_start_time < DATE_SUB(NOW(), INTERVAL 5 MINUTE)
+		]]>
+	</update>
+	
+	<!-- 获取系统参数 -->
+	<select id="getSysParam" resultType="map">
+		SELECT
+			p.param_value,
+			p.description
+		FROM
+			t_sms_param p
+		WHERE
+			p.param_key = #{paramKey};
+	</select>
+
+	<insert id="sundayCreateTable">
+		create table if not exists ${tableName}_${executeNext} like ${tableName}
+	</insert>
+
+	<insert id="createTableWithBaseTable">
+		create table if not exists ${tableName}_${tableDate} like ${tableName}_0
+	</insert>
+	
+</mapper> 

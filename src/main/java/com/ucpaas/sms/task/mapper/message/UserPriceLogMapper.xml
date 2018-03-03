@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.UserPriceLogMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.message.UserPriceLog">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="smstype" jdbcType="INTEGER" column="smstype"/>
+        <result property="effectDate" jdbcType="DATE" column="effect_date"/>
+        <result property="chargeMode" jdbcType="INTEGER" column="charge_mode"/>
+        <result property="userPrice" jdbcType="DECIMAL" column="user_price"/>
+        <result property="createTime" jdbcType="TIMESTAMP" column="create_time"/>
+        <result property="updateTime" jdbcType="TIMESTAMP" column="update_time"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        clientid,
+        smstype,
+        effect_date,
+        charge_mode,
+        user_price,
+        create_time,
+        update_time
+    </sql>
+
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.message.UserPriceLog" >
+        INSERT INTO t_sms_user_price_log 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="smstype != null" >
+                smstype,
+            </if>
+            <if test="effectDate != null" >
+                effect_date,
+            </if>
+            <if test="chargeMode != null" >
+                charge_mode,
+            </if>
+            <if test="userPrice != null" >
+                user_price,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="smstype != null" >
+                #{smstype},
+            </if>
+            <if test="effectDate != null" >
+                #{effectDate},
+            </if>
+            <if test="chargeMode != null" >
+                #{chargeMode},
+            </if>
+            <if test="userPrice != null" >
+                #{userPrice},
+            </if>
+            <if test="createTime != null" >
+                now(),
+            </if>
+            <if test="updateTime != null" >
+                now()
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_user_price_log (
+            id,
+            clientid,
+            smstype,
+            effect_date,
+            charge_mode,
+            user_price,
+            create_time,
+            update_time
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.clientid},
+                #{item.smstype},
+                #{item.effectDate},
+                #{item.chargeMode},
+                #{item.userPrice},
+                now(),
+                now()
+            )
+        </foreach>
+    </insert>
+    
+
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.message.UserPriceLog">
+        UPDATE t_sms_user_price_log SET 
+            clientid=#{clientid},
+            smstype=#{smstype},
+            effect_date=#{effectDate},
+            charge_mode=#{chargeMode},
+            user_price=#{userPrice},
+            create_time=#{createTime},
+            update_time=#{updateTime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.message.UserPriceLog">
+        UPDATE t_sms_user_price_log 
+            <set>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="smstype != null and smstype != ''">
+                    smstype = #{smstype},
+                </if>
+                <if test="effectDate != null and effectDate != ''">
+                    effect_date = #{effectDate},
+                </if>
+                <if test="chargeMode != null and chargeMode != ''">
+                    charge_mode = #{chargeMode},
+                </if>
+                <if test="userPrice != null and userPrice != ''">
+                    user_price = #{userPrice},
+                </if>
+                <if test="createTime != null and createTime != ''">
+                    create_time = #{createTime},
+                </if>
+                <if test="updateTime != null and updateTime != ''">
+                    update_time = #{updateTime}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_user_price_log
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_user_price_log 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="smstype != null">
+                and smstype = #{smstype}
+            </if>
+            <if test="effectDate != null and effectDate != ''">
+                and effect_date = #{effectDate}
+            </if>
+            <if test="chargeMode != null and chargeMode != ''">
+                and charge_mode = #{chargeMode}
+            </if>
+            <if test="userPrice != null and userPrice != ''">
+                and user_price = #{userPrice}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                and update_time = #{updateTime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="com.ucpaas.sms.task.entity.message.UserPriceLog" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_user_price_log 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="smstype != null and smstype != ''">
+                and smstype = #{smstype}
+            </if>
+            <if test="effectDate != null and effectDate != ''">
+                and effect_date = #{effectDate}
+            </if>
+            <if test="chargeMode != null and chargeMode != ''">
+                and charge_mode = #{chargeMode}
+            </if>
+            <if test="userPrice != null and userPrice != ''">
+                and user_price = #{userPrice}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                and update_time = #{updateTime}
+            </if>
+    </select>
+	 
+</mapper>
+

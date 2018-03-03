@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.access.SmsBackPaymenstatMapper">
+     
+        
+    <resultMap id="rowMapper" type="com.ucpaas.sms.task.entity.access.SmsBackPaymenstat">
+        <result property="id" jdbcType="INTEGER" column="id"/>
+        <result property="prepayRecharge" jdbcType="DECIMAL" column="prepay_recharge"/>
+        <result property="directConsume" jdbcType="DECIMAL" column="direct_consume"/>
+        <result property="stattype" jdbcType="INTEGER" column="stattype"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="createtime" jdbcType="TIMESTAMP" column="createtime"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        prepay_recharge,
+        direct_consume,
+        stattype,
+        date,
+        createtime
+    </sql>
+
+    <insert id="insert" parameterType="com.ucpaas.sms.task.entity.access.SmsBackPaymenstat" >
+        INSERT INTO t_sms_back_payment_stat 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="prepayRecharge != null" >
+                prepay_recharge,
+            </if>
+            <if test="directConsume != null" >
+                direct_consume,
+            </if>
+            <if test="stattype != null" >
+                stattype,
+            </if>
+            <if test="date != null" >
+                date,
+            </if>
+            <if test="createtime != null" >
+                createtime
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="prepayRecharge != null" >
+                #{prepayRecharge},
+            </if>
+            <if test="directConsume != null" >
+                #{directConsume},
+            </if>
+            <if test="stattype != null" >
+                #{stattype},
+            </if>
+            <if test="date != null" >
+                #{date},
+            </if>
+            <if test="createtime != null" >
+                #{createtime}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_back_payment_stat (
+            id,
+            prepay_recharge,
+            direct_consume,
+            stattype,
+            date,
+            createtime
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.prepayRecharge},
+                #{item.directConsume},
+                #{item.stattype},
+                #{item.date},
+                #{item.createtime}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete">
+        DELETE FROM t_sms_back_payment_stat WHERE id = #{id} 
+    </delete>
+    
+    
+    <update id="update" parameterType="com.ucpaas.sms.task.entity.access.SmsBackPaymenstat">
+        UPDATE t_sms_back_payment_stat SET 
+            prepay_recharge=#{prepayRecharge},
+            direct_consume=#{directConsume},
+            stattype=#{stattype},
+            date=#{date},
+            createtime=#{createtime}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="com.ucpaas.sms.task.entity.access.SmsBackPaymenstat">
+        UPDATE t_sms_back_payment_stat 
+            <set>
+                <if test="prepayRecharge != null and prepayRecharge != ''">
+                    prepay_recharge = #{prepayRecharge},
+                </if>
+                <if test="directConsume != null and directConsume != ''">
+                    direct_consume = #{directConsume},
+                </if>
+                <if test="stattype != null and stattype != ''">
+                    stattype = #{stattype},
+                </if>
+                <if test="date != null and date != ''">
+                    date = #{date},
+                </if>
+                <if test="createtime != null and createtime != ''">
+                    createtime = #{createtime}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_back_payment_stat
+        WHERE 
+            id = #{id}
+    </select>
+
+    <select id="queryList" parameterType="com.ucpaas.sms.task.entity.access.SmsBackPaymenstat" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" /> 
+        FROM t_sms_back_payment_stat 
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="params.id != null and params.id != ''">
+                and id = #{params.id}
+            </if>
+            <if test="params.prepayRecharge != null and params.prepayRecharge != ''">
+                and prepay_recharge = #{params.prepayRecharge}
+            </if>
+            <if test="params.directConsume != null and params.directConsume != ''">
+                and direct_consume = #{params.directConsume}
+            </if>
+            <if test="params.stattype != null and params.stattype != ''">
+                and stattype = #{params.stattype}
+            </if>
+            <if test="params.date != null and params.date != ''">
+                and date = #{params.date}
+            </if>
+            <if test="params.createtime != null and params.createtime != ''">
+                and createtime = #{params.createtime}
+            </if>
+	     </trim>
+    </select>
+
+    <select id="count" parameterType="com.ucpaas.sms.task.entity.access.SmsBackPaymenstat" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_back_payment_stat 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="prepayRecharge != null and prepayRecharge != ''">
+                and prepay_recharge = #{prepayRecharge}
+            </if>
+            <if test="directConsume != null and directConsume != ''">
+                and direct_consume = #{directConsume}
+            </if>
+            <if test="stattype != null and stattype != ''">
+                and stattype = #{stattype}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and createtime = #{createtime}
+            </if>
+    </select>
+
+
+
+    <delete id="deleteByDateLike">
+        DELETE FROM t_sms_back_payment_stat WHERE date like CONCAT(#{yyyyMM},'%')
+    </delete>
+</mapper>
+

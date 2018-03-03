@@ -1,0 +1,577 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ucpaas.sms</groupId>
+	<artifactId>smsp-task</artifactId>
+	<packaging>war</packaging>
+	<version>5.19.1.1</version>
+	<name>smsp-task Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<repositories>
+		<repository>
+			<id>JSMS repository</id>
+			<url>http://nexus.jsms.com/content/groups/jsms-group/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>JSMS plugin repository</id>
+			<url>http://nexus.jsms.com/content/groups/jsms-group/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<properties>
+		<!-- jsmsframework -->
+		<jsms-framework.version>5.3.0-SNAPSHOT</jsms-framework.version>
+		<!-- 项目文件编码 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- 编译时的编码 -->
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+		<aopalliance.version>1.0</aopalliance.version>
+		<asm.version>3.3</asm.version>
+		<asm-commons.version>3.3</asm-commons.version>
+		<commons-compiler.version>2.7.4</commons-compiler.version>
+		<commons-dbcp2.version>2.0.1</commons-dbcp2.version>
+		<commons-lang3.version>3.3.2</commons-lang3.version>
+		<commons-logging.version>1.1.3</commons-logging.version>
+		<commons-pool2.version>2.2</commons-pool2.version>
+		<fluent-hc.version>4.3.4</fluent-hc.version>
+		<gson.version>2.2.4</gson.version>
+		<httpclient.version>4.3.4</httpclient.version>
+		<httpcore.version>4.3.2</httpcore.version>
+		<janino.version>2.7.4</janino.version>
+		<javassist.version>3.11.0.GA</javassist.version>
+		<mail.version>1.5.2</mail.version>
+		<joda-time.version>2.3</joda-time.version>
+		<logback.version>1.1.2</logback.version>
+		<mybatis.version>3.2.7</mybatis.version>
+		<mybatis-spring.version>1.2.2</mybatis-spring.version>
+		<mysql-connector-java.version>5.1.30</mysql-connector-java.version>
+		<quartz.version>2.2.1</quartz.version>
+		<slf4j-api.version>1.7.7</slf4j-api.version>
+		<spring.version>4.0.4.RELEASE</spring.version>
+		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+		<jfreechart.version>1.0.17</jfreechart.version>
+  		<jfreechart-experimental.version>1.0.9</jfreechart-experimental.version>
+  		<freemarker.version>2.3.26-incubating</freemarker.version>
+		<aspectj.version>1.8.9</aspectj.version>
+		<jackson.version>2.6.3</jackson.version>
+		<smsa-common-util.version>1.0.2.RELEASE</smsa-common-util.version>
+		<poi.version>3.17</poi.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-finance</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-user</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-channel</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-audit</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-sale-credit</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-common</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-order</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jsmsframework</groupId>
+			<artifactId>jsms-monitor</artifactId>
+			<version>${jsms-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ucpaas.sms</groupId>
+			<artifactId>smsa-common-util</artifactId>
+			<version>${smsa-common-util.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>aopalliance</groupId>
+		    <artifactId>aopalliance</artifactId>
+		    <version>${aopalliance.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>asm</groupId>
+		    <artifactId>asm</artifactId>
+		    <version>${asm.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>asm</groupId>
+		    <artifactId>asm-commons</artifactId>
+		    <version>${asm-commons.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.codehaus.janino</groupId>
+		    <artifactId>commons-compiler</artifactId>
+		    <version>${commons-compiler.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>4.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>${commons-dbcp2.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-lang3</artifactId>
+		    <version>${commons-lang3.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-logging</groupId>
+		    <artifactId>commons-logging</artifactId>
+		    <version>${commons-logging.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-pool2</artifactId>
+		    <version>${commons-pool2.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>fluent-hc</artifactId>
+		    <version>${fluent-hc.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>${gson.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>${httpclient.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpmime</artifactId>
+		    <version>${httpclient.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		    <version>${httpcore.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.janino</groupId>
+			<artifactId>janino</artifactId>
+			<version>${janino.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javassist</groupId>
+		    <artifactId>javassist</artifactId>
+		    <version>${javassist.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>${mail.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>joda-time</groupId>
+		    <artifactId>joda-time</artifactId>
+		    <version>${joda-time.version}</version>
+		</dependency>
+		
+		<!-- 日志相关start -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j-api.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-access</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<!-- 日志相关end -->
+
+		<!-- spring-test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		    <version>${mybatis.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis-spring</artifactId>
+		    <version>${mybatis-spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>${mysql-connector-java.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.quartz-scheduler</groupId>
+		    <artifactId>quartz</artifactId>
+		    <version>${quartz.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aop</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-beans</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-core</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-expression</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-jdbc</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-tx</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet-api.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.jfree</groupId>
+		    <artifactId>jfreechart</artifactId>
+		    <version>${jfreechart.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>jfree</groupId>
+		    <artifactId>jfreechart-experimental</artifactId>
+		    <version>${jfreechart-experimental.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- 解析Excel文档 -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-examples</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-excelant</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+
+
+	</dependencies>
+	
+	<!-- 分环境打包 -->
+	<profiles>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pdev -->
+			<id>dev</id> <!-- 开发环境 -->
+			<properties>
+				<env>development</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pdevtest -->
+			<id>devtest</id> <!-- 开放测试环境 -->
+			<properties>
+				<env>devtest</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Ptest -->
+			<id>test</id> <!-- 测试环境 -->
+			<properties>
+				<env>test</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pprod_yidong -->
+			<id>prod_yidong</id> <!-- 生产环境 -->
+			<properties>
+				<env>prod_yidong</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pprod_ali -->
+			<id>prod_ali</id> <!-- 阿里环境 -->
+			<properties>
+				<env>prod_ali</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pprod -->
+			<id>prod</id> <!-- 阿里环境和代理商环境合并后 -->
+			<properties>
+				<env>prod</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pprod_bu -->
+			<id>prod_bu</id> <!-- 运营商合作BU短信平台 -->
+			<properties>
+				<env>prod_bu</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pprod_jd -->
+			<id>prod_jd</id> <!-- 京东环境 -->
+			<properties>
+				<env>prod_jd</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pdev -->
+			<id>dev-30</id> <!-- 开发环境 -->
+			<properties>
+				<env>devtest-30</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pdev_wj -->
+			<id>dev_wj</id> <!-- 开发环境 -->
+			<properties>
+				<env>dev_wj</env>
+			</properties>
+		</profile>
+		<profile>
+			<!-- 打包命令命令 mvn package -Pprod_preview -->
+			<id>prod_preview</id> <!-- 京东环境 -->
+			<properties>
+				<env>prod_preview</env>
+			</properties>
+		</profile>
+	</profiles>
+	
+	<build>
+		<finalName>${project.artifactId}-${project.version}-${env}</finalName>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<fork>true</fork>
+						<executable>${JAVA_HOME}/bin/javac</executable>
+						<encoding>UTF-8</encoding>
+
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<!--mvn tomcat7:run -->
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <path>/</path>
+                        <port>8080</port>
+                        <uriEncoding>UTF-8</uriEncoding>
+                    </configuration>
+                </plugin>
+			</plugins>
+		</pluginManagement>
+		<filters>
+			<filter>src/main/environment/${env}.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.ftl</include>
+					<include>**/*.xml</include>
+					<include>**/*.jpg</include>
+					<include>**/*.gif</include>
+					<include>oscache.properties</include>
+				</includes>
+				<!-- 是否替换资源中的属性 -->
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+				<!-- 是否替换资源中的属性 -->
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>system.properties</include>
+					<include>application.properties</include>
+				</includes>
+				<!-- 是否替换资源中的属性 -->
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+	
+</project>

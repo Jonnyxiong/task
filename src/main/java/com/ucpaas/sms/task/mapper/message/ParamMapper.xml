@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.message.ParamMapper">
+     
+        
+    <resultMap id="rowMapper" type="Param">
+        <result property="paramId" jdbcType="BIGINT" column="param_id"/>
+        <result property="paramKey" jdbcType="VARCHAR" column="param_key"/>
+        <result property="paramValue" jdbcType="VARCHAR" column="param_value"/>
+        <result property="description" jdbcType="VARCHAR" column="description"/>
+        <result property="createDate" jdbcType="TIMESTAMP" column="create_date"/>
+        <result property="updateDate" jdbcType="TIMESTAMP" column="update_date"/>
+        <result property="paramStatus" jdbcType="TINYINT" column="param_status"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        param_id,
+        param_key,
+        param_value,
+        description,
+        create_date,
+        update_date,
+        param_status
+    </sql>
+
+    <insert id="insert" parameterType="Param" >
+        INSERT INTO t_sms_param 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="paramId != null" >
+                param_id,
+            </if>
+            <if test="paramKey != null" >
+                param_key,
+            </if>
+            <if test="paramValue != null" >
+                param_value,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="updateDate != null" >
+                update_date,
+            </if>
+            <if test="paramStatus != null" >
+                param_status
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="paramId != null" >
+                #{paramId},
+            </if>
+            <if test="paramKey != null" >
+                #{paramKey},
+            </if>
+            <if test="paramValue != null" >
+                #{paramValue},
+            </if>
+            <if test="description != null" >
+                #{description},
+            </if>
+            <if test="createDate != null" >
+                #{createDate},
+            </if>
+            <if test="updateDate != null" >
+                #{updateDate},
+            </if>
+            <if test="paramStatus != null" >
+                #{paramStatus}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_param (
+            param_id,
+            param_key,
+            param_value,
+            description,
+            create_date,
+            update_date,
+            param_status
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.paramId},
+                #{item.paramKey},
+                #{item.paramValue},
+                #{item.description},
+                #{item.createDate},
+                #{item.updateDate},
+                #{item.paramStatus}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_param WHERE param_id = #{paramId} 
+    </delete>
+    
+
+    <!-- <update id="update" parameterType="Param">
+        UPDATE t_sms_param SET 
+            param_id=#{paramId},
+            param_key=#{paramKey},
+            param_value=#{paramValue},
+            description=#{description},
+            create_date=#{createDate},
+            update_date=#{updateDate},
+            param_status=#{paramStatus}
+        WHERE 
+            param_id = #{param_id} 
+    </update> -->
+    
+    <update id="update" parameterType="Param">
+        UPDATE t_sms_param SET 
+            param_key=#{paramKey},
+            param_value=#{paramValue},
+            description=#{description},
+            create_date=#{createDate},
+            update_date=#{updateDate},
+            param_status=#{paramStatus}
+        WHERE 
+            param_id = #{paramId} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="Param">
+        UPDATE t_sms_param 
+            <set>
+                <if test="paramKey != null and paramKey != ''">
+                    param_key = #{paramKey},
+                </if>
+                <if test="paramValue != null and paramValue != ''">
+                    param_value = #{paramValue},
+                </if>
+                <if test="description != null and description != ''">
+                    description = #{description},
+                </if>
+                <if test="createDate != null and createDate != ''">
+                    create_date = #{createDate},
+                </if>
+                <if test="updateDate != null and updateDate != ''">
+                    update_date = #{updateDate},
+                </if>
+                <if test="paramStatus != null and paramStatus != ''">
+                    param_status = #{paramStatus}
+                </if>
+            </set>
+        WHERE 
+            param_id = #{paramId} 
+    </update>
+
+    <select id="getByParamId" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_param
+        WHERE 
+            param_id = #{paramId}
+    </select>
+
+
+    <select id="count" parameterType="Param" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_param 
+        WHERE 
+            1 = 1
+            <if test="paramId != null and paramId != ''">
+                and param_id = #{paramId}
+            </if>
+            <if test="paramKey != null and paramKey != ''">
+                and param_key = #{paramKey}
+            </if>
+            <if test="paramValue != null and paramValue != ''">
+                and param_value = #{paramValue}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="createDate != null and createDate != ''">
+                and create_date = #{createDate}
+            </if>
+            <if test="updateDate != null and updateDate != ''">
+                and update_date = #{updateDate}
+            </if>
+            <if test="paramStatus != null and paramStatus != ''">
+                and param_status = #{paramStatus}
+            </if>
+    </select>
+	 
+    <select id="getByParamKey"  resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_param
+        WHERE 
+            param_key = #{paramKey}
+    </select>
+</mapper>
+

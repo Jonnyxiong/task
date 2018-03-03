@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ucpaas.sms.task.mapper.access.CustomerStatTempMapper">
+     
+        
+    <resultMap id="rowMapper" type="CustomerStatTemp">
+        <result property="id" jdbcType="BIGINT" column="id"/>
+        <result property="clientid" jdbcType="VARCHAR" column="clientid"/>
+        <result property="username" jdbcType="VARCHAR" column="username"/>
+        <result property="sid" jdbcType="VARCHAR" column="sid"/>
+        <result property="agentId" jdbcType="BIGINT" column="agent_id"/>
+        <result property="paytype" jdbcType="INTEGER" column="paytype"/>
+        <result property="channelid" jdbcType="INTEGER" column="channelid"/>
+        <result property="operatorstype" jdbcType="INTEGER" column="operatorstype"/>
+        <result property="channelremark" jdbcType="VARCHAR" column="channelremark"/>
+        <result property="subId" jdbcType="BIGINT" column="sub_id"/>
+        <result property="productType" jdbcType="INTEGER" column="product_type"/>
+        <result property="notsend" jdbcType="INTEGER" column="notsend"/>
+        <result property="submitsuccess" jdbcType="INTEGER" column="submitsuccess"/>
+        <result property="reportsuccess" jdbcType="INTEGER" column="reportsuccess"/>
+        <result property="submitfail" jdbcType="INTEGER" column="submitfail"/>
+        <result property="subretfail" jdbcType="INTEGER" column="subretfail"/>
+        <result property="reportfail" jdbcType="INTEGER" column="reportfail"/>
+        <result property="auditfail" jdbcType="INTEGER" column="auditfail"/>
+        <result property="recvintercept" jdbcType="INTEGER" column="recvintercept"/>
+        <result property="sendintercept" jdbcType="INTEGER" column="sendintercept"/>
+        <result property="overrateintercept" jdbcType="INTEGER" column="overrateintercept"/>
+        <result property="overrateChargeTotal" jdbcType="INTEGER" column="overrate_charge_total"/>
+        <result property="costfee" jdbcType="DECIMAL" column="costfee"/>
+        <result property="salefee" jdbcType="DECIMAL" column="salefee"/>
+        <result property="productfee" jdbcType="DECIMAL" column="productfee"/>
+        <result property="date" jdbcType="INTEGER" column="date"/>
+        <result property="belongSale" jdbcType="BIGINT" column="belong_sale"/>
+    </resultMap> 
+     
+    <sql id="BASE_COLUMN_LIST">
+        id,
+        clientid,
+        username,
+        sid,
+        agent_id,
+        paytype,
+        channelid,
+        operatorstype,
+        channelremark,
+        sub_id,
+        product_type,
+        notsend,
+        submitsuccess,
+        reportsuccess,
+        submitfail,
+        subretfail,
+        reportfail,
+        auditfail,
+        recvintercept,
+        sendintercept,
+        overrateintercept,
+        overrate_charge_total,
+        costfee,
+        salefee,
+        productfee,
+        date
+    </sql>
+
+    <insert id="insert" parameterType="CustomerStatTemp" >
+        INSERT INTO t_sms_customer_stat_temp 
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="clientid != null" >
+                clientid,
+            </if>
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="sid != null" >
+                sid,
+            </if>
+            <if test="agentId != null" >
+                agent_id,
+            </if>
+            <if test="paytype != null" >
+                paytype,
+            </if>
+            <if test="channelid != null" >
+                channelid,
+            </if>
+            <if test="operatorstype != null" >
+                operatorstype,
+            </if>
+            <if test="channelremark != null" >
+                channelremark,
+            </if>
+            <if test="subId != null" >
+                sub_id,
+            </if>
+            <if test="productType != null" >
+                product_type,
+            </if>
+            <if test="notsend != null" >
+                notsend,
+            </if>
+            <if test="submitsuccess != null" >
+                submitsuccess,
+            </if>
+            <if test="reportsuccess != null" >
+                reportsuccess,
+            </if>
+            <if test="submitfail != null" >
+                submitfail,
+            </if>
+            <if test="subretfail != null" >
+                subretfail,
+            </if>
+            <if test="reportfail != null" >
+                reportfail,
+            </if>
+            <if test="auditfail != null" >
+                auditfail,
+            </if>
+            <if test="recvintercept != null" >
+                recvintercept,
+            </if>
+            <if test="sendintercept != null" >
+                sendintercept,
+            </if>
+            <if test="overrateintercept != null" >
+                overrateintercept,
+            </if>
+            <if test="overrateChargeTotal != null" >
+                overrate_charge_total,
+            </if>
+            <if test="costfee != null" >
+                costfee,
+            </if>
+            <if test="salefee != null" >
+                salefee,
+            </if>
+            <if test="productfee != null" >
+                productfee,
+            </if>
+            <if test="date != null" >
+                date
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="clientid != null" >
+                #{clientid},
+            </if>
+            <if test="username != null" >
+                #{username},
+            </if>
+            <if test="sid != null" >
+                #{sid},
+            </if>
+            <if test="agentId != null" >
+                #{agentId},
+            </if>
+            <if test="paytype != null" >
+                #{paytype},
+            </if>
+            <if test="channelid != null" >
+                #{channelid},
+            </if>
+            <if test="operatorstype != null" >
+                #{operatorstype},
+            </if>
+            <if test="channelremark != null" >
+                #{channelremark},
+            </if>
+            <if test="subId != null" >
+                #{subId},
+            </if>
+            <if test="productType != null" >
+                #{productType},
+            </if>
+            <if test="notsend != null" >
+                #{notsend},
+            </if>
+            <if test="submitsuccess != null" >
+                #{submitsuccess},
+            </if>
+            <if test="reportsuccess != null" >
+                #{reportsuccess},
+            </if>
+            <if test="submitfail != null" >
+                #{submitfail},
+            </if>
+            <if test="subretfail != null" >
+                #{subretfail},
+            </if>
+            <if test="reportfail != null" >
+                #{reportfail},
+            </if>
+            <if test="auditfail != null" >
+                #{auditfail},
+            </if>
+            <if test="recvintercept != null" >
+                #{recvintercept},
+            </if>
+            <if test="sendintercept != null" >
+                #{sendintercept},
+            </if>
+            <if test="overrateintercept != null" >
+                #{overrateintercept},
+            </if>
+            <if test="overrateChargeTotal != null" >
+                #{overrateChargeTotal},
+            </if>
+            <if test="costfee != null" >
+                #{costfee},
+            </if>
+            <if test="salefee != null" >
+                #{salefee},
+            </if>
+            <if test="productfee != null" >
+                #{productfee},
+            </if>
+            <if test="date != null" >
+                #{date}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List" >
+        INSERT INTO t_sms_customer_stat_temp (
+            id,
+            clientid,
+            username,
+            sid,
+            agent_id,
+            paytype,
+            channelid,
+            operatorstype,
+            channelremark,
+            sub_id,
+            product_type,
+            notsend,
+            submitsuccess,
+            reportsuccess,
+            submitfail,
+            subretfail,
+            reportfail,
+            auditfail,
+            recvintercept,
+            sendintercept,
+            overrateintercept,
+            overrate_charge_total,
+            costfee,
+            salefee,
+            productfee,
+            date
+        )VALUES
+        <foreach collection="list" item="item" index="index" separator="," >  
+            (
+                #{item.id},
+                #{item.clientid},
+                #{item.username},
+                #{item.sid},
+                #{item.agentId},
+                #{item.paytype},
+                #{item.channelid},
+                #{item.operatorstype},
+                #{item.channelremark},
+                #{item.subId},
+                #{item.productType},
+                #{item.notsend},
+                #{item.submitsuccess},
+                #{item.reportsuccess},
+                #{item.submitfail},
+                #{item.subretfail},
+                #{item.reportfail},
+                #{item.auditfail},
+                #{item.recvintercept},
+                #{item.sendintercept},
+                #{item.overrateintercept},
+                #{item.overrateChargeTotal},
+                #{item.costfee},
+                #{item.salefee},
+                #{item.productfee},
+                #{item.date}
+            )
+        </foreach>
+    </insert>
+    
+    
+    <delete id="delete" parameterType="java.lang.Long">
+        DELETE FROM t_sms_customer_stat_temp WHERE id = #{id} 
+    </delete>
+    
+
+    <!-- <update id="update" parameterType="CustomerStatTemp">
+        UPDATE t_sms_customer_stat_temp SET 
+            id=#{id},
+            clientid=#{clientid},
+            username=#{username},
+            sid=#{sid},
+            agent_id=#{agentId},
+            paytype=#{paytype},
+            channelid=#{channelid},
+            operatorstype=#{operatorstype},
+            channelremark=#{channelremark},
+            sub_id=#{subId},
+            product_type=#{productType},
+            notsend=#{notsend},
+            submitsuccess=#{submitsuccess},
+            reportsuccess=#{reportsuccess},
+            submitfail=#{submitfail},
+            subretfail=#{subretfail},
+            reportfail=#{reportfail},
+            auditfail=#{auditfail},
+            recvintercept=#{recvintercept},
+            sendintercept=#{sendintercept},
+            overrateintercept=#{overrateintercept},
+            overrate_charge_total=#{overrateChargeTotal},
+            costfee=#{costfee},
+            salefee=#{salefee},
+            productfee=#{productfee},
+            date=#{date}
+        WHERE 
+            id = #{id} 
+    </update> -->
+    
+    <update id="update" parameterType="CustomerStatTemp">
+        UPDATE t_sms_customer_stat_temp SET 
+            clientid=#{clientid},
+            username=#{username},
+            sid=#{sid},
+            agent_id=#{agentId},
+            paytype=#{paytype},
+            channelid=#{channelid},
+            operatorstype=#{operatorstype},
+            channelremark=#{channelremark},
+            sub_id=#{subId},
+            product_type=#{productType},
+            notsend=#{notsend},
+            submitsuccess=#{submitsuccess},
+            reportsuccess=#{reportsuccess},
+            submitfail=#{submitfail},
+            subretfail=#{subretfail},
+            reportfail=#{reportfail},
+            auditfail=#{auditfail},
+            recvintercept=#{recvintercept},
+            sendintercept=#{sendintercept},
+            overrateintercept=#{overrateintercept},
+            overrate_charge_total=#{overrateChargeTotal},
+            costfee=#{costfee},
+            salefee=#{salefee},
+            productfee=#{productfee},
+            date=#{date}
+        WHERE 
+            id = #{id} 
+    </update>
+    
+ 
+    
+    <update id="updateSelective" parameterType="CustomerStatTemp">
+        UPDATE t_sms_customer_stat_temp 
+            <set>
+                <if test="clientid != null and clientid != ''">
+                    clientid = #{clientid},
+                </if>
+                <if test="username != null and username != ''">
+                    username = #{username},
+                </if>
+                <if test="sid != null and sid != ''">
+                    sid = #{sid},
+                </if>
+                <if test="agentId != null and agentId != ''">
+                    agent_id = #{agentId},
+                </if>
+                <if test="paytype != null and paytype != ''">
+                    paytype = #{paytype},
+                </if>
+                <if test="channelid != null and channelid != ''">
+                    channelid = #{channelid},
+                </if>
+                <if test="operatorstype != null and operatorstype != ''">
+                    operatorstype = #{operatorstype},
+                </if>
+                <if test="channelremark != null and channelremark != ''">
+                    channelremark = #{channelremark},
+                </if>
+                <if test="subId != null and subId != ''">
+                    sub_id = #{subId},
+                </if>
+                <if test="productType != null and productType != ''">
+                    product_type = #{productType},
+                </if>
+                <if test="notsend != null and notsend != ''">
+                    notsend = #{notsend},
+                </if>
+                <if test="submitsuccess != null and submitsuccess != ''">
+                    submitsuccess = #{submitsuccess},
+                </if>
+                <if test="reportsuccess != null and reportsuccess != ''">
+                    reportsuccess = #{reportsuccess},
+                </if>
+                <if test="submitfail != null and submitfail != ''">
+                    submitfail = #{submitfail},
+                </if>
+                <if test="subretfail != null and subretfail != ''">
+                    subretfail = #{subretfail},
+                </if>
+                <if test="reportfail != null and reportfail != ''">
+                    reportfail = #{reportfail},
+                </if>
+                <if test="auditfail != null and auditfail != ''">
+                    auditfail = #{auditfail},
+                </if>
+                <if test="recvintercept != null and recvintercept != ''">
+                    recvintercept = #{recvintercept},
+                </if>
+                <if test="sendintercept != null and sendintercept != ''">
+                    sendintercept = #{sendintercept},
+                </if>
+                <if test="overrateintercept != null and overrateintercept != ''">
+                    overrateintercept = #{overrateintercept},
+                </if>
+                <if test="overrateChargeTotal != null and overrateChargeTotal != ''">
+                    overrate_charge_total = #{overrateChargeTotal},
+                </if>
+                <if test="costfee != null and costfee != ''">
+                    costfee = #{costfee},
+                </if>
+                <if test="salefee != null and salefee != ''">
+                    salefee = #{salefee},
+                </if>
+                <if test="productfee != null and productfee != ''">
+                    productfee = #{productfee},
+                </if>
+                <if test="date != null and date != ''">
+                    date = #{date}
+                </if>
+            </set>
+        WHERE 
+            id = #{id} 
+    </update>
+
+    <select id="getById" parameterType="java.lang.Long" resultMap="rowMapper">
+        SELECT 
+            <include refid="BASE_COLUMN_LIST" />
+        FROM t_sms_customer_stat_temp
+        WHERE 
+            id = #{id}
+    </select>
+
+  
+
+    <select id="count" parameterType="CustomerStatTemp" resultType="int">
+        SELECT COUNT(0) 
+        FROM t_sms_customer_stat_temp 
+        WHERE 
+            1 = 1
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="clientid != null and clientid != ''">
+                and clientid = #{clientid}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="sid != null and sid != ''">
+                and sid = #{sid}
+            </if>
+            <if test="agentId != null and agentId != ''">
+                and agent_id = #{agentId}
+            </if>
+            <if test="paytype != null and paytype != ''">
+                and paytype = #{paytype}
+            </if>
+            <if test="channelid != null and channelid != ''">
+                and channelid = #{channelid}
+            </if>
+            <if test="operatorstype != null and operatorstype != ''">
+                and operatorstype = #{operatorstype}
+            </if>
+            <if test="channelremark != null and channelremark != ''">
+                and channelremark = #{channelremark}
+            </if>
+            <if test="subId != null and subId != ''">
+                and sub_id = #{subId}
+            </if>
+            <if test="productType != null and productType != ''">
+                and product_type = #{productType}
+            </if>
+            <if test="notsend != null and notsend != ''">
+                and notsend = #{notsend}
+            </if>
+            <if test="submitsuccess != null and submitsuccess != ''">
+                and submitsuccess = #{submitsuccess}
+            </if>
+            <if test="reportsuccess != null and reportsuccess != ''">
+                and reportsuccess = #{reportsuccess}
+            </if>
+            <if test="submitfail != null and submitfail != ''">
+                and submitfail = #{submitfail}
+            </if>
+            <if test="subretfail != null and subretfail != ''">
+                and subretfail = #{subretfail}
+            </if>
+            <if test="reportfail != null and reportfail != ''">
+                and reportfail = #{reportfail}
+            </if>
+            <if test="auditfail != null and auditfail != ''">
+                and auditfail = #{auditfail}
+            </if>
+            <if test="recvintercept != null and recvintercept != ''">
+                and recvintercept = #{recvintercept}
+            </if>
+            <if test="sendintercept != null and sendintercept != ''">
+                and sendintercept = #{sendintercept}
+            </if>
+            <if test="overrateintercept != null and overrateintercept != ''">
+                and overrateintercept = #{overrateintercept}
+            </if>
+            <if test="overrateChargeTotal != null and overrateChargeTotal != ''">
+                and overrate_charge_total = #{overrateChargeTotal}
+            </if>
+            <if test="costfee != null and costfee != ''">
+                and costfee = #{costfee}
+            </if>
+            <if test="salefee != null and salefee != ''">
+                and salefee = #{salefee}
+            </if>
+            <if test="productfee != null and productfee != ''">
+                and productfee = #{productfee}
+            </if>
+            <if test="date != null and date != ''">
+                and date = #{date}
+            </if>
+    </select>
+	 
+	 
+	<select id="generateDataFromAccess"  resultType="CustomerStatTemp">
+        SELECT 
+			IFNULL(t.clientid,'') AS clientid,
+			IFNULL(t.username,'') AS username,
+			IFNULL(t.sid,'') AS sid,
+			IFNULL(t.agent_id,'') AS agentId,
+			t.paytype AS paytype,
+			t.channelid AS channelid,
+			IFNULL(t.channeloperatorstype, 0) AS operatorstype,
+			t.channelremark AS channelremark,
+			t.sub_id AS subId,
+			t.product_type AS productType,
+			SUM(IF(t.state=0,t.charge_num,0)) AS notsend,
+			SUM(IF(t.state=1,t.charge_num,0)) AS submitsuccess,
+			SUM(IF(t.state=3,t.charge_num,0)) AS reportsuccess,
+			SUM(IF(t.state=4,t.charge_num,0)) AS submitfail,
+			SUM(IF(t.state=5,t.charge_num,0)) AS subretfail,
+			SUM(IF(t.state=6,t.charge_num,0)) AS reportfail,
+			SUM(IF(t.state=7,t.charge_num,0)) AS auditfail,
+			SUM(IF(t.state=8,t.charge_num,0)) AS recvintercept,
+			SUM(IF(t.state=9,t.charge_num,0)) AS sendintercept,
+			SUM(IF(t.state=10,t.charge_num,0)) AS overrateintercept,
+			SUM(IF(t.state=10 AND t.isoverratecharge = 1,t.charge_num,0)) AS overrateChargeTotal,
+			costfee AS costfee,
+			salefee AS salefee,
+			productfee AS productfee, 
+			DATE_FORMAT(#{statTime},'%Y%m%d') date,
+			t.belong_sale AS belongSale,
+			t.smstype AS smstype
+		FROM t_sms_access_${identify}_${statTime} t
+		GROUP BY clientid,product_type,channelid,costfee,salefee,productfee,paytype,belong_sale,sub_id,smstype
+    </select>
+    
+	<select id="generateDataFromAccessForCloud"  resultType="CustomerStatTemp">
+        SELECT 
+			IFNULL(t.clientid,'') AS clientid,
+			IFNULL(t.username,'') AS username,
+			IFNULL(t.sid,'') AS sid,
+			IFNULL(t.agent_id,'') AS agentId,
+			t.paytype AS paytype,
+			t.channelid AS channelid,
+			IFNULL(t.channeloperatorstype, 0) AS operatorstype,
+			t.channelremark AS channelremark,
+			t.sub_id AS subId,
+			t.product_type AS productType,
+			SUM(IF(t.state=0,t.charge_num,0)) AS notsend,
+			SUM(IF(t.state=1,t.charge_num,0)) AS submitsuccess,
+			SUM(IF(t.state=3,t.charge_num,0)) AS reportsuccess,
+			SUM(IF(t.state=4,t.charge_num,0)) AS submitfail,
+			SUM(IF(t.state=5,t.charge_num,0)) AS subretfail,
+			SUM(IF(t.state=6,t.charge_num,0)) AS reportfail,
+			SUM(IF(t.state=7,t.charge_num,0)) AS auditfail,
+			SUM(IF(t.state=8,t.charge_num,0)) AS recvintercept,
+			SUM(IF(t.state=9,t.charge_num,0)) AS sendintercept,
+			SUM(IF(t.state=10,t.charge_num,0)) AS overrateintercept,
+			SUM(IF(t.state=10 AND t.isoverratecharge = 1,t.charge_num,0)) AS overrateChargeTotal,
+			costfee AS costfee,
+			salefee AS salefee,
+			productfee AS productfee, 
+			DATE_FORMAT(#{statTime},'%Y%m%d') date
+		FROM t_sms_access_${identify}_${statTime} t
+		GROUP BY clientid,product_type,sub_id,paytype
+    </select>
+
+
+    <select id="generateDataIncludeAgentId"  resultType="CustomerStatTemp">
+        SELECT
+        IFNULL(t.clientid,'') AS clientid,
+        IFNULL(t.username,'') AS username,
+        IFNULL(t.sid,'') AS sid,
+        IFNULL(t.agent_id,'') AS agentId,
+        t.paytype AS paytype,
+        t.channelid AS channelid,
+        CASE t.state
+          WHEN 2 THEN -1
+          WHEN 4 THEN -1
+          WHEN 5 THEN -1
+          WHEN 7 THEN -1
+          WHEN 8 THEN -1
+          WHEN 9 THEN -1
+          WHEN 10 THEN -1
+          ELSE t.channeloperatorstype
+          END AS operatorstype_alias,
+        CASE t.state
+          WHEN 2 THEN -1
+          WHEN 4 THEN -1
+          WHEN 5 THEN -1
+          WHEN 7 THEN -1
+          WHEN 8 THEN -1
+          WHEN 9 THEN -1
+          WHEN 10 THEN -1
+          ELSE t.channeloperatorstype
+          END AS operatorstype,
+        t.channelremark AS channelremark,
+        t.sub_id AS subId,
+        t.product_type AS productType,
+        SUM(IF(t.state=0,t.charge_num,0)) AS notsend,
+        SUM(IF(t.state=1,t.charge_num,0)) AS submitsuccess,
+        SUM(IF(t.state=3,t.charge_num,0)) AS reportsuccess,
+        SUM(IF(t.state=4,t.charge_num,0)) AS submitfail,
+        SUM(IF(t.state=5,t.charge_num,0)) AS subretfail,
+        SUM(IF(t.state=6,t.charge_num,0)) AS reportfail,
+        SUM(IF(t.state=7,t.charge_num,0)) AS auditfail,
+        SUM(IF(t.state=8,t.charge_num,0)) AS recvintercept,
+        SUM(IF(t.state=9,t.charge_num,0)) AS sendintercept,
+        SUM(IF(t.state=10,t.charge_num,0)) AS overrateintercept,
+        SUM(IF(t.state=10 AND t.isoverratecharge = 1,t.charge_num,0)) AS overrateChargeTotal,
+        costfee AS costfee,
+        salefee AS salefee,
+        productfee AS productfee,
+        DATE_FORMAT(#{statTime},'%Y%m%d') date,
+        t.belong_sale AS belongSale,
+        t.smstype AS smstype
+        FROM t_sms_access_${identify}_${statTime} t
+        GROUP BY clientid,agent_id,operatorstype_alias,product_type,channelid,costfee,salefee,productfee,paytype,belong_sale,sub_id,smstype
+    </select>
+</mapper>
+

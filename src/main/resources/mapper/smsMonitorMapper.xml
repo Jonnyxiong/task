@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 短信监控业务 -->
+<mapper namespace="smsMonitor">
+	
+	
+	<select id="getClientSendSpeedByTime" resultType="map">
+		SELECT
+		    clientid AS client_id,
+		    username AS client_name,
+		    ROUND(COUNT(1) / 300) AS send_speed,
+			#{endTime} AS data_time,
+			NOW() AS create_time
+		FROM
+		    t_sms_access_${identify}_${date}
+		WHERE
+		    date BETWEEN #{startTime} AND #{endTime}
+		GROUP BY
+		    clientid
+	</select>
+	
+	<delete id="deleteClientSendSpeedDataByTime">
+		DELETE
+		FROM
+			t_sms_client_speed_stat_${date}
+		WHERE
+			data_time = #{data_time}
+	</delete>
+	
+	<insert id="saveClientSendSpeedData">
+		INSERT INTO t_sms_client_speed_stat_${date} (
+			`client_id`,
+			`client_name`,
+			`send_speed`,
+			`data_time`,
+			`create_time`
+		)
+		VALUES
+		<foreach collection="allTableDataList"  item="i" separator=",">
+			(
+				#{i.client_id},
+				#{i.client_name},
+				#{i.send_speed},
+				#{i.data_time},
+				#{i.create_time}
+			)
+		</foreach>
+		
+	</insert>
+	
+	<delete id="deleteAccessQueueDataByTime">
+		DELETE
+		FROM
+			t_sms_access_queue_stat_${date}
+		WHERE
+			data_time = #{data_time}
+	</delete>
+	
+	<insert id="saveAccessQueueData">
+		INSERT INTO `t_sms_access_queue_stat_${date}` (
+			`queue_name`,
+			`queue_type`,
+			`message_number`,
+			`data_time`,
+			`create_time`
+		)
+		VALUES
+			<foreach collection="queueDataList" item="i" separator=",">
+			(
+				#{i.queue_name},
+				#{i.queue_type},
+				#{i.message_number},
+				#{i.data_time},
+				NOW()
+			)
+			</foreach>
+	</insert>
+	
+	<select id="get5MinChannelIndexesByTime" resultType="map">
+		SELECT
+			t.channelid AS channel_id,
+			COUNT(1) AS send_total_num,
+			SUM(IF(t.state = 3,1,0)) AS send_sccuss_num,
+			SUM(IF(t.state REGEXP '^1$|2',1,0)) AS send_unknown_num,
+			COUNT(1) - SUM(IF(t.state = 3 ,1,0)) - SUM(IF(t.state REGEXP '^1$|2',1,0)) AS send_failure_num,
+			SUM(IF(t.state = 4,1,0)) AS submit_failure_num,
+			SUM(IF(t.respTime BETWEEN 0 AND 2,1,0)) AS resp_num_1,
+			SUM(IF(t.respTime BETWEEN 3 AND 5,1,0)) AS resp_num_2,
+			SUM(IF(t.respTime BETWEEN 6 AND 30,1,0)) AS resp_num_3,
+			SUM(IF(t.respTime BETWEEN 31 AND 60,1,0)) AS resp_num_4,
+			SUM(IF(t.respTime BETWEEN 61 AND 300,1,0)) AS resp_num_5,
+			SUM(IF(t.respTime > 300,1,0)) AS resp_num_6,
+			SUM(IF(t.respTime > 300 AND state = 1,1,0)) AS resp_num_7,
+			SUM(IF(t.reportTime BETWEEN 0 AND 5,1,0)) AS report_num_1,
+			SUM(IF(t.reportTime BETWEEN 6 AND 10,1,0)) AS report_num_2,
+			SUM(IF(t.reportTime BETWEEN 11 AND 15,1,0)) AS report_num_3,
+			SUM(IF(t.reportTime BETWEEN 16 AND 30,1,0)) AS report_num_4,
+			SUM(IF(t.reportTime BETWEEN 31 AND 60,1,0)) AS report_num_5,
+			SUM(IF(t.reportTime BETWEEN 61 AND 120,1,0)) AS report_num_6,
+			SUM(IF(t.reportTime BETWEEN 121 AND 300,1,0)) AS report_num_7,
+			SUM(IF(t.reportTime > 300,1,0)) AS report_num_8,
+			SUM(IF(t.state REGEXP '^1$|2',1,0)) AS report_num_9,
+			SUM(IF(t.queueTime BETWEEN 0 AND 10,1,0)) AS queue_num_1,
+			SUM(IF(t.queueTime BETWEEN 11 AND 30,1,0)) AS queue_num_2,
+			SUM(IF(t.queueTime BETWEEN 31 AND 60,1,0)) AS queue_num_3,
+			SUM(IF(t.queueTime > 60,1,0)) AS queue_num_4,
+			#{endTime} AS data_time,
+			NOW() AS create_time
+		FROM
+		(
+			SELECT
+				channelid,
+				state,
+				TIMESTAMPDIFF(SECOND, submitdate, subretdate) AS respTime,
+				TIMESTAMPDIFF(SECOND, submitdate, reportdate) AS reportTime,
+				TIMESTAMPDIFF(SECOND, date, submitdate) AS queueTime,
+				date
+			FROM t_sms_record_${identify}_${date}
+			WHERE date BETWEEN #{startTime} AND #{endTime}
+		) t
+		GROUP BY t.channelid
+	</select>
+	
+	<delete id="deleteChannelIndexesDataByTime">
+		DELETE
+		FROM
+			t_sms_channel_indexes_stat_${date}
+		WHERE
+			data_time = #{data_time}
+	</delete>
+	
+	<insert id="saveChannelIndexesData">
+		INSERT INTO `t_sms_channel_indexes_stat_${date}` (
+			`channel_id`,
+			`channel_name`,
+			`operator_type`,
+			`industry_type`,
+			`owner_type`,
+			`send_total_num`,
+			`send_sccuss_num`,
+			`send_failure_num`,
+			`send_unknown_num`,
+			`submit_failure_num`,
+			`resp_num_1`,
+			`resp_num_2`,
+			`resp_num_3`,
+			`resp_num_4`,
+			`resp_num_5`,
+			`resp_num_6`,
+			`resp_num_7`,
+			`report_num_1`,
+			`report_num_2`,
+			`report_num_3`,
+			`report_num_4`,
+			`report_num_5`,
+			`report_num_6`,
+			`report_num_7`,
+			`report_num_8`,
+			`report_num_9`,
+			`queue_num_1`,
+			`queue_num_2`,
+			`queue_num_3`,
+			`queue_num_4`,
+			`data_time`,
+			`create_time`
+		)
+		VALUES
+		<foreach collection="dataList"  item="i" separator=",">
+			(
+				#{i.channel_id},
+				#{i.channel_name},
+				#{i.operator_type},
+				#{i.industry_type},
+				#{i.owner_type},
+				#{i.send_total_num},
+				#{i.send_sccuss_num},
+				#{i.send_failure_num},
+				#{i.send_unknown_num},
+				#{i.submit_failure_num},
+				#{i.resp_num_1},
+				#{i.resp_num_2},
+				#{i.resp_num_3},
+				#{i.resp_num_4},
+				#{i.resp_num_5},
+				#{i.resp_num_6},
+				#{i.resp_num_7},
+				#{i.report_num_1},
+				#{i.report_num_2},
+				#{i.report_num_3},
+				#{i.report_num_4},
+				#{i.report_num_5},
+				#{i.report_num_6},
+				#{i.report_num_7},
+				#{i.report_num_8},
+				#{i.report_num_9},
+				#{i.queue_num_1},
+				#{i.queue_num_2},
+				#{i.queue_num_3},
+				#{i.queue_num_4},
+				#{i.data_time},
+				#{i.create_time}
+			)
+		</foreach>
+		
+	</insert>
+	
+	<select id="getChannelInfoById" resultType="map">
+		SELECT
+			IFNULL(channelname, "已删除通道") AS channel_name,
+			IFNULL(operatorstype, 1) AS operator_type,
+			IFNULL(industrytype, 1) AS industry_type,
+			IFNULL(owner_type, 1) AS owner_type
+		FROM
+			t_sms_channel
+		WHERE
+			cid = #{channel_id}
+	</select>
+	
+	<select id="getChannelIndexesUpperLimit" resultType="map">
+		SELECT
+			resp_rate,
+			report_rate,
+			send_success_rate,
+			send_failure_rate,
+			submit_failure_num
+		FROM
+			t_sms_channel_quality_config
+		WHERE 
+			data_type = 0
+	</select>
+	
+	<select id="getChannelIndexesLowerLimit" resultType="map">
+		SELECT
+			resp_rate,
+			report_rate,
+			send_success_rate,
+			send_failure_rate,
+			submit_failure_num
+		FROM
+			t_sms_channel_quality_config
+		WHERE 
+			data_type = 1
+	</select>
+	
+	<insert id="saveChannelStatusGraphData">
+		INSERT INTO `t_sms_channel_status_graph_stat_${date}` (
+			`channel_id`,
+			`channel_name`,
+			`operator_type`,
+			`industry_type`,
+			`owner_type`,
+			`status`,
+			`error_desp`,
+			`data_time`,
+			`create_time`
+		)
+		VALUES
+		<foreach collection="dataList"  item="i" separator=",">
+			(
+				#{i.channel_id},
+				#{i.channel_name},
+				#{i.operator_type},
+				#{i.industry_type},
+				#{i.owner_type},
+				#{i.status},
+				#{i.error_desp},
+				#{i.data_time},
+				NOW()
+			)
+		</foreach>
+	</insert>
+	
+	<delete id="deleteChannelStatusGraphDataByTime">
+		DELETE
+		FROM
+			t_sms_channel_status_graph_stat_${date}
+		WHERE
+			data_time = #{data_time}
+	</delete>
+	
+	<select id="getChannelErrorDataBytime" resultType="map">
+		SELECT
+			 t.channelid AS channel_id,
+			 t.state AS sms_state,
+			 CASE t.state
+				WHEN 1 THEN CONCAT('（', state, '）', submit)
+				WHEN 4 THEN CONCAT('（', state, '）', submit)
+				WHEN 5 THEN CONCAT('（', state, '）', subret)
+				WHEN 6 THEN CONCAT('（', state, '）', report)
+			 END AS error_code,
+			 t.error_num,
+			 #{endTime} AS data_time
+		FROM
+		(
+			SELECT
+				channelid,
+				state,
+				submit,
+				subret,
+				report,
+				COUNT(1) AS error_num
+			FROM
+				t_sms_record_${identify}_${date}
+			WHERE
+				state IN (1, 4, 5, 6)
+				AND
+		    	date BETWEEN #{startTime} AND #{endTime}
+			GROUP BY
+				channelid,
+				state,
+				submit,
+				subret,
+				report
+		) t
+	</select>
+	
+	<delete id="deleteChannelErrorDataByTime">
+		DELETE
+		FROM
+			t_sms_channel_error_stat_${date}
+		WHERE
+			data_time = #{data_time}
+	</delete>
+	
+	<insert id="saveChannelErrorData">
+		INSERT INTO `t_sms_channel_error_stat_${date}` (
+				`channel_id`,
+				`channel_name`,
+				`operator_type`,
+				`industry_type`,
+				`owner_type`,
+				`sms_state`,
+				`error_code`,
+				`error_num`,
+				`data_time`,
+				`create_time`
+		)
+		VALUES
+		<foreach collection="dataList"  item="i" separator=",">
+			(
+				#{i.channel_id},
+				#{i.channel_name},
+				#{i.operator_type},
+				#{i.industry_type},
+				#{i.owner_type},
+				#{i.sms_state},
+				#{i.error_code},
+				#{i.error_num},
+				#{i.data_time},
+				NOW()
+			)
+		</foreach>
+	</insert>
+	
+	<select id="get5MinClientIndexesByTime" resultType="map">
+		
+		SELECT
+			client_id,
+			client_name,
+			COUNT(1) AS send_total_num,
+			SUM(IF(t.orderDelayTime BETWEEN 0 AND 1,1,0)) AS order_delay_num_1,
+			SUM(IF(t.orderDelayTime BETWEEN 2 AND 3,1,0)) AS order_delay_num_2,
+			SUM(IF(t.orderDelayTime BETWEEN 4 AND 5,1,0)) AS order_delay_num_3,
+			SUM(IF(t.orderDelayTime > 5,1,0)) AS order_delay_num_4,
+			SUM(IF(t.orderDelayTime IS NULL,1,0)) AS order_delay_num_5,
+			SUM(IF(t.reportTime BETWEEN 0 AND 5,1,0)) AS report_num_1,
+			SUM(IF(t.reportTime BETWEEN 6 AND 10,1,0)) AS report_num_2,
+			SUM(IF(t.reportTime BETWEEN 11 AND 15,1,0)) AS report_num_3,
+			SUM(IF(t.reportTime BETWEEN 16 AND 30,1,0)) AS report_num_4,
+			SUM(IF(t.reportTime BETWEEN 31 AND 60,1,0)) AS report_num_5,
+			SUM(IF(t.reportTime BETWEEN 61 AND 120,1,0)) AS report_num_6,
+			SUM(IF(t.reportTime BETWEEN 121 AND 300,1,0)) AS report_num_7,
+			SUM(IF(t.reportTime > 300,1,0)) AS report_num_8,
+			SUM(IF(t.reportTime IS NULL,1,0)) AS report_num_9,
+			#{endTime} AS data_time,
+			NOW() AS create_time
+		FROM
+		(
+			SELECT
+				clientid AS client_id,
+				username AS client_name,
+				state AS state,
+				TIMESTAMPDIFF(SECOND, date, reportdate) AS reportTime,
+				TIMESTAMPDIFF(SECOND, date, submitdate) AS orderDelayTime,
+				date
+			FROM
+				t_sms_access_${identify}_${date}
+			WHERE date BETWEEN #{startTime} AND #{endTime}
+		) t
+		GROUP BY t.client_id
+	
+	</select>
+	
+	<delete id="deleteClientIndexesDataByTime">
+		DELETE
+		FROM
+			t_sms_client_indexes_stat_${date}
+		WHERE
+			data_time = #{data_time}
+	</delete>
+	
+	<insert id="saveClientIndexesData">
+		INSERT INTO `t_sms_client_indexes_stat_${date}` (
+				`client_id`,
+				`client_name`,
+				`send_total_num`,
+				`order_delay_num_1`,
+				`order_delay_num_2`,
+				`order_delay_num_3`,
+				`order_delay_num_4`,
+				`order_delay_num_5`,
+				`report_num_1`,
+				`report_num_2`,
+				`report_num_3`,
+				`report_num_4`,
+				`report_num_5`,
+				`report_num_6`,
+				`report_num_7`,
+				`report_num_8`,
+				`report_num_9`,
+				`data_time`,
+				`create_time`
+		)
+		VALUES
+		<foreach collection="dataList"  item="i" separator=",">
+			(
+				#{i.client_id},
+				#{i.client_name},
+				#{i.send_total_num},
+				#{i.order_delay_num_1},
+				#{i.order_delay_num_2},
+				#{i.order_delay_num_3},
+				#{i.order_delay_num_4},
+				#{i.order_delay_num_5},
+				#{i.report_num_1},
+				#{i.report_num_2},
+				#{i.report_num_3},
+				#{i.report_num_4},
+				#{i.report_num_5},
+				#{i.report_num_6},
+				#{i.report_num_7},
+				#{i.report_num_8},
+				#{i.report_num_9},
+				#{i.data_time},
+				#{i.create_time}
+			)
+		</foreach>
+		
+	</insert>
+	
+	
+	<select id="getClientSuccessRate" resultType="ClientSuccessRateRealtime">
+		SELECT
+			clientId,
+			clientName,
+			sendTotal,
+			reallySuccessTotal,
+			fakeSuccessFail,
+			charge1, 
+ 			charge2, 
+ 			reallyFailTotal,
+  			auditFailTotal,
+   			submitFailTotal,
+    		interceptTotal,
+ 			nosend,
+ 			sendFailToatl,
+			sendAll,
+			IF(sendTotal = 0, 0, CAST((reallySuccessTotal/sendTotal)*100 as decimal(38, 2))) as successRate,
+			IF(sendTotal = 0, 0, CAST((fakeSuccessFail/sendTotal)*100 as decimal(38, 2))) as fakeSuccessRate,
+			IF(sendTotal = 0, 0, CAST((reallyFailTotal/sendTotal)*100 as decimal(38, 2))) as reallyFailRate
+		FROM
+		(
+			SELECT
+				r.clientid AS clientId,
+				r.username AS clientName,
+				SUM(IF(r.state REGEXP '^0$|^1$|3|4|5|6|7|8|9|10', r.charge_num, 0)) AS sendTotal,
+				SUM(IF(r.state = 3, r.charge_num, 0)) AS reallySuccessTotal,
+				SUM(IF(r.state = 1, r.charge_num, 0)) AS fakeSuccessFail,
+				SUM(IF(r.state REGEXP '^1$|3|4|6', r.charge_num, 0)) AS charge1,
+				SUM(IF(r.state = 10 AND r.isoverratecharge = 1, r.charge_num, 0)) AS charge2,
+				SUM(IF(r.state = 6, r.charge_num, 0)) AS reallyFailTotal,
+				SUM(IF(r.state = 7, r.charge_num, 0)) AS auditFailTotal,
+				SUM(IF(r.state = 5, r.charge_num, 0)) AS submitFailTotal,
+				SUM(IF(r.state REGEXP '8|9|10', r.charge_num, 0)) AS interceptTotal,
+				SUM(IF(r.state = 0, r.charge_num, 0)) AS nosend,
+				SUM(IF(r.state = 4, r.charge_num, 0)) AS sendFailToatl,
+				SUM(IF(r.state REGEXP '^1$|3|6', r.charge_num, 0)) AS sendAll
+			FROM t_sms_access_${identify}_${date} r
+
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="boundData != null">
+					date &lt;= #{boundData}
+				</if>
+			</trim>
+			GROUP BY r.clientid ASC
+		) t 
+	</select>
+	
+	
+	<select id="getChannelSuccessRateByClientid" resultType="ChannelSuccessRateByClientid">
+		SELECT
+			channelId,
+			channelName,
+			clientId,
+			clientName,
+			iden,
+			sendTotal,
+			successTotal,
+			submitFail,
+			sendFail, 
+ 			undetermined1, 
+ 			undetermined2,
+ 			nosend,
+			IF(sendTotal = 0, 0, CAST((successTotal/sendTotal)*100 as decimal(38, 2))) as successRate,
+			IF(sendTotal = 0, 0, CAST(((undetermined1+undetermined2)/sendTotal)*100 as decimal(38, 2))) as fakeSuccessRate,
+			IF(sendTotal = 0, 0, CAST((sendFail/sendTotal)*100 as decimal(38, 2))) as reallyFailRate
+		FROM
+		(
+			SELECT
+				r.channelid AS channelId,
+				r.clientid AS clientId,
+				r.username AS clientName,
+				r.channelremark AS channelName,
+				${identify} as iden, 
+				SUM(IF(r.state REGEXP '^1$|2|3|5|6', r.smscnt, 0)) AS sendTotal,
+				SUM(IF(r.state REGEXP '[3]', r.smscnt, 0)) AS successTotal,
+				SUM(IF(r.state REGEXP '[4]', r.smscnt, 0)) AS submitFail,
+				SUM(IF(r.state REGEXP '[56]', r.smscnt, 0)) AS sendFail,
+				SUM(IF(r.state REGEXP '[1]', r.smscnt, 0)) AS undetermined1,
+    			SUM(IF(r.state REGEXP '[2]', r.smscnt, 0)) AS undetermined2,
+				SUM(IF(r.state REGEXP '0', r.smscnt, 0)) AS nosend
+			FROM t_sms_record_${identify}_${date} r
+			WHERE failed_resend_times = 0
+				<if test="boundData != null">
+					and date &lt;= #{boundData}
+				</if>
+			GROUP BY r.channelid,r.clientid
+		) t 
+	</select>
+	
+	<select id="getChannelSuccessRate" resultType="ChannelSuccessRateRealtime">
+		SELECT
+			channelId,
+			channelName,
+			iden,
+			sendTotal,
+			successTotal,
+			submitFail,
+			sendFail, 
+ 			undetermined1, 
+ 			undetermined2,
+ 			nosend,
+			IF(sendTotal = 0, 0, CAST((successTotal/sendTotal)*100 as decimal(38, 2))) as successRate,
+			IF(sendTotal = 0, 0, CAST(((undetermined1+undetermined2)/sendTotal)*100 as decimal(38, 2))) as fakeSuccessRate,
+			IF(sendTotal = 0, 0, CAST((sendFail/sendTotal)*100 as decimal(38, 2))) as reallyFailRate
+		FROM
+		(
+			SELECT
+				r.channelid AS channelId,
+				r.channelremark AS channelName,
+				${identify} as iden, 
+				SUM(IF(r.state REGEXP '^1$|2|3|5|6', r.smscnt, 0)) AS sendTotal,
+				SUM(IF(r.state REGEXP '[3]', r.smscnt, 0)) AS successTotal,
+				SUM(IF(r.state REGEXP '[4]', r.smscnt, 0)) AS submitFail,
+				SUM(IF(r.state REGEXP '[56]', r.smscnt, 0)) AS sendFail,
+				SUM(IF(r.state REGEXP '[1]', r.smscnt, 0)) AS undetermined1,
+    			SUM(IF(r.state REGEXP '[2]', r.smscnt, 0)) AS undetermined2,
+				SUM(IF(r.state REGEXP '0', r.smscnt, 0)) AS nosend
+			FROM t_sms_record_${identify}_${date} r
+
+			WHERE failed_resend_times = 0
+
+				<if test="boundData != null">
+					and date &lt;= #{boundData}
+				</if>
+			GROUP BY r.channelid
+		) t 
+	</select>
+
+	<!-- 实时更新权重查询通道记录成功率 -->
+	<select id="getChannelSuccessRate4weight" resultType="ChannelSuccessRateRealtime">
+		SELECT
+		channelId,
+		channelName,
+		iden,
+		sendTotal,
+		successTotal,
+		submitFail,
+		sendFail,
+		undetermined1,
+		undetermined2,
+		nosend,
+		IF(sendTotal = 0, 0, CAST((successTotal/sendTotal)*100 as decimal(38, 2))) as successRate,
+		IF(sendTotal = 0, 0, CAST(((undetermined1+undetermined2)/sendTotal)*100 as decimal(38, 2))) as fakeSuccessRate,
+		IF(sendTotal = 0, 0, CAST((sendFail/sendTotal)*100 as decimal(38, 2))) as reallyFailRate
+		FROM
+		(
+		SELECT
+		r.channelid AS channelId,
+		r.channelremark AS channelName,
+		${identify} as iden,
+		SUM(IF(r.state REGEXP '^1$|2|3|5|6', r.smscnt, 0)) AS sendTotal,
+		SUM(IF(r.state REGEXP '[3]', r.smscnt, 0)) AS successTotal,
+		SUM(IF(r.state REGEXP '[4]', r.smscnt, 0)) AS submitFail,
+		SUM(IF(r.state REGEXP '[56]', r.smscnt, 0)) AS sendFail,
+		SUM(IF(r.state REGEXP '[1]', r.smscnt, 0)) AS undetermined1,
+		SUM(IF(r.state REGEXP '[2]', r.smscnt, 0)) AS undetermined2,
+		SUM(IF(r.state REGEXP '0', r.smscnt, 0)) AS nosend
+		FROM t_sms_record_${identify}_${date} r
+		where 1=1
+		<if test="beforeTime != null ">
+			AND r.date &gt;= #{beforeTime}
+		</if>
+		<if test="nowTime != null ">
+			AND r.date &lt;= #{nowTime}
+		</if>
+		GROUP BY r.channelid
+		) t
+	</select>
+</mapper> 

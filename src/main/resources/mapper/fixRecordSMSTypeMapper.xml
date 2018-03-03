@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 修复Record的SMSType -->
+<mapper namespace="fixRecordSMSType">
+
+	<!-- 表数据记录 -->
+	<select id="count" resultType="map">
+		select count(0) as "count" from t_sms_record_${table}
+	</select>
+
+	<!-- 查询Record列表 -->
+	<select id="findRecordList" resultType="map">
+		select
+			smsuuid,
+			clientid,
+			channelid,
+			smsid,
+			phone,
+			smstype,
+			smsfrom
+		from
+			t_sms_record_${table}
+		limit ${limit}
+	</select>
+
+	<!-- 更新Record的短信类型 -->
+	<update id="updateRecordSMSType">
+		update t_sms_record_${table} set smstype = #{smstype} where smsuuid = #{smsuuid}
+	</update>
+
+	<!-- 查询Access的数据 -->
+	<select id="getAccessSMSType" resultType="map">
+		select
+			smstype
+		from
+			t_sms_access_${table}
+		where
+			channelid = #{channelid}
+			and clientid = #{clientid}
+			and smsid = #{smsid}
+			and phone = #{phone}
+		limit 1
+	</select>
+
+</mapper> 

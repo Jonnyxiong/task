@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+  		http://mybatis.org/schema/mybatis-spring
+  		http://mybatis.org/schema/mybatis-spring.xsd
+        ">
+
+	<!-- 老的DAO配置方式 -->
+	<bean id="ucpaas_message_dataSource" parent="dataSourceParent">
+		<property name="url" value="${ucpaas_message_jdbc_url}" />
+		<property name="username" value="${ucpaas_message_jdbc_username}" />
+		<property name="password" value="${ucpaas_message_jdbc_password}" />
+	</bean>
+	
+	<bean id="ucpaas_message_sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ucpaas_message_dataSource" />
+		<property name="configLocation" value="classpath:mybatis.xml" />
+		<property name="typeAliasesPackage" value="com.ucpaas.sms.task.entity"/>
+		<property name="mapperLocations" value="classpath*:mapper/**/*Mapper.xml" />
+	</bean>
+	
+	<bean id="ucpaas_message_sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="ucpaas_message_sqlSessionFactory" />
+	</bean>
+	
+	<bean id="ucpaas_message_transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ucpaas_message_dataSource" />
+		<qualifier value="message_master" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="ucpaas_message_transactionManager" />
+	
+	<!-- ===========================================分割线======================================================== -->
+	
+	<!-- 以下是Mybatis使用Mapper接口对应的配置 -->
+	<bean id="ucpaas_message_dataSource_new" parent="dataSourceParent">
+		<property name="url" value="${ucpaas_message_jdbc_url}" />
+		<property name="username" value="${ucpaas_message_jdbc_username}" />
+		<property name="password" value="${ucpaas_message_jdbc_password}" />
+	</bean>
+	
+	<bean id="ucpaas_message_sqlSessionFactory_new" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ucpaas_message_dataSource_new" />
+		<property name="configLocation" value="classpath:mybatis.xml" />
+		<property name="typeAliasesPackage" value="com.ucpaas.sms.task.entity.message"/>
+	</bean>
+	
+	<bean id="ucpaas_message_sqlSessionTemplate_new" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="ucpaas_message_sqlSessionFactory_new" />
+	</bean>
+	
+	<bean id="ucpaas_message_transactionManager_new" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="ucpaas_message_dataSource_new" />
+		<qualifier value="message" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="ucpaas_message_transactionManager_new" />
+	
+	<!-- 扫描mapper（因为在java使用mapper对象时，并不知道连的是那个库，所以mapper需根据库去分开包放）-->
+	<!--<mybatis:scan base-package="com.ucpaas.sms.task.mapper.message,com.jsmsframework.finance.mapper,com.jsmsframework.user.mapper" template-ref="ucpaas_message_sqlSessionTemplate_new"/>-->
+	<mybatis:scan base-package="com.ucpaas.sms.task.mapper.message,com.ucpaas.sms.task.mapper.onlinepay,com.jsmsframework.*.mapper" template-ref="ucpaas_message_sqlSessionTemplate_new"/>
+
+
+</beans>
